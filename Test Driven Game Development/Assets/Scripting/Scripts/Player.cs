@@ -11,8 +11,7 @@ public class Player : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        stats = new PlayerStatsClass();
-        inventory = new PlayerInventoryClass();
+
     }
 	
 	// Update is called once per frame
