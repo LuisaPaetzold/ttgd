@@ -19,7 +19,7 @@ public class Test_PlayerInventory
     {
         Weapon weapon = new Weapon();
         PlayerInventoryClass inventory = new PlayerInventoryClass();
-        
+
         inventory.EquipWeapon(weapon);
 
         Assert.IsNotNull(inventory.GetEquippedWeapon(), "Player didn't equip a weapon!");

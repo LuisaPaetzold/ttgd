@@ -6,7 +6,5 @@ using System.Collections;
 public class Test_EnemyStats
 {
 
-    
-
 
 }

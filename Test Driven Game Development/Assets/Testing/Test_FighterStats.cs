@@ -3,7 +3,8 @@ using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
 
-public class Test_FighterStats {
+public class Test_FighterStats
+{
 
     #region Health
     [Test]
@@ -228,7 +229,7 @@ public class Test_FighterStats {
         // TODO: Rechnung irgendwie hier rausziehen?
         int expectedDamage = Mathf.FloorToInt(stats.GetDefaultAttackDamage() * (1 + stats.GetMaxAmountOfChargings() * stats.GetChargeDamageBoost()));
 
-        Assert.Less(normalAttackValue, firstBoostValue, "First charge for damage boost didn't increase damage!"); 
+        Assert.Less(normalAttackValue, firstBoostValue, "First charge for damage boost didn't increase damage!");
         Assert.Less(firstBoostValue, secondBoostValue, "Second charge for damage boost didn't increase damage!");
         Assert.Less(secondBoostValue, thirdBoostValue, "Third charge for damage boost didn't increase damage!");
         Assert.AreEqual(thirdBoostValue, forthBoostValue, "Forth charge for damage boost increased damage, but three boosts is the maximum!");
