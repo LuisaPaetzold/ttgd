@@ -120,7 +120,7 @@ public class Test_FighterStats
     public void Test_FighterDiesIfHealthDropsToZero()
     {
         FighterStatsClass stats = new FighterStatsClass();
-        int killDamage = stats.GetCurrentHealth() + 10;
+        int killDamage = stats.GetCurrentHealth();
 
         stats.ReceiveDamage(killDamage);
 

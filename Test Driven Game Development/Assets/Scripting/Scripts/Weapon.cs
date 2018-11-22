@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Weapon : ScriptableObject
 {
+    public int damage = 1;
+    public int durability = 1;
 
-	public Weapon(int damage)
+    public Weapon()
     {
 
     }

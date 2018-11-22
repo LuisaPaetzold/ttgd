@@ -18,8 +18,17 @@ public class Player : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-		
-	}
+		// TMP
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            int damage = stats.GetCurrentAttackDamage();
+            FindObjectOfType<Enemy>().stats.ReceiveDamage(damage);
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            stats.UseChargeForDamageBoost();
+        }
+    }
 }
 
 [Serializable]

@@ -10,11 +10,11 @@ public class FighterStatsClass
     public float ChargeDamageBoost = 1;
     public int MaxAmountOfChargings = 3;
 
-    private int currentHealth;
+    public int currentHealth;
 
-    private FighterState currentState;
-    private Dictionary<string, float> lastingDamageBoosts;
-    private float oneTimeDamageBoost;
+    public FighterState currentState;
+    public Dictionary<string, float> lastingDamageBoosts;
+    public float oneTimeDamageBoost;
 
     public FighterStatsClass()
     {
@@ -79,7 +79,7 @@ public class FighterStatsClass
         if (damage > 0)
         {
             currentHealth -= damage;
-            if (currentHealth < 0)
+            if (currentHealth <= 0)
             {
                 currentHealth = 0;
                 currentState = FighterState.dead;
