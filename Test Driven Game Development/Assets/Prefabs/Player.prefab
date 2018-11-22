@@ -137,3 +137,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0db7d40bca33ad45b34c4c828588df2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats:
+    MaxHealth: 100
+    LastBreathThreshold: 0.1
+    AttackDamage: 10
+    ChargeDamageBoost: 1
+    MaxAmountOfChargings: 3
+    currentHealth: 100
+    currentState: 0
+    oneTimeDamageBoost: 0
+  inventory:
+    equippedWeapon: {fileID: 0}
+    items: []

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "TTGD/Weapon")]
 public class Weapon : ScriptableObject
 {
     public int damage = 1;
