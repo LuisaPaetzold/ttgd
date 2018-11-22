@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyStats : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     EnemyStatsClass stats;
 	// Use this for initialization
