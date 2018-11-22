@@ -155,7 +155,7 @@ public class Test_FighterStats {
 
         dummyEnemyLife -= stats.GetCurrentAttackDamage();
 
-        Assert.IsTrue(dummyEnemyLife < 100);
+        Assert.Less(dummyEnemyLife, 100);
     }
 
     [Test]
@@ -170,7 +170,7 @@ public class Test_FighterStats {
         dummyEnemyLifeHeavyDamage -= stats.GetCurrentAttackDamage();
 
         Assert.AreNotEqual(dummyEnemyLifeHeavyDamage, dummyEnemyLifeNormalDamage);
-        Assert.IsTrue(dummyEnemyLifeHeavyDamage < dummyEnemyLifeNormalDamage);
+        Assert.Less(dummyEnemyLifeHeavyDamage, dummyEnemyLifeNormalDamage);
     }
 
     [Test]
@@ -189,7 +189,7 @@ public class Test_FighterStats {
         dummyEnemyLifeNormalDamage2 -= stats.GetCurrentAttackDamage();
         //Debug.Log(stats.GetCurrentAttackDamage(false));
 
-        Assert.AreNotEqual(dummyEnemyLifeHeavyDamage, dummyEnemyLifeNormalDamage2);
+        Assert.Less(dummyEnemyLifeHeavyDamage, dummyEnemyLifeNormalDamage2);
         Assert.AreEqual(dummyEnemyLifeNormalDamage1, dummyEnemyLifeNormalDamage2);
     }
 
@@ -198,13 +198,13 @@ public class Test_FighterStats {
     {
         FighterStatsClass stats = new FighterStatsClass();
         stats.UseChargeForDamageBoost();
-        int attackValueForDisplay = stats.GetCurrentAttackDamage(false);
-        int attackValueAfterDisplayForAttack = stats.GetCurrentAttackDamage();
-        int attackValueForDisplayAfterAttack = stats.GetCurrentAttackDamage(false);
+        int chargedValueDisplayed = stats.GetCurrentAttackDamage(false);
+        int chargedValueForAttack = stats.GetCurrentAttackDamage();
+        int resettedValue = stats.GetCurrentAttackDamage(false);
 
 
-        Assert.AreEqual(attackValueForDisplay, attackValueAfterDisplayForAttack);
-        Assert.AreNotEqual(attackValueAfterDisplayForAttack, attackValueForDisplayAfterAttack);
+        Assert.AreEqual(chargedValueDisplayed, chargedValueForAttack);
+        Assert.Less(resettedValue, chargedValueForAttack);
     }
 
     [Test]
@@ -223,7 +223,8 @@ public class Test_FighterStats {
         // TODO: Rechnung irgendwie hier rausziehen?
         int expectedDamage = Mathf.FloorToInt(stats.GetDefaultAttackDamage() * (1 + stats.GetMaxAmountOfChargings() * stats.GetChargeDamageBoost()));
 
-        Assert.IsTrue(firstAttackValue < secondAttackValue && secondAttackValue < thirdAttackValue);
+        Assert.Less(firstAttackValue, secondAttackValue); 
+        Assert.Less(secondAttackValue, thirdAttackValue);
         Assert.AreEqual(thirdAttackValue, forthAttackValue);
         Assert.AreEqual(expectedDamage, forthAttackValue);
     }
@@ -240,7 +241,7 @@ public class Test_FighterStats {
 
         int newDamage = stats.GetCurrentAttackDamage();
 
-        Assert.IsTrue(oldDamage < newDamage);
+        Assert.Less(oldDamage, newDamage);
     }
 
     [Test]
@@ -249,18 +250,18 @@ public class Test_FighterStats {
         FighterStatsClass stats = new FighterStatsClass();
         int normalDamage = stats.GetCurrentAttackDamage();
 
-        string sourceA = "Weapon A";
+        string sourceA = "Item A";
         float boostA = 0.2f;
         stats.AddLastingDamageBoost(sourceA, boostA);
         int firstBoostDamage = stats.GetCurrentAttackDamage();
 
-        string sourceB = "Weapon B";
+        string sourceB = "Item B";
         float boostB = 0.2f;
         stats.AddLastingDamageBoost(sourceB, boostB);
         int secondBoostDamage = stats.GetCurrentAttackDamage();
 
-        Assert.IsTrue(normalDamage < firstBoostDamage);
-        Assert.IsTrue(firstBoostDamage < secondBoostDamage);
+        Assert.Less(normalDamage, firstBoostDamage);
+        Assert.Less(firstBoostDamage, secondBoostDamage);
     }
 
 
@@ -269,7 +270,7 @@ public class Test_FighterStats {
     {
         FighterStatsClass stats = new FighterStatsClass();
 
-        string sourceA = "Weapon A";
+        string sourceA = "Item A";
         float boostA = 0.2f;
         stats.AddLastingDamageBoost(sourceA, boostA);
         int boostedDamage = stats.GetCurrentAttackDamage();
@@ -294,7 +295,7 @@ public class Test_FighterStats {
         FighterStatsClass stats = new FighterStatsClass();
         int normalDamage = stats.GetCurrentAttackDamage();
 
-        string sourceA = "Weapon A";
+        string sourceA = "Item A";
         float boostA = 0.2f;
         stats.AddLastingDamageBoost(sourceA, boostA);
         int boostedDamage = stats.GetCurrentAttackDamage();
@@ -302,7 +303,7 @@ public class Test_FighterStats {
         stats.RemoveLastingDamageBoost(sourceA);
         int damageAfterRemoval = stats.GetCurrentAttackDamage();
 
-        Assert.IsTrue(normalDamage < boostedDamage);
+        Assert.Less(normalDamage, boostedDamage);
         Assert.AreEqual(normalDamage, damageAfterRemoval);
     }
 
@@ -312,7 +313,7 @@ public class Test_FighterStats {
         FighterStatsClass stats = new FighterStatsClass();
         int normalDamage = stats.GetCurrentAttackDamage();
 
-        string sourceA = "Weapon A";
+        string sourceA = "Item A";
         float boostA = 0.2f;
         stats.AddLastingDamageBoost(sourceA, boostA);
         int boostedDamage = stats.GetCurrentAttackDamage();
@@ -320,7 +321,7 @@ public class Test_FighterStats {
         stats.RemoveLastingDamageBoost("wrongSource");
         int damageAfterAttemptedRemoval = stats.GetCurrentAttackDamage();
 
-        Assert.IsTrue(normalDamage < boostedDamage);
+        Assert.Less(normalDamage, boostedDamage);
         Assert.AreEqual(boostedDamage, damageAfterAttemptedRemoval);
         LogAssert.Expect(LogType.Warning, "Fighter cannot remove lasting damage boost of a source that never gave him a boost. Attacke damage will not be modified.");
     }

@@ -51,6 +51,20 @@ public class Test_PlayerStats
         Assert.AreEqual(0, stats.GetCurrentPoints());
     }
 
+    /*[Test]
+    public void Test_PlayerCanEquipWeapon()
+    {
+        Weapon weapon = new Weapon();
+        PlayerStatsClass stats = new PlayerStatsClass();
+
+        int damageWithoutWeapon = stats.GetCurrentAttackDamage();
+        stats.EquipWeapon(weapon);
+        int damageAfterEquip = stats.GetCurrentAttackDamage();
+
+        Assert.IsTrue(stats.GetEquippedWeapon() != null);
+        Assert.IsTrue(damageWithoutWeapon < damageAfterEquip);
+    }*/
+
     // A UnityTest behaves like a coroutine in PlayMode
     // and allows you to yield null to skip a frame in EditMode
     /*[UnityTest]

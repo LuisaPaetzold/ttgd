@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStats : MonoBehaviour 
+public class Player : MonoBehaviour 
 {
 
     PlayerStatsClass stats;
+    PlayerInventoryClass inventory;
 
 	// Use this for initialization
 	void Start ()
@@ -35,6 +36,7 @@ public class PlayerStatsClass : FighterStatsClass
         return currentPoints;
     }
 
+
     public void ModifyPoints(int mod)
     {
         currentPoints += mod;
@@ -43,4 +45,23 @@ public class PlayerStatsClass : FighterStatsClass
             currentPoints = 0;
         }
     }
+}
+
+
+
+public class PlayerInventoryClass
+{
+    private Weapon equippedWeapon;
+
+    public Weapon GetEquippedWeapon()
+    {
+        return equippedWeapon;
+    }
+
+    public void EquipWeapon(Weapon weapon)
+    {
+        equippedWeapon = weapon;
+    }
+
+
 }

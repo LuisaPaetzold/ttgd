@@ -1,19 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-
-public class FighterStats : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-}
 
 public class FighterStatsClass
 {
@@ -25,7 +11,7 @@ public class FighterStatsClass
     public int MaxAmountOfChargings = 3;
 
     private int currentHealth;
-    
+
     private FighterState currentState;
     private Dictionary<string, float> lastingDamageBoosts;
     private float oneTimeDamageBoost;
@@ -65,7 +51,7 @@ public class FighterStatsClass
     public int GetCurrentAttackDamage(bool attackAndReset = true)
     {
         float lastingBoosts = 0f;
-        foreach(KeyValuePair<string, float> pair in lastingDamageBoosts)
+        foreach (KeyValuePair<string, float> pair in lastingDamageBoosts)
         {
             lastingBoosts += pair.Value;
         }
@@ -161,4 +147,3 @@ public enum FighterState
 {
     alive, dead, lastBreath
 }
-
