@@ -12,7 +12,7 @@ public class Test_FighterStats {
         // Setup
         FighterStatsClass stats = new FighterStatsClass();
         // Action?
-        Assert.AreEqual(stats.GetMaxHealth(), stats.GetCurrentHealth());
+        Assert.AreEqual(stats.GetMaxHealth(), stats.GetCurrentHealth(), "Fighter didn't start with maximum health!");
         // Teardown
 
     }
@@ -27,7 +27,8 @@ public class Test_FighterStats {
         stats.ReceiveDamage(damage);
         stats.ReceiveDamage(damage);
 
-        Assert.AreEqual(expectedHealth, stats.GetCurrentHealth());
+        Assert.AreNotEqual(stats.GetMaxHealth(), stats.GetCurrentHealth(), "Fighter health didn't change after being damaged!");
+        Assert.AreEqual(expectedHealth, stats.GetCurrentHealth(), "Fighter health is not at the expected value after being damaged!");
     }
 
     [Test]
@@ -38,7 +39,7 @@ public class Test_FighterStats {
 
         stats.ReceiveDamage(heavyDamage);
 
-        Assert.AreEqual(0, stats.GetCurrentHealth());
+        Assert.Zero(stats.GetCurrentHealth(), "Fighter health is not 0 after receiving massive damage!");
     }
 
     [Test]
@@ -47,12 +48,14 @@ public class Test_FighterStats {
         FighterStatsClass stats = new FighterStatsClass();
         const int damage = 30;
         const int heal = 20;
-        int expectedHealth = stats.GetMaxHealth() - damage + heal;
+        int damagedHealth = stats.GetMaxHealth() - damage;
+        int expectedHealth = damagedHealth + heal;
 
         stats.ReceiveDamage(damage);
         stats.GetHealedBy(heal);
 
-        Assert.AreEqual(expectedHealth, stats.GetCurrentHealth());
+        Assert.AreEqual(expectedHealth, stats.GetCurrentHealth(), "Fighter health is not at the expected value after healing!");
+        Assert.AreNotEqual(damagedHealth, stats.GetCurrentHealth(), "Fighter health didn't change after healing!");
     }
 
     [Test]
@@ -63,7 +66,8 @@ public class Test_FighterStats {
 
         stats.GetHealedBy(heal);
 
-        Assert.AreEqual(stats.GetMaxHealth(), stats.GetCurrentHealth());
+        Assert.AreEqual(stats.GetMaxHealth(), stats.GetCurrentHealth(), "Fighter health changed after healing with full health!");
+        Assert.LessOrEqual(stats.GetCurrentHealth(), stats.GetMaxHealth(), "Fighter health exceeds full health after healing!");
     }
 
     [Test]
@@ -78,7 +82,7 @@ public class Test_FighterStats {
         stats.GetHealedBy(wrongHeal);
 
         LogAssert.Expect(LogType.Warning, "Fighter cannot be healed by a negative amount. Health will not be modified.");
-        Assert.AreEqual(expectedHealth, stats.GetCurrentHealth());
+        Assert.AreEqual(expectedHealth, stats.GetCurrentHealth(), "Fighter health was modified by negative healing!");
     }
 
     [Test]
@@ -90,7 +94,7 @@ public class Test_FighterStats {
         stats.ReceiveDamage(wrongDamage);
 
         LogAssert.Expect(LogType.Warning, "Fighter cannot receive negative damage. Health will not be modified.");
-        Assert.AreEqual(stats.GetMaxHealth(), stats.GetCurrentHealth());
+        Assert.AreEqual(stats.GetMaxHealth(), stats.GetCurrentHealth(), "Fighter health was modified by negative damage!");
     }
 
     #endregion Health
@@ -102,7 +106,7 @@ public class Test_FighterStats {
     {
         FighterStatsClass stats = new FighterStatsClass();
 
-        Assert.AreEqual(FighterState.alive, stats.GetCurrentFighterState());
+        Assert.AreEqual(FighterState.alive, stats.GetCurrentFighterState(), "Fighter didn't start the game alive!");
     }
 
     [Test]
@@ -113,7 +117,7 @@ public class Test_FighterStats {
 
         stats.ReceiveDamage(killDamage);
 
-        Assert.AreEqual(FighterState.dead, stats.GetCurrentFighterState());
+        Assert.AreEqual(FighterState.dead, stats.GetCurrentFighterState(), "Fighter didn't die after health dropped to zero!");
     }
 
     [Test]
@@ -125,7 +129,7 @@ public class Test_FighterStats {
 
         stats.ReceiveDamage(lastBreathDamage);
 
-        Assert.AreEqual(FighterState.lastBreath, stats.GetCurrentFighterState());
+        Assert.AreEqual(FighterState.lastBreath, stats.GetCurrentFighterState(), "Fighter didn't get to last breath after his health dropped below the threshold!");
     }
 
     [Test]
@@ -137,10 +141,10 @@ public class Test_FighterStats {
         const int heal = 10;
 
         stats.ReceiveDamage(lastBreathDamage);
-        Assert.AreEqual(FighterState.lastBreath, stats.GetCurrentFighterState());
+        Assert.AreEqual(FighterState.lastBreath, stats.GetCurrentFighterState(), "Fighter didn't get to last breath after his health dropped below the threshold!");
 
         stats.GetHealedBy(heal);
-        Assert.AreEqual(FighterState.alive, stats.GetCurrentFighterState());
+        Assert.AreEqual(FighterState.alive, stats.GetCurrentFighterState(), "Fighter didn't recover from last breath after his health exceeded the threshold!");
     }
 
     #endregion FighterState
@@ -155,7 +159,7 @@ public class Test_FighterStats {
 
         dummyEnemyLife -= stats.GetCurrentAttackDamage();
 
-        Assert.Less(dummyEnemyLife, 100);
+        Assert.Less(dummyEnemyLife, 100, "Enemy didn't receive any damage from fighter, no attack damage dealt!");
     }
 
     [Test]
@@ -169,8 +173,8 @@ public class Test_FighterStats {
         stats.UseChargeForDamageBoost();
         dummyEnemyLifeHeavyDamage -= stats.GetCurrentAttackDamage();
 
-        Assert.AreNotEqual(dummyEnemyLifeHeavyDamage, dummyEnemyLifeNormalDamage);
-        Assert.Less(dummyEnemyLifeHeavyDamage, dummyEnemyLifeNormalDamage);
+        Assert.AreNotEqual(dummyEnemyLifeHeavyDamage, dummyEnemyLifeNormalDamage, "Heavy damage and normal attack damage are equal!");
+        Assert.Less(dummyEnemyLifeHeavyDamage, dummyEnemyLifeNormalDamage, "Heavy damage wasn't more that normal attack damage!");
     }
 
     [Test]
@@ -189,8 +193,8 @@ public class Test_FighterStats {
         dummyEnemyLifeNormalDamage2 -= stats.GetCurrentAttackDamage();
         //Debug.Log(stats.GetCurrentAttackDamage(false));
 
-        Assert.Less(dummyEnemyLifeHeavyDamage, dummyEnemyLifeNormalDamage2);
-        Assert.AreEqual(dummyEnemyLifeNormalDamage1, dummyEnemyLifeNormalDamage2);
+        Assert.Less(dummyEnemyLifeHeavyDamage, dummyEnemyLifeNormalDamage2, "Heavy damage wasn't more that normal attack damage!");
+        Assert.AreEqual(dummyEnemyLifeNormalDamage1, dummyEnemyLifeNormalDamage2, "Heavy damage wasn't reset after one attack!");
     }
 
     [Test]
@@ -203,30 +207,32 @@ public class Test_FighterStats {
         int resettedValue = stats.GetCurrentAttackDamage(false);
 
 
-        Assert.AreEqual(chargedValueDisplayed, chargedValueForAttack);
-        Assert.Less(resettedValue, chargedValueForAttack);
+        Assert.AreEqual(chargedValueDisplayed, chargedValueForAttack, "Displaying the attack damage resetted heavy damage even if it shouldn't have done that!");
+        Assert.Less(resettedValue, chargedValueForAttack, "Heavy damage wasn't reset after one attack!");
     }
 
     [Test]
     public void Test_FighterCanChargeUpToThreeTimesButNotMore()
     {
         FighterStatsClass stats = new FighterStatsClass();
+        int normalAttackValue = stats.GetCurrentAttackDamage(false);
         stats.UseChargeForDamageBoost();
-        int firstAttackValue = stats.GetCurrentAttackDamage(false);
+        int firstBoostValue = stats.GetCurrentAttackDamage(false);
         stats.UseChargeForDamageBoost();
-        int secondAttackValue = stats.GetCurrentAttackDamage(false);
+        int secondBoostValue = stats.GetCurrentAttackDamage(false);
         stats.UseChargeForDamageBoost();
-        int thirdAttackValue = stats.GetCurrentAttackDamage(false);
+        int thirdBoostValue = stats.GetCurrentAttackDamage(false);
         stats.UseChargeForDamageBoost();
-        int forthAttackValue = stats.GetCurrentAttackDamage(false);
+        int forthBoostValue = stats.GetCurrentAttackDamage(false);
 
         // TODO: Rechnung irgendwie hier rausziehen?
         int expectedDamage = Mathf.FloorToInt(stats.GetDefaultAttackDamage() * (1 + stats.GetMaxAmountOfChargings() * stats.GetChargeDamageBoost()));
 
-        Assert.Less(firstAttackValue, secondAttackValue); 
-        Assert.Less(secondAttackValue, thirdAttackValue);
-        Assert.AreEqual(thirdAttackValue, forthAttackValue);
-        Assert.AreEqual(expectedDamage, forthAttackValue);
+        Assert.Less(normalAttackValue, firstBoostValue, "First charge for damage boost didn't increase damage!"); 
+        Assert.Less(firstBoostValue, secondBoostValue, "Second charge for damage boost didn't increase damage!");
+        Assert.Less(secondBoostValue, thirdBoostValue, "Third charge for damage boost didn't increase damage!");
+        Assert.AreEqual(thirdBoostValue, forthBoostValue, "Forth charge for damage boost increased damage, but three boosts is the maximum!");
+        Assert.AreEqual(expectedDamage, forthBoostValue, "Fighter didn't deal 3x boost damage after trying to boost 4 times");
     }
 
     [Test]
@@ -241,7 +247,7 @@ public class Test_FighterStats {
 
         int newDamage = stats.GetCurrentAttackDamage();
 
-        Assert.Less(oldDamage, newDamage);
+        Assert.Less(oldDamage, newDamage, "Lasting damage boost didn't increase attack damage!");
     }
 
     [Test]
@@ -260,8 +266,8 @@ public class Test_FighterStats {
         stats.AddLastingDamageBoost(sourceB, boostB);
         int secondBoostDamage = stats.GetCurrentAttackDamage();
 
-        Assert.Less(normalDamage, firstBoostDamage);
-        Assert.Less(firstBoostDamage, secondBoostDamage);
+        Assert.Less(normalDamage, firstBoostDamage, "First lasting damage boost didn't increase attack damage!");
+        Assert.Less(firstBoostDamage, secondBoostDamage, "Second lasting damage boost didn't increase attack damage");
     }
 
 
@@ -286,7 +292,7 @@ public class Test_FighterStats {
         int damageAfterAttemptedDuplication = stats.GetCurrentAttackDamage();
 
         LogAssert.Expect(LogType.Warning, "Fighter cannot receive multiple lasting damage boosts from the same source. Attacke damage will not be modified.");
-        Assert.AreEqual(boostedDamage, damageAfterAttemptedDuplication);
+        Assert.AreEqual(boostedDamage, damageAfterAttemptedDuplication, "Managed to add two lasting damage boosts from the same source and increase damage with both, that shouldn't be possible.");
     }
 
     [Test]
@@ -303,8 +309,8 @@ public class Test_FighterStats {
         stats.RemoveLastingDamageBoost(sourceA);
         int damageAfterRemoval = stats.GetCurrentAttackDamage();
 
-        Assert.Less(normalDamage, boostedDamage);
-        Assert.AreEqual(normalDamage, damageAfterRemoval);
+        Assert.Less(normalDamage, boostedDamage, "Lasting damage boost didn't increase attack damage!");
+        Assert.AreEqual(normalDamage, damageAfterRemoval, "Lasting damage boost couldn't be removed!");
     }
 
     [Test]
@@ -321,8 +327,8 @@ public class Test_FighterStats {
         stats.RemoveLastingDamageBoost("wrongSource");
         int damageAfterAttemptedRemoval = stats.GetCurrentAttackDamage();
 
-        Assert.Less(normalDamage, boostedDamage);
-        Assert.AreEqual(boostedDamage, damageAfterAttemptedRemoval);
+        Assert.Less(normalDamage, boostedDamage, "Lasting damage boost didn't increase attack damage!");
+        Assert.AreEqual(boostedDamage, damageAfterAttemptedRemoval, "Attack damage was modified after trying to remove a non-existant lasting damage boost!");
         LogAssert.Expect(LogType.Warning, "Fighter cannot remove lasting damage boost of a source that never gave him a boost. Attacke damage will not be modified.");
     }
 

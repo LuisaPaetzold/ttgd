@@ -11,7 +11,7 @@ public class Test_PlayerStats
         const int startPoints = 0;
         PlayerStatsClass stats = new PlayerStatsClass();
 
-        Assert.AreEqual(startPoints, stats.GetCurrentPoints());
+        Assert.AreEqual(startPoints, stats.GetCurrentPoints(), "Player didn't start with 0 points!");
     }
 
     [Test]
@@ -23,7 +23,8 @@ public class Test_PlayerStats
 
         stats.ModifyPoints(gainedPoints);
 
-        Assert.AreEqual(expectedPoints, stats.GetCurrentPoints());
+        Assert.AreEqual(expectedPoints, stats.GetCurrentPoints(), "Player didn't gain the expected amount of points!");
+        Assert.NotZero(stats.GetCurrentPoints(), "Player didn't gain any points!");
     }
 
     [Test]
@@ -37,7 +38,8 @@ public class Test_PlayerStats
         stats.ModifyPoints(gainedPoints);
         stats.ModifyPoints(lostPoints);
 
-        Assert.AreEqual(expectedPoints, stats.GetCurrentPoints());
+        Assert.AreEqual(expectedPoints, stats.GetCurrentPoints(), "Player didn't lose the expected amount of points!");
+        Assert.AreNotEqual(gainedPoints, stats.GetCurrentPoints(), "Player didn't lose any points!");
     }
 
     [Test]
@@ -48,7 +50,7 @@ public class Test_PlayerStats
 
         stats.ModifyPoints(lostPoints);
 
-        Assert.AreEqual(0, stats.GetCurrentPoints());
+        Assert.Zero(stats.GetCurrentPoints(), "Player lost more points that he had and dropped below zero!");
     }
 
     /*[Test]

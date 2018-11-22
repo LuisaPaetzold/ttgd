@@ -10,7 +10,7 @@ public class Test_PlayerInventory
     {
         PlayerInventoryClass inventory = new PlayerInventoryClass();
 
-        Assert.IsNull(inventory.GetEquippedWeapon());
+        Assert.IsNull(inventory.GetEquippedWeapon(), "Player didn't start with an empty inventory!");
     }
 
 
@@ -22,7 +22,7 @@ public class Test_PlayerInventory
         
         inventory.EquipWeapon(weapon);
 
-        Assert.IsNotNull(inventory.GetEquippedWeapon());
+        Assert.IsNotNull(inventory.GetEquippedWeapon(), "Player didn't equip a weapon!");
     }
 
 }
