@@ -10,14 +10,14 @@ public class Test_PlayerInventory
     {
         PlayerInventoryClass inventory = new PlayerInventoryClass();
 
-        Assert.IsNull(inventory.GetEquippedWeapon(), "Player didn't start with an empty inventory!");
+        Assert.IsEmpty(inventory.GetCollectedItems(), "Player didn't start with an empty inventory!");
+        Assert.IsNull(inventory.GetEquippedWeapon(), "Player didn't start without a weapon!");
     }
-
 
     [Test]
     public void Test_PlayerCanEquipWeapon()
     {
-        Weapon weapon = new Weapon();
+        Weapon weapon = (Weapon)ScriptableObject.CreateInstance("Weapon");
         PlayerInventoryClass inventory = new PlayerInventoryClass();
 
         inventory.EquipWeapon(weapon);
@@ -25,4 +25,30 @@ public class Test_PlayerInventory
         Assert.IsNotNull(inventory.GetEquippedWeapon(), "Player didn't equip a weapon!");
     }
 
+    [Test]
+    public void Test_PlayerCanCollectItems()
+    {
+        PlayerInventoryClass inventory = new PlayerInventoryClass();
+        Item item = (Item)ScriptableObject.CreateInstance("Item");
+
+        inventory.CollectItem(item);
+
+        Assert.IsNotEmpty(inventory.GetCollectedItems(), "Player wasn't able to collect an item into the inventory!");
+        Assert.IsTrue(inventory.PlayerHasItem(item), "Player doesn't have the collected item in the inventory!");
+    }
+
+    [Test]
+    public void Test_PlayerCanLoseItem()
+    {
+        PlayerInventoryClass inventory = new PlayerInventoryClass();
+        Item item = (Item)ScriptableObject.CreateInstance("Item");
+
+        inventory.CollectItem(item);
+
+        Assert.IsNotEmpty(inventory.GetCollectedItems(), "Player wasn't able to collect an item into the inventory!");
+
+        inventory.RemoveItem(item);
+
+        Assert.IsEmpty(inventory.GetCollectedItems(), "Player wasn't able to remove an item from the inventory!");
+    }
 }

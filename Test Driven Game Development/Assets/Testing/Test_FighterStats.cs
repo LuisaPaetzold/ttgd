@@ -6,15 +6,21 @@ using System.Collections;
 public class Test_FighterStats
 {
 
+    public void Setup()
+    {
+        Debug.ClearDeveloperConsole(); // doesn't work?
+    }
+
     #region Health
     [Test]
     public void Test_FighterBeginsWithMaximumHealth()
     {
-        // Setup
+        // Arrange
         FighterStatsClass stats = new FighterStatsClass();
-        // Action?
+        // Act
+
+        // Assert
         Assert.AreEqual(stats.GetMaxHealth(), stats.GetCurrentHealth(), "Fighter didn't start with maximum health!");
-        // Teardown
 
     }
 

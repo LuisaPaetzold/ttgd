@@ -1,18 +1,19 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour 
 {
-
-    PlayerStatsClass stats;
-    PlayerInventoryClass inventory;
+    public PlayerStatsClass stats;
+    public PlayerInventoryClass inventory;
 
 	// Use this for initialization
 	void Start ()
     {
-		
-	}
+        stats = new PlayerStatsClass();
+        inventory = new PlayerInventoryClass();
+    }
 	
 	// Update is called once per frame
 	void Update ()
@@ -21,7 +22,7 @@ public class Player : MonoBehaviour
 	}
 }
 
-
+[Serializable]
 public class PlayerStatsClass : FighterStatsClass
 {
     private int currentPoints;
@@ -36,7 +37,6 @@ public class PlayerStatsClass : FighterStatsClass
         return currentPoints;
     }
 
-
     public void ModifyPoints(int mod)
     {
         currentPoints += mod;
@@ -48,14 +48,25 @@ public class PlayerStatsClass : FighterStatsClass
 }
 
 
-
+[Serializable]
 public class PlayerInventoryClass
 {
-    private Weapon equippedWeapon;
+    public Weapon equippedWeapon;
+    public List<Item> items = new List<Item>();
 
     public Weapon GetEquippedWeapon()
     {
         return equippedWeapon;
+    }
+
+    public List<Item> GetCollectedItems()
+    {
+        return items;
+    }
+
+    public bool PlayerHasItem(Item item)
+    {
+        return items.Contains(item);
     }
 
     public void EquipWeapon(Weapon weapon)
@@ -63,5 +74,13 @@ public class PlayerInventoryClass
         equippedWeapon = weapon;
     }
 
+    public void CollectItem(Item item)
+    {
+        items.Add(item);
+    }
 
+    public void RemoveItem(Item item)
+    {
+        items.Remove(item);
+    }
 }

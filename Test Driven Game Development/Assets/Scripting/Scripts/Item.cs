@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : ScriptableObject
+public class Item : ScriptableObject
 {
 
-	public Weapon(int damage)
-    {
 
-    }
 }

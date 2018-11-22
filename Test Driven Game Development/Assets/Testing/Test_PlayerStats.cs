@@ -53,19 +53,20 @@ public class Test_PlayerStats
         Assert.Zero(stats.GetCurrentPoints(), "Player lost more points that he had and dropped below zero!");
     }
 
-    /*[Test]
-    public void Test_PlayerCanEquipWeapon()
+    [Test]
+    public void Test_PlayerReceivesDamageIncreaseFromEquippedWeapon()
     {
-        Weapon weapon = new Weapon();
+        Weapon weapon = (Weapon)ScriptableObject.CreateInstance("Weapon");
         PlayerStatsClass stats = new PlayerStatsClass();
+        PlayerInventoryClass inventory = new PlayerInventoryClass();
 
         int damageWithoutWeapon = stats.GetCurrentAttackDamage();
-        stats.EquipWeapon(weapon);
+        inventory.EquipWeapon(weapon);
         int damageAfterEquip = stats.GetCurrentAttackDamage();
 
-        Assert.IsTrue(stats.GetEquippedWeapon() != null);
+        Assert.IsTrue(inventory.GetEquippedWeapon() != null);
         Assert.IsTrue(damageWithoutWeapon < damageAfterEquip);
-    }*/
+    }
 
     // A UnityTest behaves like a coroutine in PlayMode
     // and allows you to yield null to skip a frame in EditMode
