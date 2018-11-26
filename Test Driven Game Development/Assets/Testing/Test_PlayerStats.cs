@@ -59,6 +59,8 @@ public class Test_PlayerStats
         Weapon weapon = (Weapon)ScriptableObject.CreateInstance("Weapon");
         PlayerStatsClass stats = new PlayerStatsClass();
         PlayerInventoryClass inventory = new PlayerInventoryClass();
+        //IPlayer mockPlayer = Substitute.For<IPlayer>();
+
 
         int damageWithoutWeapon = stats.GetCurrentAttackDamage();
         inventory.EquipWeapon(weapon);

@@ -3,15 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour 
+public class Player : MonoBehaviour, IPlayer
 {
-    public PlayerStatsClass stats;
-    public PlayerInventoryClass inventory;
+    PlayerStatsClass stats;
+    PlayerInventoryClass inventory;
 
 	// Use this for initialization
 	void Start ()
     {
-
+        stats.SetPlayerAddition(this);
     }
 	
 	// Update is called once per frame
@@ -28,11 +28,38 @@ public class Player : MonoBehaviour
             stats.UseChargeForDamageBoost();
         }
     }
+
+    /* Implementation IPlayer */
+
+    public int GetAllDamageBonus()
+    {
+        int bonus = 0;
+
+        if (inventory != null)
+        {
+            Weapon wpn = inventory.GetEquippedWeapon();
+            if (wpn != null)
+            {
+                bonus += wpn.damage;
+            }
+        }
+
+        return bonus;
+    }
+
+    /* End Implementation IPlayer */
+}
+
+public interface IPlayer
+{
+    int GetAllDamageBonus();
 }
 
 [Serializable]
 public class PlayerStatsClass : FighterStatsClass
 {
+    private IPlayer playerAddition;
+
     private int currentPoints;
 
     public PlayerStatsClass()
@@ -45,6 +72,19 @@ public class PlayerStatsClass : FighterStatsClass
         return currentPoints;
     }
 
+    public override int GetCurrentAttackDamage(bool attackAndReset = true)
+    {
+        int baseDamage = base.GetCurrentAttackDamage(attackAndReset);
+        int bonusDamage = 0;
+
+        if (playerAddition != null)
+        {
+            bonusDamage = playerAddition.GetAllDamageBonus();
+        }
+
+        return baseDamage + bonusDamage;
+    }
+
     public void ModifyPoints(int mod)
     {
         currentPoints += mod;
@@ -53,12 +93,18 @@ public class PlayerStatsClass : FighterStatsClass
             currentPoints = 0;
         }
     }
+
+    public void SetPlayerAddition(IPlayer addition)
+    {
+        this.playerAddition = addition;
+    }
 }
 
 
 [Serializable]
 public class PlayerInventoryClass
 {
+
     public Weapon equippedWeapon;
     public List<Item> items = new List<Item>();
 

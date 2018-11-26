@@ -38,7 +38,7 @@ public class Test_PlayerInventory
     }
 
     [Test]
-    public void Test_PlayerCanLoseItem()
+    public void Test_PlayerCanRemoveItem()
     {
         PlayerInventoryClass inventory = new PlayerInventoryClass();
         Item item = (Item)ScriptableObject.CreateInstance("Item");

@@ -48,7 +48,7 @@ public class FighterStatsClass
         return AttackDamage;
     }
 
-    public int GetCurrentAttackDamage(bool attackAndReset = true)
+    public virtual int GetCurrentAttackDamage(bool attackAndReset = true)
     {
         float lastingBoosts = 0f;
         foreach (KeyValuePair<string, float> pair in lastingDamageBoosts)
