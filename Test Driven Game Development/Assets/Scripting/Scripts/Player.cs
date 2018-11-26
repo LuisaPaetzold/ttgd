@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, IPlayer
 {
-    PlayerStatsClass stats;
-    PlayerInventoryClass inventory;
+    public PlayerStatsClass stats;
+    public PlayerInventoryClass inventory;
 
 	// Use this for initialization
 	void Start ()

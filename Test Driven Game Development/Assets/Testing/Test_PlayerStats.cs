@@ -2,6 +2,7 @@
 using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
+using NSubstitute;
 
 public class Test_PlayerStats
 {
@@ -59,8 +60,9 @@ public class Test_PlayerStats
         Weapon weapon = (Weapon)ScriptableObject.CreateInstance("Weapon");
         PlayerStatsClass stats = new PlayerStatsClass();
         PlayerInventoryClass inventory = new PlayerInventoryClass();
-        //IPlayer mockPlayer = Substitute.For<IPlayer>();
-
+        IPlayer mockPlayer = Substitute.For<IPlayer>();
+        //mockPlayer.GetAllDamageBonus().Returns(inventory.GetEquippedWeapon().damage);
+        //stats.SetPlayerAddition(mockPlayer);
 
         int damageWithoutWeapon = stats.GetCurrentAttackDamage();
         inventory.EquipWeapon(weapon);
