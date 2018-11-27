@@ -60,12 +60,14 @@ public class Test_PlayerStats
         Weapon weapon = (Weapon)ScriptableObject.CreateInstance("Weapon");
         PlayerStatsClass stats = new PlayerStatsClass();
         PlayerInventoryClass inventory = new PlayerInventoryClass();
+
+        int damageWithoutWeapon = stats.GetCurrentAttackDamage();
+        inventory.EquipWeapon(weapon);
+
         IPlayer mockPlayer = Substitute.For<IPlayer>();
         mockPlayer.GetAllDamageBonus().Returns(inventory.GetEquippedWeapon().damage);
         stats.SetPlayerAddition(mockPlayer);
 
-        int damageWithoutWeapon = stats.GetCurrentAttackDamage();
-        inventory.EquipWeapon(weapon);
         int damageAfterEquip = stats.GetCurrentAttackDamage();
 
         Assert.IsTrue(inventory.GetEquippedWeapon() != null);
