@@ -61,7 +61,7 @@ public class Test_PlayerStats
         PlayerStatsClass stats = new PlayerStatsClass();
         PlayerInventoryClass inventory = new PlayerInventoryClass();
         IPlayer mockPlayer = Substitute.For<IPlayer>();
-        //mockPlayer.GetAllDamageBonus().Returns(inventory.GetEquippedWeapon().damage);
+        mockPlayer.GetAllDamageBonus().Returns(inventory.GetEquippedWeapon().damage);
         //stats.SetPlayerAddition(mockPlayer);
 
         int damageWithoutWeapon = stats.GetCurrentAttackDamage();
