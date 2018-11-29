@@ -41,7 +41,7 @@ public class Player : MonoBehaviour, IPlayer
         }
     }
 
-    /* Implementation IPlayer */
+    #region Implementation IPlayer
 
     public int GetAllDamageBonus()
     {
@@ -69,7 +69,7 @@ public class Player : MonoBehaviour, IPlayer
         return inventory;
     }
 
-    /* End Implementation IPlayer */
+    #endregion Implementation IPlayer
 }
 
 public interface IPlayer
@@ -86,6 +86,7 @@ public class PlayerStatsClass : FighterStatsClass
 
     private int currentPoints;
 
+    #region Setup
     public PlayerStatsClass()
     {
         currentPoints = 0;
@@ -97,11 +98,29 @@ public class PlayerStatsClass : FighterStatsClass
         SetPlayerAddition(player);
     }
 
+    public void SetPlayerAddition(IPlayer addition)
+    {
+        this.playerAddition = addition;
+    }
+    #endregion Setup
+
+    #region Points
     public int GetCurrentPoints()
     {
         return currentPoints;
     }
 
+    public void ModifyPoints(int mod)
+    {
+        currentPoints += mod;
+        if (currentPoints < 0)
+        {
+            currentPoints = 0;
+        }
+    }
+    #endregion Points
+
+    #region Attack
     public override int GetCurrentAttackDamage(bool attackAndReset = true)
     {
         int baseDamage = base.GetCurrentAttackDamage(attackAndReset);
@@ -114,25 +133,15 @@ public class PlayerStatsClass : FighterStatsClass
 
         return baseDamage + bonusDamage;
     }
+    #endregion Attack
 
+    #region Health
     public override void Die()
     {
         
     }
+    #endregion Health
 
-    public void ModifyPoints(int mod)
-    {
-        currentPoints += mod;
-        if (currentPoints < 0)
-        {
-            currentPoints = 0;
-        }
-    }
-
-    public void SetPlayerAddition(IPlayer addition)
-    {
-        this.playerAddition = addition;
-    }
 }
 
 
@@ -143,6 +152,7 @@ public class PlayerInventoryClass
     public Weapon equippedWeapon;
     public List<Item> items = new List<Item>();
 
+    #region Setup
     public PlayerInventoryClass()
     {
         SetUpInventory();
@@ -153,11 +163,25 @@ public class PlayerInventoryClass
         SetPlayerAddition(player);
     }
 
+    public void SetPlayerAddition(IPlayer addition)
+    {
+        this.playerAddition = addition;
+    }
+    #endregion Setup
+
+    #region Weapon
     public Weapon GetEquippedWeapon()
     {
         return equippedWeapon;
     }
+    public void EquipWeapon(Weapon weapon)
+    {
+        equippedWeapon = weapon;
+    }
 
+    #endregion Weapon
+
+    #region Items
     public List<Item> GetCollectedItems()
     {
         CheckItemsForRemoval();
@@ -184,11 +208,6 @@ public class PlayerInventoryClass
         return items.Contains(item);
     }
 
-    public void EquipWeapon(Weapon weapon)
-    {
-        equippedWeapon = weapon;
-    }
-
     public void CollectItem(Item item)
     {
         items.Add(item);
@@ -198,9 +217,5 @@ public class PlayerInventoryClass
     {
         items.Remove(item);
     }
-
-    public void SetPlayerAddition(IPlayer addition)
-    {
-        this.playerAddition = addition;
-    }
+    #endregion Items
 }

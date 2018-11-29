@@ -9,6 +9,7 @@ public class Item : ScriptableObject
     public int MaxUses = 3;
     private int usesLeft;
 
+    #region Setup
     public Item()
     {
         SetUpItem();
@@ -18,7 +19,9 @@ public class Item : ScriptableObject
     {
         usesLeft = MaxUses;
     }
+    #endregion Setup
 
+    #region Uses
     public void Use(FighterStatsClass user) 
     {
         if (usesLeft == 0)
@@ -56,6 +59,7 @@ public class Item : ScriptableObject
     {
         return usesLeft;
     }
+    #endregion Uses
 }
 
 public enum ItemType

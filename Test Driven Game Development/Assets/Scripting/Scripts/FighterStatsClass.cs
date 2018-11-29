@@ -18,6 +18,7 @@ public class FighterStatsClass
     public Dictionary<string, float> lastingDamageBoosts;
     public float oneTimeDamageBoost;
 
+    #region Setup
     public FighterStatsClass()
     {
         SetUpStats();
@@ -30,7 +31,9 @@ public class FighterStatsClass
         currentState = FighterState.alive;
         lastingDamageBoosts = new Dictionary<string, float>();
     }
+    #endregion Setup
 
+    #region Health
     public int GetMaxHealth()
     {
         return MaxHealth;
@@ -41,6 +44,55 @@ public class FighterStatsClass
         return currentHealth;
     }
 
+    public void ReceiveDamage(int damage)
+    {
+        if (damage > 0)
+        {
+            currentHealth -= damage;
+            if (currentHealth <= 0)
+            {
+                currentHealth = 0;
+                currentState = FighterState.dead;
+            }
+            else if (currentHealth <= MaxHealth * LastBreathThreshold)
+            {
+                currentState = FighterState.lastBreath;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Fighter cannot receive negative damage. Health will not be modified.");
+        }
+    }
+
+    public void GetHealedBy(int heal)
+    {
+        if (heal > 0)
+        {
+            currentHealth += heal;
+            if (currentHealth > MaxHealth)
+            {
+                currentHealth = MaxHealth;
+            }
+            else if (currentHealth > MaxHealth * LastBreathThreshold)
+            {
+                currentState = FighterState.alive;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Fighter cannot be healed by a negative amount. Health will not be modified.");
+        }
+    }
+
+    public virtual void Die()
+    {
+        Debug.LogError("Die() must be implemented inside the sub-class!");
+    }
+
+    #endregion Health
+
+    #region FighterState
     public FighterState GetCurrentFighterState()
     {
         return currentState;
@@ -50,7 +102,9 @@ public class FighterStatsClass
     {
         return LastBreathThreshold;
     }
+    #endregion FighterState
 
+    #region Attack
     public float GetDefaultAttackDamage()
     {
         return AttackDamage;
@@ -104,7 +158,9 @@ public class FighterStatsClass
             Debug.LogWarning("Fighter tried to attack an opponent that's a nnullpointer. Can't attack non-existant opponents!");
         }
     }
+    #endregion Attack
 
+    #region Boost
     public float GetChargeDamageBoost()
     {
         return ChargeDamageBoost;
@@ -113,52 +169,6 @@ public class FighterStatsClass
     public int GetMaxAmountOfChargings()
     {
         return MaxAmountOfChargings;
-    }
-
-    public void ReceiveDamage(int damage)
-    {
-        if (damage > 0)
-        {
-            currentHealth -= damage;
-            if (currentHealth <= 0)
-            {
-                currentHealth = 0;
-                currentState = FighterState.dead;
-            }
-            else if (currentHealth <= MaxHealth * LastBreathThreshold)
-            {
-                currentState = FighterState.lastBreath;
-            }
-        }
-        else
-        {
-            Debug.LogWarning("Fighter cannot receive negative damage. Health will not be modified.");
-        }
-    }
-
-    public void GetHealedBy(int heal)
-    {
-        if (heal > 0)
-        {
-            currentHealth += heal;
-            if (currentHealth > MaxHealth)
-            {
-                currentHealth = MaxHealth;
-            }
-            else if (currentHealth > MaxHealth * LastBreathThreshold)
-            {
-                currentState = FighterState.alive;
-            }
-        }
-        else
-        {
-            Debug.LogWarning("Fighter cannot be healed by a negative amount. Health will not be modified.");
-        }
-    }
-
-    public virtual void Die()
-    {
-        Debug.LogError("Die() must be implemented inside the sub-class!");
     }
 
     public void AddLastingDamageBoost(string source, float mod)
@@ -186,7 +196,7 @@ public class FighterStatsClass
             oneTimeDamageBoost += ChargeDamageBoost;
         }
     }
-
+    #endregion Boost
 }
 
 public enum FighterState
