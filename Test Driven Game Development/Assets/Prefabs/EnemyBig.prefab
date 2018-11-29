@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4593674375580294}
   - component: {fileID: 114026336356762068}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: EnemyBig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -138,10 +138,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats:
-    MaxHealth: 100
-    LastBreathThreshold: 0.76
-    AttackDamage: 10
-    ChargeDamageBoost: 1
+    MaxHealth: 400
+    LastBreathThreshold: 0.2
+    AttackDamage: 5
+    ChargeDamageBoost: 0.8
     MaxAmountOfChargings: 3
     currentHealth: 100
     currentState: 0
