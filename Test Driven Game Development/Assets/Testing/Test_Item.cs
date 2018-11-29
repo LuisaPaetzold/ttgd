@@ -18,11 +18,11 @@ public class Test_Item {
         item.Use(stats);
         Assert.AreEqual(1, item.GetUsesLeft(), "Item uses did not decrease as the item was used!");
         item.Use(stats);
-        Assert.AreEqual(0, item.GetUsesLeft(), "Item uses did not decrease as the item was used!");
+        Assert.Zero(item.GetUsesLeft(), "Item uses did not decrease as the item was used!");
 
         item.Use(stats);
 
-        Assert.AreNotEqual(-1, item.GetUsesLeft(), "Item could be used even though it had 0 uses left!");
+        Assert.Zero(item.GetUsesLeft(), "Item could be used even though it had 0 uses left!");
         LogAssert.Expect(LogType.Warning, "Tried to use item when it had 0 uses left. No effect!");
     }
 
@@ -53,7 +53,7 @@ public class Test_Item {
 
         int healedHealth = stats.GetCurrentHealth();
 
-        Assert.Less(damagedHealth, healedHealth, "Using a healing item did not increade the players health!");
+        Assert.Greater(healedHealth, damagedHealth, "Using a healing item did not increade the players health!");
     }
 
     #endregion Effects

@@ -138,10 +138,9 @@ public class PlayerStatsClass : FighterStatsClass
     #region Health
     public override void Die()
     {
-        
+        // End game? 
     }
     #endregion Health
-
 }
 
 

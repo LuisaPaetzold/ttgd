@@ -55,6 +55,20 @@ public class Test_PlayerStats
         Assert.Zero(stats.GetCurrentPoints(), "Player lost more points that he had and dropped below zero!");
     }
 
+    [Test]
+    public void Test_PlayerGainsPointsAfterKillingAnEnemy()
+    {
+        PlayerStatsClass player = new PlayerStatsClass();
+        EnemyStatsClass enemy = new EnemyStatsClass();
+        player.AttackDamage = 500;
+
+        int pointsBefore = player.GetCurrentPoints();
+        player.AttackOpponent(enemy, false);
+        int pointsAfter = player.GetCurrentPoints();
+
+        Assert.Greater(pointsAfter, pointsBefore, "Player did not receive any points after killing an enemy!");
+    }
+
     #endregion Points
 
     #region Damage
