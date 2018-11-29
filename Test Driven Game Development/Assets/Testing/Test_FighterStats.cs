@@ -339,5 +339,58 @@ public class Test_FighterStats
         LogAssert.Expect(LogType.Warning, "Fighter cannot remove lasting damage boost of a source that never gave him a boost. Attacke damage will not be modified.");
     }
 
+    [Test]
+    public void Test_FighterCanAttackAnotherFighter()
+    {
+        FighterStatsClass stats1 = new FighterStatsClass();
+        FighterStatsClass stats2 = new FighterStatsClass();
+
+        int fullHealth = stats2.GetCurrentHealth();
+        stats1.AttackOpponent(stats2, false);
+        int damagedHealth = stats2.GetCurrentHealth();
+
+        Assert.Less(damagedHealth, fullHealth, "Fighter wasn't able to attack another fighter and damage them!");
+    }
+
+    [Test]
+    public void Test_FighterCannotAttackNullPointer()
+    {
+        FighterStatsClass stats1 = new FighterStatsClass();
+        FighterStatsClass stats2 = null;
+
+        stats1.AttackOpponent(stats2, false);
+
+        LogAssert.Expect(LogType.Warning, "Fighter tried to attack an opponent that's a nnullpointer. Can't attack non-existant opponents!");
+    }
+
+    [Test]
+    public void Test_FighterCanDodgeIncomingAttack()
+    {
+        FighterStatsClass stats1 = new FighterStatsClass();
+        FighterStatsClass stats2 = new FighterStatsClass();
+        stats2.DodgePropability = 1f;
+
+        int fullHealth = stats2.GetCurrentHealth();
+        stats1.AttackOpponent(stats2);
+        int afterAttack = stats2.GetCurrentHealth();
+
+        Assert.AreEqual(fullHealth, afterAttack, "Fighter wasn't able to dodge incoming attack!");
+    }
+
+    [Test]
+    public void Test_FighterCannotDodgeUnavoidableAttack()
+    {
+        FighterStatsClass stats1 = new FighterStatsClass();
+        FighterStatsClass stats2 = new FighterStatsClass();
+        stats2.DodgePropability = 1f;
+
+        int fullHealth = stats2.GetCurrentHealth();
+        stats1.AttackOpponent(stats2, false);
+        int afterAttack = stats2.GetCurrentHealth();
+
+        Assert.Less(afterAttack, fullHealth, "Fighter was able to dodge unavoidable attack!");
+    }
+
+
     #endregion Attack
 }

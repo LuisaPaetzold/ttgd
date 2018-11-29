@@ -9,6 +9,8 @@ public class FighterStatsClass
     public int AttackDamage = 10;
     public float ChargeDamageBoost = 1;
     public int MaxAmountOfChargings = 3;
+    [Range(0, 1)]
+    public float DodgePropability = 0.1f;
 
     public int currentHealth;
 
@@ -54,6 +56,11 @@ public class FighterStatsClass
         return AttackDamage;
     }
 
+    public float GetDodgePropability()
+    {
+        return DodgePropability;
+    }
+
     public virtual int GetCurrentAttackDamage(bool attackAndReset = true)
     {
         float lastingBoosts = 0f;
@@ -68,6 +75,34 @@ public class FighterStatsClass
             oneTimeDamageBoost = 0;
         }
         return damage;
+    }
+
+    public void AttackOpponent(FighterStatsClass opponent, bool CanBeDodged = true)
+    {
+        if (opponent != null)
+        {
+            if (CanBeDodged)
+            {
+                float dodgeRand = 1;
+                dodgeRand = Random.value;
+                if (dodgeRand >= opponent.GetDodgePropability())
+                {
+                    opponent.ReceiveDamage(GetCurrentAttackDamage());
+                }
+                else
+                {
+                    Debug.Log("Dodged!");
+                }
+            }
+            else
+            {
+                opponent.ReceiveDamage(GetCurrentAttackDamage());
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Fighter tried to attack an opponent that's a nnullpointer. Can't attack non-existant opponents!");
+        }
     }
 
     public float GetChargeDamageBoost()

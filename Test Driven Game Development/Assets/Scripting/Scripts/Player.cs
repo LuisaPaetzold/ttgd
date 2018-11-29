@@ -24,8 +24,8 @@ public class Player : MonoBehaviour, IPlayer
 		// TMP
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            int damage = stats.GetCurrentAttackDamage();
-            FindObjectOfType<Enemy>().stats.ReceiveDamage(damage);
+            EnemyStatsClass enemy = FindObjectOfType<Enemy>().stats;
+            stats.AttackOpponent(enemy);
         }
         if (Input.GetKeyDown(KeyCode.C))
         {

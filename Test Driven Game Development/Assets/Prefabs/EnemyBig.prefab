@@ -143,6 +143,7 @@ MonoBehaviour:
     AttackDamage: 5
     ChargeDamageBoost: 0.8
     MaxAmountOfChargings: 3
+    DodgePropability: 0.05
     currentHealth: 100
     currentState: 0
     oneTimeDamageBoost: 0
