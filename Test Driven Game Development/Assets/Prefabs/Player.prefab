@@ -136,7 +136,8 @@ MonoBehaviour:
     oneTimeDamageBoost: 0
   inventory:
     equippedWeapon: {fileID: 0}
-    items: []
+    items:
+    - {fileID: 11400000, guid: 3076ede8a1b89e742abb8d310b113581, type: 2}
 --- !u!135 &135530735765629454
 SphereCollider:
   m_ObjectHideFlags: 1

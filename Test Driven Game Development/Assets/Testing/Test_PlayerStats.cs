@@ -57,7 +57,7 @@ public class Test_PlayerStats
     [Test]
     public void Test_PlayerReceivesDamageIncreaseFromEquippedWeapon()
     {
-        Weapon weapon = (Weapon)ScriptableObject.CreateInstance("Weapon");
+        Weapon weapon = ScriptableObject.CreateInstance<Weapon>();
         PlayerStatsClass stats = new PlayerStatsClass();
         PlayerInventoryClass inventory = new PlayerInventoryClass();
 

@@ -11,6 +11,12 @@ public class Player : MonoBehaviour, IPlayer
 	void Start ()
     {
         stats.SetUpStats(this);
+        inventory.SetUpInventory(this);
+
+        foreach(Item i in inventory.items)
+        {
+            i.SetUpItem();
+        }
     }
 
     void Update ()
@@ -24,6 +30,14 @@ public class Player : MonoBehaviour, IPlayer
         if (Input.GetKeyDown(KeyCode.C))
         {
             stats.UseChargeForDamageBoost();
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            stats.ReceiveDamage(10);
+        }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            inventory.UseItem(0);
         }
     }
 
@@ -45,12 +59,24 @@ public class Player : MonoBehaviour, IPlayer
         return bonus;
     }
 
+    public PlayerStatsClass GetPlayerStats()
+    {
+        return stats;
+    }
+
+    public PlayerInventoryClass GetPlayerInventory()
+    {
+        return inventory;
+    }
+
     /* End Implementation IPlayer */
 }
 
 public interface IPlayer
 {
     int GetAllDamageBonus();
+    PlayerStatsClass GetPlayerStats();
+    PlayerInventoryClass GetPlayerInventory();
 }
 
 [Serializable]
@@ -108,9 +134,19 @@ public class PlayerStatsClass : FighterStatsClass
 [Serializable]
 public class PlayerInventoryClass
 {
-
+    private IPlayer playerAddition;
     public Weapon equippedWeapon;
     public List<Item> items = new List<Item>();
+
+    public PlayerInventoryClass()
+    {
+        SetUpInventory();
+    }
+
+    public void SetUpInventory(IPlayer player = null)
+    {
+        SetPlayerAddition(player);
+    }
 
     public Weapon GetEquippedWeapon()
     {
@@ -119,7 +155,23 @@ public class PlayerInventoryClass
 
     public List<Item> GetCollectedItems()
     {
+        CheckItemsForRemoval();
         return items;
+    }
+
+    public void UseItem(int index)
+    {
+        if (index < items.Count && items[index] != null)
+        {
+            items[index].Use(playerAddition.GetPlayerStats());
+        }
+
+        CheckItemsForRemoval();
+    }
+
+    public void CheckItemsForRemoval()
+    {
+        items.RemoveAll(item => item.GetUsesLeft() == 0);
     }
 
     public bool PlayerHasItem(Item item)
@@ -140,5 +192,10 @@ public class PlayerInventoryClass
     public void RemoveItem(Item item)
     {
         items.Remove(item);
+    }
+
+    public void SetPlayerAddition(IPlayer addition)
+    {
+        this.playerAddition = addition;
     }
 }

@@ -17,7 +17,7 @@ public class Test_PlayerInventory
     [Test]
     public void Test_PlayerCanEquipWeapon()
     {
-        Weapon weapon = (Weapon)ScriptableObject.CreateInstance("Weapon");
+        Weapon weapon = ScriptableObject.CreateInstance<Weapon>();
         PlayerInventoryClass inventory = new PlayerInventoryClass();
 
         inventory.EquipWeapon(weapon);
@@ -29,7 +29,7 @@ public class Test_PlayerInventory
     public void Test_PlayerCanCollectItems()
     {
         PlayerInventoryClass inventory = new PlayerInventoryClass();
-        Item item = (Item)ScriptableObject.CreateInstance("Item");
+        Item item = ScriptableObject.CreateInstance<Item>();
 
         inventory.CollectItem(item);
 
@@ -41,7 +41,7 @@ public class Test_PlayerInventory
     public void Test_PlayerCanRemoveItem()
     {
         PlayerInventoryClass inventory = new PlayerInventoryClass();
-        Item item = (Item)ScriptableObject.CreateInstance("Item");
+        Item item = ScriptableObject.CreateInstance<Item>();
 
         inventory.CollectItem(item);
 
@@ -50,5 +50,22 @@ public class Test_PlayerInventory
         inventory.RemoveItem(item);
 
         Assert.IsEmpty(inventory.GetCollectedItems(), "Player wasn't able to remove an item from the inventory!");
+    }
+
+    [Test]
+    public void Test_PlayerInventoryRemovesItemsWithNoMoreUsesLeft()
+    {
+        PlayerInventoryClass inventory = new PlayerInventoryClass();
+        PlayerStatsClass stats = new PlayerStatsClass();
+        Item item = ScriptableObject.CreateInstance<Item>();
+        inventory.CollectItem(item);
+
+        Assert.IsNotEmpty(inventory.GetCollectedItems(), "Player wasn't able to collect an item into the inventory!");
+
+        item.Use(stats);
+        item.Use(stats);
+        item.Use(stats);
+
+        Assert.IsEmpty(inventory.GetCollectedItems(), "Player inventory didn't auto-remove item with no more uses left!");
     }
 }
