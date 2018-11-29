@@ -6,13 +6,13 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public EnemyStatsClass stats;
-	// Use this for initialization
+
 	void Start ()
     {
-        stats = new EnemyStatsClass();
+        //stats = new EnemyStatsClass();
+        stats.SetUpStats();
 	}
 	
-	// Update is called once per frame
 	void Update ()
     {
 		

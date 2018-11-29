@@ -8,14 +8,12 @@ public class Player : MonoBehaviour, IPlayer
     public PlayerStatsClass stats;
     public PlayerInventoryClass inventory;
 
-	// Use this for initialization
 	void Start ()
     {
-        stats.SetPlayerAddition(this);
+        stats.SetUpStats(this);
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    void Update ()
     {
 		// TMP
         if(Input.GetKeyDown(KeyCode.Space))
@@ -65,6 +63,12 @@ public class PlayerStatsClass : FighterStatsClass
     public PlayerStatsClass()
     {
         currentPoints = 0;
+    }
+
+    public override void SetUpStats(IPlayer player = null)
+    {
+        base.SetUpStats();
+        SetPlayerAddition(player);
     }
 
     public int GetCurrentPoints()

@@ -18,6 +18,12 @@ public class FighterStatsClass
 
     public FighterStatsClass()
     {
+        SetUpStats();
+    }
+
+    public virtual void SetUpStats(IPlayer player = null)
+    {
+        // IPlayer needed for player stats setup
         currentHealth = MaxHealth;
         currentState = FighterState.alive;
         lastingDamageBoosts = new Dictionary<string, float>();

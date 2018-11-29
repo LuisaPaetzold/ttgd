@@ -139,7 +139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats:
     MaxHealth: 100
-    LastBreathThreshold: 0.5
+    LastBreathThreshold: 0.76
     AttackDamage: 10
     ChargeDamageBoost: 1
     MaxAmountOfChargings: 3
