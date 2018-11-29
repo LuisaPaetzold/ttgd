@@ -156,6 +156,11 @@ public class FighterStatsClass
         }
     }
 
+    public virtual void Die()
+    {
+        Debug.LogError("Die() must be implemented inside the sub-class!");
+    }
+
     public void AddLastingDamageBoost(string source, float mod)
     {
         if (lastingDamageBoosts.ContainsKey(source))

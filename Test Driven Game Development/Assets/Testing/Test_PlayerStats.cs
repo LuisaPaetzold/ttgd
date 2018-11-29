@@ -74,6 +74,15 @@ public class Test_PlayerStats
         Assert.IsTrue(damageWithoutWeapon < damageAfterEquip);
     }
 
+    [Test]
+    public void Test_PlayerStatsHasDeclaredOwnDieFunction()
+    {
+        PlayerStatsClass stats = new PlayerStatsClass();
+        stats.Die();
+
+        LogAssert.NoUnexpectedReceived();
+    }
+
     // A UnityTest behaves like a coroutine in PlayMode
     // and allows you to yield null to skip a frame in EditMode
     /*[UnityTest]

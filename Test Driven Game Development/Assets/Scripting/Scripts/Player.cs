@@ -115,6 +115,11 @@ public class PlayerStatsClass : FighterStatsClass
         return baseDamage + bonusDamage;
     }
 
+    public override void Die()
+    {
+        
+    }
+
     public void ModifyPoints(int mod)
     {
         currentPoints += mod;

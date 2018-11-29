@@ -5,6 +5,12 @@ using System.Collections;
 
 public class Test_EnemyStats
 {
+    [Test]
+    public void Test_EnemyStatsHasDeclaredOwnDieFunction()
+    {
+        PlayerStatsClass stats = new PlayerStatsClass();
+        stats.Die();
 
-
+        LogAssert.NoUnexpectedReceived();
+    }
 }
