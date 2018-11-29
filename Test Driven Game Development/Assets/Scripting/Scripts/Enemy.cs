@@ -21,5 +21,8 @@ public class Enemy : MonoBehaviour
 [Serializable]
 public class EnemyStatsClass : FighterStatsClass
 {
-    
+    public override void Die()
+    {
+
+    }
 }

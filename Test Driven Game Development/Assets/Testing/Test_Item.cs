@@ -5,6 +5,7 @@ using System.Collections;
 
 public class Test_Item {
 
+    #region Uses
     [Test]
     public void Test_ItemCannotBeUsedMoreThanMaxUses()
     {
@@ -35,6 +36,10 @@ public class Test_Item {
         LogAssert.Expect(LogType.Warning, "Tried to use item without a user. No effect!");
     }
 
+    #endregion Uses
+
+    #region Effects
+
     [Test]
     public void Test_ItemCanHealPlayer()
     {
@@ -50,4 +55,6 @@ public class Test_Item {
 
         Assert.Less(damagedHealth, healedHealth, "Using a healing item did not increade the players health!");
     }
+
+    #endregion Effects
 }

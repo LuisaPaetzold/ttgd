@@ -6,6 +6,7 @@ using NSubstitute;
 
 public class Test_PlayerStats
 {
+    #region Points
     [Test]
     public void Test_PlayerBeginsWithZeroPoints()
     {
@@ -54,6 +55,10 @@ public class Test_PlayerStats
         Assert.Zero(stats.GetCurrentPoints(), "Player lost more points that he had and dropped below zero!");
     }
 
+    #endregion Points
+
+    #region Damage
+
     [Test]
     public void Test_PlayerReceivesDamageIncreaseFromEquippedWeapon()
     {
@@ -74,6 +79,10 @@ public class Test_PlayerStats
         Assert.IsTrue(damageWithoutWeapon < damageAfterEquip);
     }
 
+    #endregion Damage
+
+    #region Health
+
     [Test]
     public void Test_PlayerStatsHasDeclaredOwnDieFunction()
     {
@@ -82,6 +91,8 @@ public class Test_PlayerStats
 
         LogAssert.NoUnexpectedReceived();
     }
+
+    #endregion Health
 
     // A UnityTest behaves like a coroutine in PlayMode
     // and allows you to yield null to skip a frame in EditMode

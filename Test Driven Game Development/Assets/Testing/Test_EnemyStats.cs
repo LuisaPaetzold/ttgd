@@ -5,6 +5,8 @@ using System.Collections;
 
 public class Test_EnemyStats
 {
+    #region Health
+
     [Test]
     public void Test_EnemyStatsHasDeclaredOwnDieFunction()
     {
@@ -13,4 +15,6 @@ public class Test_EnemyStats
 
         LogAssert.NoUnexpectedReceived();
     }
+
+    #endregion Health
 }

@@ -5,6 +5,7 @@ using System.Collections;
 
 public class Test_PlayerInventory
 {
+    #region Start
     [Test]
     public void Test_PlayerStartsWithEmptyInventory()
     {
@@ -13,6 +14,9 @@ public class Test_PlayerInventory
         Assert.IsEmpty(inventory.GetCollectedItems(), "Player didn't start with an empty inventory!");
         Assert.IsNull(inventory.GetEquippedWeapon(), "Player didn't start without a weapon!");
     }
+    #endregion Start
+
+    #region Weapon
 
     [Test]
     public void Test_PlayerCanEquipWeapon()
@@ -24,6 +28,10 @@ public class Test_PlayerInventory
 
         Assert.IsNotNull(inventory.GetEquippedWeapon(), "Player didn't equip a weapon!");
     }
+
+    #endregion Weapon
+
+    #region Items
 
     [Test]
     public void Test_PlayerCanCollectItems()
@@ -68,4 +76,6 @@ public class Test_PlayerInventory
 
         Assert.IsEmpty(inventory.GetCollectedItems(), "Player inventory didn't auto-remove item with no more uses left!");
     }
+
+    #endregion Items
 }
