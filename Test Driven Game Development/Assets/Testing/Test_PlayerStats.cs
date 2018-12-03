@@ -63,7 +63,7 @@ public class Test_PlayerStats
         IGameController mockController = Substitute.For<IGameController>();
         mockController.GetPlayerStats().Returns(player);
         EnemyStatsClass enemy = new EnemyStatsClass();
-        enemy.SetUpEnemy(mockController);
+        enemy.SetUpEnemyStats(mockController);
 
 
         int pointsBefore = player.GetCurrentPoints();

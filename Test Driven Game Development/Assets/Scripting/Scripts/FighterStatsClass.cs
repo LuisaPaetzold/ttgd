@@ -24,7 +24,7 @@ public class FighterStatsClass
         SetUpStats();
     }
 
-    public virtual void SetUpStats(IPlayer player = null)
+    public virtual void SetUpStats()
     {
         // IPlayer needed for player stats setup
         currentHealth = MaxHealth;

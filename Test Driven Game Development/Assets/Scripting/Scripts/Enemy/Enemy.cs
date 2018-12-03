@@ -5,11 +5,16 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public GameController GameCtr;
     public EnemyStatsClass stats;
 
 	void Start ()
     {
-        stats.SetUpStats();
+        if (GameCtr == null)
+        {
+            GameCtr = FindObjectOfType<GameController>();
+        }
+        stats.SetUpEnemyStats(GameCtr);
 	}
 	
 	void Update ()

@@ -10,7 +10,7 @@ public class Player : MonoBehaviour, IPlayer
 
 	void Start ()
     {
-        stats.SetUpStats(this);
+        stats.SetUpPlayerStats(this);
         inventory.SetUpInventory(this);
 
         foreach(Item i in inventory.items)

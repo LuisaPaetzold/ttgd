@@ -8,7 +8,7 @@ public class PlayerStatsClass : FighterStatsClass
 {
     private IPlayer playerAddition;
 
-    private int currentPoints;
+    public int currentPoints;
 
     #region Setup
     public PlayerStatsClass()
@@ -16,7 +16,7 @@ public class PlayerStatsClass : FighterStatsClass
         currentPoints = 0;
     }
 
-    public override void SetUpStats(IPlayer player = null)
+    public void SetUpPlayerStats(IPlayer player)
     {
         base.SetUpStats();
         SetPlayerAddition(player);

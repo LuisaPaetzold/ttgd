@@ -12,8 +12,9 @@ public class EnemyStatsClass : FighterStatsClass
 
     #region Setup
 
-    public void SetUpEnemy(IGameController ctr)
+    public void SetUpEnemyStats(IGameController ctr)
     {
+        base.SetUpStats();
         GameCtr = ctr;
     }
 

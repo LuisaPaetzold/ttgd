@@ -137,12 +137,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f196c92ab95c0564cbfec1aa346e8215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameCtr: {fileID: 0}
   stats:
     MaxHealth: 100
     LastBreathThreshold: 0.1
     AttackDamage: 15
     ChargeDamageBoost: 1
     MaxAmountOfChargings: 3
+    DodgePropability: 0.1
     currentHealth: 100
     currentState: 0
     oneTimeDamageBoost: 0
+    PointsToGain: 10
