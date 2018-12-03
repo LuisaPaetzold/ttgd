@@ -138,6 +138,18 @@ public class Test_FighterStats
     }
 
     [Test]
+    public void Test_FighterCannotDieTwice()
+    {
+        FighterStatsClass stats = new FighterStatsClass();
+        int killDamage = stats.GetCurrentHealth();
+
+        stats.ReceiveDamage(killDamage);
+        stats.ReceiveDamage(killDamage);
+
+        LogAssert.Expect(LogType.Warning, "Fighter is already dead and can no longer receive any damage!");
+    }
+
+    [Test]
     public void Test_FighterIsOnLastBreathWhileHealthBelowThreshhold()
     {
         FighterStatsClass stats = new FighterStatsClass();

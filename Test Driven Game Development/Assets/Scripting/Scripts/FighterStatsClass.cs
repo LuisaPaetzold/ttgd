@@ -46,6 +46,12 @@ public class FighterStatsClass
 
     public void ReceiveDamage(int damage)
     {
+        if (currentState == FighterState.dead)
+        {
+            Debug.LogWarning("Fighter is already dead and can no longer receive any damage!");
+            return;
+        }
+
         if (damage > 0)
         {
             currentHealth -= damage;
@@ -134,7 +140,15 @@ public class FighterStatsClass
 
     public void AttackOpponent(FighterStatsClass opponent, bool CanBeDodged = true)
     {
-        if (opponent != null)
+        if (opponent == null)
+        {
+            Debug.LogWarning("Fighter tried to attack an opponent that's a nnullpointer. Can't attack non-existant opponents!");
+        }
+        else if (opponent.GetCurrentFighterState() == FighterState.dead)
+        {
+            Debug.LogWarning("Fighter tried to attack an opponent that already died. Can't attack dead opponents!");
+        }
+        else
         {
             if (CanBeDodged)
             {
@@ -153,10 +167,6 @@ public class FighterStatsClass
             {
                 opponent.ReceiveDamage(GetCurrentAttackDamage());
             }
-        }
-        else
-        {
-            Debug.LogWarning("Fighter tried to attack an opponent that's a nnullpointer. Can't attack non-existant opponents!");
         }
     }
     #endregion Attack

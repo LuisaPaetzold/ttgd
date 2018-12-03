@@ -73,6 +73,26 @@ public class Test_PlayerStats
         Assert.Greater(pointsAfter, pointsBefore, "Player did not receive any points after killing an enemy!");
     }
 
+    [Test]
+    public void Test_PlayerGainsNoPointsAfterTryingToKillADeadEnemy()
+    {
+        PlayerStatsClass player = new PlayerStatsClass();
+        player.AttackDamage = 500;
+        IGameController mockController = Substitute.For<IGameController>();
+        mockController.GetPlayerStats().Returns(player);
+        EnemyStatsClass enemy = new EnemyStatsClass();
+        enemy.SetUpEnemyStats(mockController);
+
+        
+        player.AttackOpponent(enemy, false);
+        int pointsAfterFirstKill = player.GetCurrentPoints();
+        player.AttackOpponent(enemy, false);
+        int pointsAfterSecondKill = player.GetCurrentPoints();
+        
+        Assert.AreEqual(pointsAfterFirstKill, pointsAfterSecondKill, "Player received points after trying to kill an enemy that's already dead!");
+        LogAssert.Expect(LogType.Warning, "Fighter tried to attack an opponent that already died. Can't attack dead opponents!");
+    }
+
     #endregion Points
 
     #region Damage
