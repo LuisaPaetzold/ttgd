@@ -59,8 +59,12 @@ public class Test_PlayerStats
     public void Test_PlayerGainsPointsAfterKillingAnEnemy()
     {
         PlayerStatsClass player = new PlayerStatsClass();
-        EnemyStatsClass enemy = new EnemyStatsClass();
         player.AttackDamage = 500;
+        IGameController mockController = Substitute.For<IGameController>();
+        mockController.GetPlayerStats().Returns(player);
+        EnemyStatsClass enemy = new EnemyStatsClass();
+        enemy.SetUpEnemy(mockController);
+
 
         int pointsBefore = player.GetCurrentPoints();
         player.AttackOpponent(enemy, false);
@@ -97,14 +101,15 @@ public class Test_PlayerStats
 
     #region Health
 
-    [Test]
+    // this test became out-dated, will keep it around for reference
+    /*[Test]
     public void Test_PlayerStatsHasDeclaredOwnDieFunction()
     {
         PlayerStatsClass stats = new PlayerStatsClass();
-        stats.Die();
+        stats.HandleDeath();
 
         LogAssert.NoUnexpectedReceived();
-    }
+    }*/
 
     #endregion Health
 

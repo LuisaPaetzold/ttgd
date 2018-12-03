@@ -60,8 +60,9 @@ public class PlayerStatsClass : FighterStatsClass
     #endregion Attack
 
     #region Health
-    public override void Die()
+    public override void HandleDeath()
     {
+        base.HandleDeath();
         // End game? 
     }
     #endregion Health

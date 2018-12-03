@@ -104,14 +104,15 @@ public class Test_FighterStats
         Assert.AreEqual(stats.GetMaxHealth(), stats.GetCurrentHealth(), "Fighter health was modified by negative damage!");
     }
 
-    [Test]
+    // this test became out-dated, will keep it around for reference
+    /*[Test]
     public void Test_FighterSubclassesMustDeclareOwnDieFunction()
     {
         FighterStatsClass stats = new FighterStatsClass();
-        stats.Die();
+        stats.HandleDeath();
 
         LogAssert.Expect(LogType.Error, "Die() must be implemented inside the sub-class!");
-    }
+    }*/
 
     #endregion Health
 

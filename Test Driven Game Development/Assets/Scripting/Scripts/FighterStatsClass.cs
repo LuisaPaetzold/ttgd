@@ -51,8 +51,7 @@ public class FighterStatsClass
             currentHealth -= damage;
             if (currentHealth <= 0)
             {
-                currentHealth = 0;
-                currentState = FighterState.dead;
+                HandleDeath();
             }
             else if (currentHealth <= MaxHealth * LastBreathThreshold)
             {
@@ -85,9 +84,11 @@ public class FighterStatsClass
         }
     }
 
-    public virtual void Die()
+    public virtual void HandleDeath()
     {
-        Debug.LogError("Die() must be implemented inside the sub-class!");
+        currentHealth = 0;
+        currentState = FighterState.dead;
+        //Debug.LogError("Die() must be implemented inside the sub-class!");
     }
 
     #endregion Health

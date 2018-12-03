@@ -7,14 +7,15 @@ public class Test_EnemyStats
 {
     #region Health
 
-    [Test]
+    // this test became out-dated, will keep it around for reference
+    /*[Test]
     public void Test_EnemyStatsHasDeclaredOwnDieFunction()
     {
         PlayerStatsClass stats = new PlayerStatsClass();
-        stats.Die();
+        stats.HandleDeath();
 
         LogAssert.NoUnexpectedReceived();
-    }
+    }*/
 
     #endregion Health
 }
