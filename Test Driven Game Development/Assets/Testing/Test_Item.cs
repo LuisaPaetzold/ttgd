@@ -10,7 +10,6 @@ public class Test_Item {
     [Test]
     public void Test_ItemStartsWithMaxUses()
     {
-        PlayerStatsClass stats = new PlayerStatsClass();
         Item item = ScriptableObject.CreateInstance<Item>();
         Assert.AreEqual(item.GetMaxUses(), item.GetUsesLeft(), "Item uses did not start at the expected value!");
     }

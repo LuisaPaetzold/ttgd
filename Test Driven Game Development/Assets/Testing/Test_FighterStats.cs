@@ -317,7 +317,6 @@ public class Test_FighterStats
         string sourceA = "Item A";
         float boostA = 0.2f;
         stats.AddLastingDamageBoost(sourceA, boostA);
-        int boostedDamage = stats.GetCurrentAttackDamage();
 
         stats.RemoveLastingDamageBoost(sourceA);
         int damageAfterRemoval = stats.GetCurrentAttackDamage();
@@ -330,7 +329,6 @@ public class Test_FighterStats
     public void Test_FighterCannotRemoveNonexistantLastingDamageBoost()
     {
         FighterStatsClass stats = new FighterStatsClass();
-        int normalDamage = stats.GetCurrentAttackDamage();
 
         string sourceA = "Item A";
         float boostA = 0.2f;
