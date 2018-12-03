@@ -103,5 +103,34 @@ public class Test_PlayerInventory
         Assert.IsNotEmpty(inventory.GetCollectedItems(), "Player inventory auto-removed an item that still had uses left!");
     }
 
+    [Test]
+    public void Test_PlayerInventoryCanCollectMoreItemsWhenStillSpace()
+    {
+        PlayerInventoryClass inventory = new PlayerInventoryClass();
+        inventory.MaxItemSlots = 2;
+        Item item = ScriptableObject.CreateInstance<Item>();
+
+        inventory.CollectItem(item);
+
+        Assert.IsNotEmpty(inventory.items);
+        Assert.IsTrue(inventory.PlayerHasItem(item));
+        LogAssert.NoUnexpectedReceived();
+    }
+
+    [Test]
+    public void Test_PlayerInventoryCannotCollectMoreItemsWhenFull()
+    {
+        PlayerInventoryClass inventory = new PlayerInventoryClass();
+        inventory.MaxItemSlots = 0;
+        Item item = ScriptableObject.CreateInstance<Item>();
+
+        inventory.CollectItem(item);
+
+        Assert.IsEmpty(inventory.items);
+        LogAssert.Expect(LogType.Warning, "Inventory full, could not collect item!");
+    }
+
+    //TODO: change capacity during runtime???
+
     #endregion Items
 }

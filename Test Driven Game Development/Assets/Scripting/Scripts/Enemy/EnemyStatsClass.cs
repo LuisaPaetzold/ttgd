@@ -8,7 +8,7 @@ public class EnemyStatsClass : FighterStatsClass
 {
     public int PointsToGain = 10;
 
-    internal IGameController GameCtr;
+    private IGameController GameCtr;
 
     #region Setup
 

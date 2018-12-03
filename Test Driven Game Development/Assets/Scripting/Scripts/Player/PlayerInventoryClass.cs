@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerInventoryClass
 {
     private IPlayer playerAddition;
+    public int MaxItemSlots = 5;
     public Weapon equippedWeapon;
     public List<Item> items = new List<Item>();
 
@@ -66,9 +67,21 @@ public class PlayerInventoryClass
         return items.Contains(item);
     }
 
+    private bool CanCollectItem()
+    {
+        return items.Count < MaxItemSlots;
+    }
+
     public void CollectItem(Item item)
     {
-        items.Add(item);
+        if (CanCollectItem())
+        {
+            items.Add(item);
+        }
+        else
+        {
+            Debug.LogWarning("Inventory full, could not collect item!");
+        }
     }
 
     public void RemoveItem(Item item)
