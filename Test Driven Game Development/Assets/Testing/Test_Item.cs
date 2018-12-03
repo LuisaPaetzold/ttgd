@@ -6,19 +6,34 @@ using System.Collections;
 public class Test_Item {
 
     #region Uses
+
+    [Test]
+    public void Test_ItemStartsWithMaxUses()
+    {
+        PlayerStatsClass stats = new PlayerStatsClass();
+        Item item = ScriptableObject.CreateInstance<Item>();
+        Assert.AreEqual(item.GetMaxUses(), item.GetUsesLeft(), "Item uses did not start at the expected value!");
+    }
+
+    [Test]
+    public void Test_ItemCanBeUsed()
+    {
+        PlayerStatsClass stats = new PlayerStatsClass();
+        Item item = ScriptableObject.CreateInstance<Item>();
+
+        item.Use(stats);
+        Assert.AreEqual(item.GetMaxUses() - 1, item.GetUsesLeft(), "Item uses did not decrease as the item was used!");
+    }
+
     [Test]
     public void Test_ItemCannotBeUsedMoreThanMaxUses()
     {
         PlayerStatsClass stats = new PlayerStatsClass();
         Item item = ScriptableObject.CreateInstance<Item>();
-        Assert.AreEqual(3, item.GetUsesLeft(), "Item uses did not start at the expected value!");
 
         item.Use(stats);
-        Assert.AreEqual(2, item.GetUsesLeft(), "Item uses did not decrease as the item was used!");
         item.Use(stats);
-        Assert.AreEqual(1, item.GetUsesLeft(), "Item uses did not decrease as the item was used!");
         item.Use(stats);
-        Assert.Zero(item.GetUsesLeft(), "Item uses did not decrease as the item was used!");
 
         item.Use(stats);
 
@@ -53,7 +68,7 @@ public class Test_Item {
 
         int healedHealth = stats.GetCurrentHealth();
 
-        Assert.Greater(healedHealth, damagedHealth, "Using a healing item did not increade the players health!");
+        Assert.Greater(healedHealth, damagedHealth, "Using a healing item did not increase the players health!");
     }
 
     #endregion Effects

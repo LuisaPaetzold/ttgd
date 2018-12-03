@@ -29,12 +29,12 @@ public class Test_FighterStats
     {
         FighterStatsClass stats = new FighterStatsClass();
         const int damage = 10;
-        int expectedHealth = stats.GetMaxHealth() - damage - damage;
+        int expectedHealth = stats.GetMaxHealth() - damage;
 
-        stats.ReceiveDamage(damage);
         stats.ReceiveDamage(damage);
 
         Assert.AreNotEqual(stats.GetMaxHealth(), stats.GetCurrentHealth(), "Fighter health didn't change after being damaged!");
+        Assert.Less(stats.GetCurrentHealth(), stats.GetMaxHealth(), "Fighter health somehow increased after being damaged!");
         Assert.AreEqual(expectedHealth, stats.GetCurrentHealth(), "Fighter health is not at the expected value after being damaged!");
     }
 
@@ -141,7 +141,6 @@ public class Test_FighterStats
     {
         FighterStatsClass stats = new FighterStatsClass();
         int lastBreathDamage = Mathf.FloorToInt(stats.GetMaxHealth() - (stats.GetLastBreathThreshold() * stats.GetMaxHealth()));
-        //Debug.Log(lastBreathDamage);
 
         stats.ReceiveDamage(lastBreathDamage);
 
@@ -153,7 +152,6 @@ public class Test_FighterStats
     {
         FighterStatsClass stats = new FighterStatsClass();
         int lastBreathDamage = Mathf.FloorToInt(stats.GetMaxHealth() - (stats.GetLastBreathThreshold() * stats.GetMaxHealth()));
-        //Debug.Log(lastBreathDamage);
         const int heal = 10;
 
         stats.ReceiveDamage(lastBreathDamage);
@@ -202,12 +200,9 @@ public class Test_FighterStats
         int dummyEnemyLifeNormalDamage2 = 100;
 
         dummyEnemyLifeNormalDamage1 -= stats.GetCurrentAttackDamage();
-        //Debug.Log(stats.GetCurrentAttackDamage(false));
         stats.UseChargeForDamageBoost();
-        //Debug.Log(stats.GetCurrentAttackDamage(false));
         dummyEnemyLifeHeavyDamage -= stats.GetCurrentAttackDamage();
         dummyEnemyLifeNormalDamage2 -= stats.GetCurrentAttackDamage();
-        //Debug.Log(stats.GetCurrentAttackDamage(false));
 
         Assert.Less(dummyEnemyLifeHeavyDamage, dummyEnemyLifeNormalDamage2, "Heavy damage wasn't more that normal attack damage!");
         Assert.AreEqual(dummyEnemyLifeNormalDamage1, dummyEnemyLifeNormalDamage2, "Heavy damage wasn't reset after one attack!");
@@ -248,7 +243,7 @@ public class Test_FighterStats
         Assert.Less(firstBoostValue, secondBoostValue, "Second charge for damage boost didn't increase damage!");
         Assert.Less(secondBoostValue, thirdBoostValue, "Third charge for damage boost didn't increase damage!");
         Assert.AreEqual(thirdBoostValue, forthBoostValue, "Forth charge for damage boost increased damage, but three boosts is the maximum!");
-        Assert.AreEqual(expectedDamage, forthBoostValue, "Fighter didn't deal 3x boost damage after trying to boost 4 times");
+        Assert.AreEqual(expectedDamage, thirdBoostValue, "Fighter didn't deal 3x boost damage after trying to boost 4 times");
     }
 
     [Test]
@@ -282,6 +277,8 @@ public class Test_FighterStats
         stats.AddLastingDamageBoost(sourceB, boostB);
         int secondBoostDamage = stats.GetCurrentAttackDamage();
 
+        Assert.Contains(sourceA, stats.lastingDamageBoosts.Keys, "Lasting damage boosts don't contain a boost from source A!");
+        Assert.Contains(sourceB, stats.lastingDamageBoosts.Keys, "Lasting damage boosts don't contain a boost from source B!");
         Assert.Less(normalDamage, firstBoostDamage, "First lasting damage boost didn't increase attack damage!");
         Assert.Less(firstBoostDamage, secondBoostDamage, "Second lasting damage boost didn't increase attack damage");
     }
@@ -303,7 +300,7 @@ public class Test_FighterStats
         }
         catch (System.ArgumentException)
         {
-            // do nothing
+            // do nothing - we expected ArgumentException
         }
         int damageAfterAttemptedDuplication = stats.GetCurrentAttackDamage();
 
@@ -325,7 +322,7 @@ public class Test_FighterStats
         stats.RemoveLastingDamageBoost(sourceA);
         int damageAfterRemoval = stats.GetCurrentAttackDamage();
 
-        Assert.Less(normalDamage, boostedDamage, "Lasting damage boost didn't increase attack damage!");
+        Assert.IsEmpty(stats.lastingDamageBoosts.Keys, "Lasting damage boosts still contain a boost after it was removed!");
         Assert.AreEqual(normalDamage, damageAfterRemoval, "Lasting damage boost couldn't be removed!");
     }
 
@@ -342,9 +339,9 @@ public class Test_FighterStats
 
         stats.RemoveLastingDamageBoost("wrongSource");
         int damageAfterAttemptedRemoval = stats.GetCurrentAttackDamage();
-
-        Assert.Less(normalDamage, boostedDamage, "Lasting damage boost didn't increase attack damage!");
+        
         Assert.AreEqual(boostedDamage, damageAfterAttemptedRemoval, "Attack damage was modified after trying to remove a non-existant lasting damage boost!");
+        Assert.IsNotEmpty(stats.lastingDamageBoosts.Keys, "Lasting damage boost of different source was removed when trying to remove one of a non-existant source!");
         LogAssert.Expect(LogType.Warning, "Fighter cannot remove lasting damage boost of a source that never gave him a boost. Attacke damage will not be modified.");
     }
 

@@ -18,7 +18,6 @@ public class Enemy : MonoBehaviour
 	}
 }
 
-[Serializable]
 public class EnemyStatsClass : FighterStatsClass
 {
     #region Health

@@ -46,6 +46,17 @@ public class Test_PlayerInventory
     }
 
     [Test]
+    public void Test_PlayerCanFindCollectItemsInInventory()
+    {
+        PlayerInventoryClass inventory = new PlayerInventoryClass();
+        Item item = ScriptableObject.CreateInstance<Item>();
+
+        inventory.CollectItem(item);
+
+        Assert.IsTrue(inventory.PlayerHasItem(item), "Player didn't find the collected item in the inventory!");
+    }
+
+    [Test]
     public void Test_PlayerCanRemoveItem()
     {
         PlayerInventoryClass inventory = new PlayerInventoryClass();
@@ -75,6 +86,21 @@ public class Test_PlayerInventory
         item.Use(stats);
 
         Assert.IsEmpty(inventory.GetCollectedItems(), "Player inventory didn't auto-remove item with no more uses left!");
+    }
+
+    [Test]
+    public void Test_PlayerInventoryDoesntRemoveItemsThatStillHaveUsesLeft()
+    {
+        PlayerInventoryClass inventory = new PlayerInventoryClass();
+        PlayerStatsClass stats = new PlayerStatsClass();
+        Item item = ScriptableObject.CreateInstance<Item>();
+        inventory.CollectItem(item);
+
+        Assert.IsNotEmpty(inventory.GetCollectedItems(), "Player wasn't able to collect an item into the inventory!");
+
+        item.Use(stats);
+
+        Assert.IsNotEmpty(inventory.GetCollectedItems(), "Player inventory auto-removed an item that still had uses left!");
     }
 
     #endregion Items

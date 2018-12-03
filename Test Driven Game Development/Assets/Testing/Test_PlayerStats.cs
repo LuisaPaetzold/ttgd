@@ -89,8 +89,8 @@ public class Test_PlayerStats
 
         int damageAfterEquip = stats.GetCurrentAttackDamage();
 
-        Assert.IsTrue(inventory.GetEquippedWeapon() != null);
-        Assert.IsTrue(damageWithoutWeapon < damageAfterEquip);
+        Assert.IsNotNull(inventory.GetEquippedWeapon(), "Player didn't equip the weapon!");
+        Assert.Greater(damageAfterEquip, damageWithoutWeapon, "Player damage did not increase after equipping a weapon!");
     }
 
     #endregion Damage
