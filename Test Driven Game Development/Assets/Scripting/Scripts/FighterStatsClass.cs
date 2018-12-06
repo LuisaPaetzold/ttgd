@@ -44,6 +44,12 @@ public class FighterStatsClass
         return currentHealth;
     }
 
+    public void setHealthBar(GameObject healthBar)
+    {
+        float percentage = currentHealth * 1.0f / MaxHealth * 1.0f;
+        healthBar.transform.localScale = new Vector3(percentage, healthBar.transform.localScale.y, healthBar.transform.localScale.z);
+    }
+
     public void ReceiveDamage(int damage)
     {
         if (currentState == FighterState.dead)

@@ -8,22 +8,31 @@ public class Enemy : MonoBehaviour
     public GameController GameCtr;
     public EnemyStatsClass stats;
 
-	void Start ()
+    public GameObject healthBar;
+
+    void Start ()
     {
         if (GameCtr == null)
         {
             GameCtr = FindObjectOfType<GameController>();
         }
         stats.SetUpEnemyStats(GameCtr);
-	}
-	
-	void Update ()
+        healthBar.transform.parent.gameObject.SetActive(false);
+
+    }
+
+    void Update ()
     {
-		
+        stats.setHealthBar(healthBar);
 	}
 
     public bool IsAlive()
     {
         return stats.GetCurrentFighterState() != FighterState.dead;
+    }
+
+    public void OnStartBattle()
+    {
+        healthBar.transform.parent.gameObject.SetActive(true);
     }
 }

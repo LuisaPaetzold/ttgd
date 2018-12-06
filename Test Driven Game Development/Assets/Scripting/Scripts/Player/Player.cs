@@ -10,7 +10,9 @@ public class Player : MonoBehaviour, IPlayer
     public IUnityStaticService staticService;
     public GameController GameCtr;
 
-	void Start ()
+    public GameObject healthBar;
+
+    void Start ()
     {
         if (GameCtr == null)
         {
@@ -28,6 +30,8 @@ public class Player : MonoBehaviour, IPlayer
         {
             i.SetUpItem();
         }
+
+        healthBar.transform.parent.gameObject.SetActive(false);
     }
 
     void Update ()
@@ -60,6 +64,7 @@ public class Player : MonoBehaviour, IPlayer
         transform.position += stats.CalcMovement(horizontal, vertical, staticService.GetDeltaTime());
         #endregion Movement
 
+        stats.setHealthBar(healthBar);
     }
 
     public void OnTriggerEnter(Collider other)
@@ -71,6 +76,15 @@ public class Player : MonoBehaviour, IPlayer
         }
     }
 
+    public void OnStartBattle()
+    {
+        healthBar.transform.parent.gameObject.SetActive(true);
+    }
+
+    public void OnEndBattle()
+    {
+        healthBar.transform.parent.gameObject.SetActive(false);
+    }
 
 
     #region Implementation IPlayer
