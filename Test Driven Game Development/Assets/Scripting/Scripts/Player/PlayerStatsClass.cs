@@ -72,9 +72,19 @@ public class PlayerStatsClass : FighterStatsClass
 
     public Vector3 CalcMovement(float hor, float vert, float deltaTime)
     {
-        float moveX = vert * playerSpeed * deltaTime;
-        float moveZ = hor * playerSpeed * deltaTime;
-
+        float moveX;
+        float moveZ;
+        if (playerAddition != null && playerAddition.GetGameController() != null &&  playerAddition.GetGameController().IsInBattle() == true)
+        {
+            moveX = 0;
+            moveZ = 0;
+        }
+        else
+        {
+            moveX = vert * playerSpeed * deltaTime;
+            moveZ = hor * playerSpeed * deltaTime;
+        }
+     
         return new Vector3(moveX, 0, moveZ);
     }
 

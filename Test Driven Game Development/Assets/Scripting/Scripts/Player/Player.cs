@@ -101,6 +101,11 @@ public class Player : MonoBehaviour, IPlayer
         return inventory;
     }
 
+    public IGameController GetGameController()
+    {
+        return GameCtr;
+    }
+
     #endregion Implementation IPlayer
 }
 
@@ -109,4 +114,5 @@ public interface IPlayer
     int GetAllDamageBonus();
     PlayerStatsClass GetPlayerStats();
     PlayerInventoryClass GetPlayerInventory();
+    IGameController GetGameController();
 }

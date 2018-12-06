@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour, IGameController
 {
     private PlayerStatsClass playerStats;
     private List<EnemyStatsClass> currentEnemies = new List<EnemyStatsClass>();
+    private bool isInBattle = false;
 
     void Start ()
     {
@@ -24,7 +25,9 @@ public class GameController : MonoBehaviour, IGameController
     public void StartBattle()
     {
         Debug.Log("Start Battle!");
+        isInBattle = true;
     }
+
 
     #region Implementation IGameController
 
@@ -38,6 +41,11 @@ public class GameController : MonoBehaviour, IGameController
         return currentEnemies;
     }
 
+    public bool IsInBattle()
+    {
+        return isInBattle;
+    }
+
     #endregion Implementation IGameController
 }
 
@@ -45,4 +53,5 @@ public interface IGameController
 {
     PlayerStatsClass GetPlayerStats();
     List<EnemyStatsClass> GetCurrentEnemiesStats();
+    bool IsInBattle();
 }

@@ -119,30 +119,13 @@ public class Test_PlayerStats
 
     #endregion Damage
 
-    #region Health
-
-    // this test became out-dated, will keep it around for reference
-    /*[Test]
-    public void Test_PlayerStatsHasDeclaredOwnDieFunction()
-    {
-        PlayerStatsClass stats = new PlayerStatsClass();
-        stats.HandleDeath();
-
-        LogAssert.NoUnexpectedReceived();
-    }*/
-
-    #endregion Health
-
     #region Movement
 
     [Test]
     public void Test_PlayerMovementIsCalculatedCorrectly()
     {
         PlayerStatsClass stats = new PlayerStatsClass();
-        IUnityStaticService staticService = Substitute.For<IUnityStaticService>();
-        staticService.GetDeltaTime().Returns(1.0f);
-        staticService.GetInputAxisRaw("Horizontal").Returns(1.0f);
-        staticService.GetInputAxisRaw("Vertical").Returns(1.0f);
+        IUnityStaticService staticService = CreateUnityService(1, 1, 1);
 
         float expectedX = staticService.GetInputAxisRaw("Horizontal") * stats.playerSpeed * staticService.GetDeltaTime();
         float expectedY = 0;
@@ -160,25 +143,47 @@ public class Test_PlayerStats
     public void Test_PlayerDoesntMoveWithoutInput()
     {
         PlayerStatsClass stats = new PlayerStatsClass();
-        IUnityStaticService staticService = Substitute.For<IUnityStaticService>();
-        staticService.GetDeltaTime().Returns(1.0f);
-        staticService.GetInputAxisRaw("Horizontal").Returns(.0f);
-        staticService.GetInputAxisRaw("Vertical").Returns(.0f);
+        IUnityStaticService staticService = CreateUnityService(1, 0, 0);
 
         Vector3 calculatedMovement = stats.CalcMovement(staticService.GetInputAxisRaw("Horizontal"), staticService.GetInputAxisRaw("Vertical"), staticService.GetDeltaTime());
 
         Assert.Zero(calculatedMovement.magnitude, "Player moved without input!");
     }
 
+    [Test]
+    public void Test_PlayerCantMoveWhileInBattle()
+    {
+        PlayerStatsClass stats = new PlayerStatsClass();
+        IUnityStaticService staticService = CreateUnityService(1, 1, 1);
+        IGameController ctr = Substitute.For<IGameController>();
+        ctr.IsInBattle().Returns(true);
+        IPlayer mockPlayer = Substitute.For<IPlayer>();
+        mockPlayer.GetGameController().Returns(ctr);
+        stats.SetPlayerAddition(mockPlayer);
+
+        Vector3 calculatedMovement = stats.CalcMovement(staticService.GetInputAxisRaw("Horizontal"), staticService.GetInputAxisRaw("Vertical"), staticService.GetDeltaTime());
+
+        Assert.Zero(calculatedMovement.magnitude, "Player was able to move while in battle!");
+    }
+
     #endregion Movement
 
-    // A UnityTest behaves like a coroutine in PlayMode
-    // and allows you to yield null to skip a frame in EditMode
-    /*[UnityTest]
-    public IEnumerator Test_PlayerStatsWithEnumeratorPasses()
+
+
+
+
+
+
+
+// ------------------------------------ helper methods -------------------------------------------------
+
+    IUnityStaticService CreateUnityService(float deltaTimeReturn, float horizontalReturn, float verticalReturn)
     {
-        // Use the Assert class to test conditions.
-        // yield to skip a frame
-        yield return null;
-    }*/
+        IUnityStaticService s = Substitute.For<IUnityStaticService>();
+        s.GetDeltaTime().Returns(deltaTimeReturn);
+        s.GetInputAxisRaw("Horizontal").Returns(horizontalReturn);
+        s.GetInputAxisRaw("Vertical").Returns(verticalReturn);
+
+        return s;
+    }
 }
