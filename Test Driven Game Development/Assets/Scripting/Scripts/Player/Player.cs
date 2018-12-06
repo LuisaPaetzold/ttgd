@@ -7,11 +7,16 @@ public class Player : MonoBehaviour, IPlayer
 {
     public PlayerStatsClass stats;
     public PlayerInventoryClass inventory;
+    public IUnityStaticService staticService;
 
 	void Start ()
     {
         stats.SetUpPlayerStats(this);
         inventory.SetUpInventory(this);
+        if (staticService == null)  // only setup staticServe anew if it's not there already (a playmode test might have set a substitute object here that we don't want to replace)
+        {
+            staticService = new UnityStaticService();
+        }
 
         foreach(Item i in inventory.items)
         {
@@ -39,6 +44,14 @@ public class Player : MonoBehaviour, IPlayer
         {
             inventory.UseItem(0);
         }
+
+
+
+
+        float horizontal = staticService.GetInputAxisRaw("Horizontal");
+        float vertical = (-1) * staticService.GetInputAxisRaw("Vertical");
+
+        transform.position += stats.CalcMovement(horizontal, vertical, staticService.GetDeltaTime());
     }
 
     #region Implementation IPlayer

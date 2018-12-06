@@ -9,6 +9,7 @@ public class PlayerStatsClass : FighterStatsClass
     private IPlayer playerAddition;
 
     public int currentPoints;
+    public float playerSpeed = 1.0f;
 
     #region Setup
     public PlayerStatsClass()
@@ -66,4 +67,17 @@ public class PlayerStatsClass : FighterStatsClass
         // End game? 
     }
     #endregion Health
+
+    #region Movement
+
+    public Vector3 CalcMovement(float hor, float vert, float deltaTime)
+    {
+        float moveX = vert * playerSpeed * deltaTime;
+        float moveZ = hor * playerSpeed * deltaTime;
+
+        return new Vector3(moveX, 0, moveZ);
+    }
+
+    #endregion Movement
+
 }

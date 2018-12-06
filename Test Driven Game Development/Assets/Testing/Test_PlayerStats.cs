@@ -133,6 +133,45 @@ public class Test_PlayerStats
 
     #endregion Health
 
+    #region Movement
+
+    [Test]
+    public void Test_PlayerMovementIsCalculatedCorrectly()
+    {
+        PlayerStatsClass stats = new PlayerStatsClass();
+        IUnityStaticService staticService = Substitute.For<IUnityStaticService>();
+        staticService.GetDeltaTime().Returns(1.0f);
+        staticService.GetInputAxisRaw("Horizontal").Returns(1.0f);
+        staticService.GetInputAxisRaw("Vertical").Returns(1.0f);
+
+        float expectedX = staticService.GetInputAxisRaw("Horizontal") * stats.playerSpeed * staticService.GetDeltaTime();
+        float expectedY = 0;
+        float expectedZ = staticService.GetInputAxisRaw("Vertical") * stats.playerSpeed * staticService.GetDeltaTime();
+
+        Vector3 calculatedMovement = stats.CalcMovement(staticService.GetInputAxisRaw("Horizontal"), staticService.GetInputAxisRaw("Vertical"), staticService.GetDeltaTime());
+
+        Assert.NotZero(calculatedMovement.magnitude, "Player movement calculation resulted in no movement!");
+        Assert.AreEqual(calculatedMovement.x, expectedX, "Player movement calculation did not return the expected x movement!");
+        Assert.AreEqual(calculatedMovement.y, expectedY, "Player movement calculation did not return the expected y movement!");
+        Assert.AreEqual(calculatedMovement.z, expectedZ, "Player movement calculation did not return the expected z movement!");
+    }
+
+    [Test]
+    public void Test_PlayerDoesntMoveWithoutInput()
+    {
+        PlayerStatsClass stats = new PlayerStatsClass();
+        IUnityStaticService staticService = Substitute.For<IUnityStaticService>();
+        staticService.GetDeltaTime().Returns(1.0f);
+        staticService.GetInputAxisRaw("Horizontal").Returns(.0f);
+        staticService.GetInputAxisRaw("Vertical").Returns(.0f);
+
+        Vector3 calculatedMovement = stats.CalcMovement(staticService.GetInputAxisRaw("Horizontal"), staticService.GetInputAxisRaw("Vertical"), staticService.GetDeltaTime());
+
+        Assert.Zero(calculatedMovement.magnitude, "Player moved without input!");
+    }
+
+    #endregion Movement
+
     // A UnityTest behaves like a coroutine in PlayMode
     // and allows you to yield null to skip a frame in EditMode
     /*[UnityTest]
