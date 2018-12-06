@@ -8,9 +8,15 @@ public class Player : MonoBehaviour, IPlayer
     public PlayerStatsClass stats;
     public PlayerInventoryClass inventory;
     public IUnityStaticService staticService;
+    public GameController GameCtr;
 
 	void Start ()
     {
+        if (GameCtr == null)
+        {
+            GameCtr = FindObjectOfType<GameController>();
+        }
+
         stats.SetUpPlayerStats(this);
         inventory.SetUpInventory(this);
         if (staticService == null)  // only setup staticServe anew if it's not there already (a playmode test might have set a substitute object here that we don't want to replace)
@@ -36,7 +42,7 @@ public class Player : MonoBehaviour, IPlayer
         {
             stats.UseChargeForDamageBoost();
         }
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             stats.ReceiveDamage(10);
         }
@@ -47,12 +53,25 @@ public class Player : MonoBehaviour, IPlayer
 
 
 
-
+        #region Movement
         float horizontal = staticService.GetInputAxisRaw("Horizontal");
         float vertical = (-1) * staticService.GetInputAxisRaw("Vertical");
 
         transform.position += stats.CalcMovement(horizontal, vertical, staticService.GetDeltaTime());
+        #endregion Movement
+
     }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        Enemy enemy = other.gameObject.GetComponent<Enemy>();
+        if (enemy != null)
+        {
+            GameCtr.StartBattle();
+        }
+    }
+
+
 
     #region Implementation IPlayer
 

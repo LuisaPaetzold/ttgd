@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4593674375580294}
   - component: {fileID: 114026336356762068}
+  - component: {fileID: 65500857940362482}
   m_Layer: 0
   m_Name: EnemyBig
   m_TagString: Untagged
@@ -37,7 +38,7 @@ GameObject:
   - component: {fileID: 4892005542153888}
   - component: {fileID: 33696570865384340}
   - component: {fileID: 23233795689345140}
-  - component: {fileID: 65057893802883068}
+  - component: {fileID: 65342239714838884}
   m_Layer: 0
   m_Name: EnemyMesh
   m_TagString: Untagged
@@ -114,7 +115,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1878966645145406}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65057893802883068
+--- !u!65 &65342239714838884
 BoxCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -126,6 +127,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65500857940362482
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1643007670952730}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!114 &114026336356762068
 MonoBehaviour:
   m_ObjectHideFlags: 1

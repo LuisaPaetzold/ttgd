@@ -21,6 +21,11 @@ public class GameController : MonoBehaviour, IGameController
 		
 	}
 
+    public void StartBattle()
+    {
+        Debug.Log("Start Battle!");
+    }
+
     #region Implementation IGameController
 
     public PlayerStatsClass GetPlayerStats()
