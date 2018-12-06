@@ -21,4 +21,9 @@ public class Enemy : MonoBehaviour
     {
 		
 	}
+
+    public bool IsAlive()
+    {
+        return stats.GetCurrentFighterState() != FighterState.dead;
+    }
 }

@@ -4,28 +4,60 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour, IGameController
 {
+    private Player player;
     private PlayerStatsClass playerStats;
-    private List<EnemyStatsClass> currentEnemies = new List<EnemyStatsClass>();
+    public List<Enemy> currentEnemies = new List<Enemy>();
     private bool isInBattle = false;
+
+    private GameObject battleUI;
 
     void Start ()
     {
-        Player player = FindObjectOfType<Player>();
-
+        player = FindObjectOfType<Player>();
         playerStats = player.stats;
 
-        //TODO: Test in Play mode, dass nur ein Spieler da ist?
+        battleUI = GameObject.Find("BattleUI");
+        battleUI.SetActive(false);
 	}
 	
 	void Update ()
     {
-		
+		if (isInBattle)
+        {
+            for(int i = currentEnemies.Count - 1; i >= 0; i--)
+            {
+                Enemy e = currentEnemies[i];
+                if (!e.IsAlive())
+                {
+                    currentEnemies.RemoveAt(i);
+                    GameObject.Destroy(e.gameObject);
+                }
+            }
+            if (currentEnemies.Count == 0)
+            {
+                EndBattle();
+            }
+        }
 	}
 
-    public void StartBattle()
+    public void StartBattle(Enemy enemy)
     {
         Debug.Log("Start Battle!");
         isInBattle = true;
+        currentEnemies.Add(enemy);
+        player.transform.position = new Vector3(0, 0, -1);
+        battleUI.SetActive(true);
+    }
+
+    public void EndBattle()
+    {
+        isInBattle = false;
+        battleUI.SetActive(false);
+    }
+
+    public void PlayerAttackEnemy()
+    {
+        playerStats.AttackOpponent(currentEnemies[0].stats);
     }
 
 
@@ -36,7 +68,7 @@ public class GameController : MonoBehaviour, IGameController
         return playerStats;
     }
 
-    public List<EnemyStatsClass> GetCurrentEnemiesStats()
+    public List<Enemy> GetCurrentEnemies()
     {
         return currentEnemies;
     }
@@ -52,6 +84,6 @@ public class GameController : MonoBehaviour, IGameController
 public interface IGameController
 {
     PlayerStatsClass GetPlayerStats();
-    List<EnemyStatsClass> GetCurrentEnemiesStats();
+    List<Enemy> GetCurrentEnemies();
     bool IsInBattle();
 }

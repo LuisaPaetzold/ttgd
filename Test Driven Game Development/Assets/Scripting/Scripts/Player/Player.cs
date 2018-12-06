@@ -67,7 +67,7 @@ public class Player : MonoBehaviour, IPlayer
         Enemy enemy = other.gameObject.GetComponent<Enemy>();
         if (enemy != null)
         {
-            GameCtr.StartBattle();
+            GameCtr.StartBattle(enemy);
         }
     }
 
