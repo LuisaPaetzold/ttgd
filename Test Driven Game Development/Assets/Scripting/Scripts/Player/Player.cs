@@ -31,7 +31,11 @@ public class Player : MonoBehaviour, IPlayer
             i.SetUpItem();
         }
 
-        healthBar.transform.parent.gameObject.SetActive(false);
+        if (healthBar != null)
+        {
+            healthBar.transform.parent.gameObject.SetActive(false);
+        }
+        
     }
 
     void Update ()
@@ -78,12 +82,18 @@ public class Player : MonoBehaviour, IPlayer
 
     public void OnStartBattle()
     {
-        healthBar.transform.parent.gameObject.SetActive(true);
+        if (healthBar != null)
+        {
+            healthBar.transform.parent.gameObject.SetActive(true);
+        }
     }
 
     public void OnEndBattle()
     {
-        healthBar.transform.parent.gameObject.SetActive(false);
+        if (healthBar != null)
+        {
+            healthBar.transform.parent.gameObject.SetActive(false);
+        }
     }
 
 

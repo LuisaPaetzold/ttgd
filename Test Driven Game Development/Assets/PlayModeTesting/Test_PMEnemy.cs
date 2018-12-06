@@ -4,33 +4,8 @@ using NUnit.Framework;
 using System.Collections;
 using NSubstitute;
 
-public class Test_PMPlayer {
-
-    [UnityTest]
-    public IEnumerator Test_PlayerMovesAlongZAxisForHorizontalInput()
-    {
-        Player player = CreatePlayer();
-        player.stats.playerSpeed = 1.0f;
-        IUnityStaticService staticService = CreateUnityService(1, 1, 0);
-        player.staticService = staticService;
-
-        yield return null;
-
-        Assert.AreEqual(1, player.transform.position.z, 0.1f, "Player didn't move on z axis after horizontal input!");
-    }
-
-    [UnityTest]
-    public IEnumerator Test_PlayerMovesAlongXAxisForVerticalInput()
-    {
-        Player player = CreatePlayer();
-        player.stats.playerSpeed = 1.0f;
-        IUnityStaticService staticService = CreateUnityService(1, 0, 1);
-        player.staticService = staticService;
-
-        yield return null;
-
-        Assert.AreEqual(-1, player.transform.position.x, 0.1f, "Player didn't move on x axis after vertical input!");
-    }
+public class Test_PMEnemy
+{
 
     [UnityTest]
     public IEnumerator HealthBarIsOnlyEnabledDuringBattle()
@@ -40,7 +15,7 @@ public class Test_PMPlayer {
         GameObject healthBar = new GameObject();
         GameObject healthBarParent = new GameObject();
         healthBar.transform.parent = healthBarParent.transform;
-        player.healthBar = healthBar;
+        enemy.healthBar = healthBar;
 
         GameController gameCtr = CreateGameController(player);
         yield return new WaitForEndOfFrame();
@@ -51,11 +26,6 @@ public class Test_PMPlayer {
         yield return new WaitForEndOfFrame();
 
         Assert.IsTrue(healthBarParent.activeSelf);
-
-        enemy.stats.ReceiveDamage(enemy.stats.GetCurrentHealth());
-        yield return new WaitForEndOfFrame();
-
-        Assert.IsFalse(healthBarParent.activeSelf);
     }
 
 
@@ -93,5 +63,4 @@ public class Test_PMPlayer {
 
         return s;
     }
-
 }

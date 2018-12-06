@@ -17,7 +17,11 @@ public class Enemy : MonoBehaviour
             GameCtr = FindObjectOfType<GameController>();
         }
         stats.SetUpEnemyStats(GameCtr);
-        healthBar.transform.parent.gameObject.SetActive(false);
+        if (healthBar != null)
+        {
+            healthBar.transform.parent.gameObject.SetActive(false);
+        }
+        
 
     }
 
@@ -33,6 +37,9 @@ public class Enemy : MonoBehaviour
 
     public void OnStartBattle()
     {
-        healthBar.transform.parent.gameObject.SetActive(true);
+        if (healthBar != null)
+        {
+            healthBar.transform.parent.gameObject.SetActive(true);
+        }
     }
 }

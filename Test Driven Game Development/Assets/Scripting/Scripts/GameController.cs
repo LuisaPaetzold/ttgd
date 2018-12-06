@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour, IGameController
 {
-    private Player player;
+    public Player player;
     private PlayerStatsClass playerStats;
     public List<Enemy> currentEnemies = new List<Enemy>();
-    private bool isInBattle = false;
+    internal bool isInBattle = false;
 
-    private GameObject battleUI;
+    internal GameObject battleUI;
 
     void Start ()
     {
@@ -17,7 +17,11 @@ public class GameController : MonoBehaviour, IGameController
         playerStats = player.stats;
 
         battleUI = GameObject.Find("BattleUI");
-        battleUI.SetActive(false);
+        if (battleUI != null)
+        {
+            battleUI.SetActive(false);
+        }
+        
 	}
 	
 	void Update ()
@@ -42,11 +46,14 @@ public class GameController : MonoBehaviour, IGameController
 
     public void StartBattle(Enemy enemy)
     {
-        Debug.Log("Start Battle!");
         isInBattle = true;
         currentEnemies.Add(enemy);
         player.transform.position = new Vector3(0, 0, -1);
-        battleUI.SetActive(true);
+        if (battleUI != null)
+        {
+            battleUI.SetActive(true);
+        }
+        
 
         player.OnStartBattle();
         foreach (Enemy e in currentEnemies)
@@ -58,7 +65,10 @@ public class GameController : MonoBehaviour, IGameController
     public void EndBattle()
     {
         isInBattle = false;
-        battleUI.SetActive(false);
+        if (battleUI != null)
+        {
+            battleUI.SetActive(false);
+        }
 
         player.OnEndBattle();
     }
