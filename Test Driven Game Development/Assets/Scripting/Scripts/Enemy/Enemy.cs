@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
 
     void Update ()
     {
-        stats.setHealthBar(healthBar);
+        stats.SetHealthBar(healthBar);
 	}
 
     public bool IsAlive()

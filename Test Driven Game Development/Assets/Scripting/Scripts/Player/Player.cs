@@ -64,7 +64,7 @@ public class Player : MonoBehaviour, IPlayer
         transform.position += stats.CalcMovement(horizontal, vertical, staticService.GetDeltaTime());
         #endregion Movement
 
-        stats.setHealthBar(healthBar);
+        stats.SetHealthBar(healthBar);
     }
 
     public void OnTriggerEnter(Collider other)
