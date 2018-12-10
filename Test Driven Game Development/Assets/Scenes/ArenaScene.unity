@@ -272,6 +272,7 @@ MonoBehaviour:
   xDistance: 3
   yDistance: 2.5
   zDistance: 0.5
+  gameCtr: {fileID: 0}
 --- !u!1 &568764250
 GameObject:
   m_ObjectHideFlags: 0
@@ -439,6 +440,11 @@ Prefab:
       propertyPath: GameCtr
       value: 
       objectReference: {fileID: 1854279068}
+    - target: {fileID: 114026336356762068, guid: b8572003ca8632f4eaf980230b3f3a2d,
+        type: 2}
+      propertyPath: stats.DodgePropability
+      value: 0.52
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8572003ca8632f4eaf980230b3f3a2d, type: 2}
   m_IsPrefabAsset: 0
