@@ -33,7 +33,7 @@ public class Test_PMPlayer {
     }
 
     [UnityTest]
-    public IEnumerator HealthBarIsOnlyEnabledDuringBattle()
+    public IEnumerator Test_HealthBarIsOnlyEnabledDuringBattle()
     {
         Player player = CreatePlayer();
         Enemy enemy = CreateEnemy();
@@ -45,17 +45,17 @@ public class Test_PMPlayer {
         GameController gameCtr = CreateGameController(player);
         yield return new WaitForEndOfFrame();
 
-        Assert.IsFalse(healthBarParent.activeSelf);
+        Assert.IsFalse(healthBarParent.activeSelf, "Player health bar was active outside of a battle!");
 
         gameCtr.StartBattle(enemy);
         yield return new WaitForEndOfFrame();
 
-        Assert.IsTrue(healthBarParent.activeSelf);
+        Assert.IsTrue(healthBarParent.activeSelf, "Player health bar wasn't active during a battle!");
 
         enemy.stats.ReceiveDamage(enemy.stats.GetCurrentHealth());
         yield return new WaitForEndOfFrame();
 
-        Assert.IsFalse(healthBarParent.activeSelf);
+        Assert.IsFalse(healthBarParent.activeSelf, "Player health bar didn't get deactivated again after a battle ended!");
     }
 
 

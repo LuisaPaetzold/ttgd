@@ -10,7 +10,7 @@ public class Test_PMGameController
     // battle ends when enemies are dead
 
     [UnityTest]
-    public IEnumerator EnemiesAreDeletedWhenTheyDie()
+    public IEnumerator Test_EnemiesAreDeletedWhenTheyDie()
     {
         Player player = CreatePlayer();
         Enemy enemy = CreateEnemy();
@@ -26,7 +26,7 @@ public class Test_PMGameController
     }
 
     [UnityTest]
-    public IEnumerator BattleEndsAfterAllEnemiesDied()
+    public IEnumerator Test_BattleEndsAfterAllEnemiesDied()
     {
         Player player = CreatePlayer();
         Enemy enemy = CreateEnemy();
@@ -35,7 +35,7 @@ public class Test_PMGameController
         gameCtr.StartBattle(enemy);
         yield return new WaitForEndOfFrame();
 
-        Assert.IsTrue(gameCtr.IsInBattle(), "Battle did not start when it should!");
+        Assert.IsTrue(gameCtr.IsInBattle(), "Battle did not start when it should have!");
 
         enemy.stats.ReceiveDamage(enemy.stats.GetCurrentHealth());
         yield return new WaitForEndOfFrame();

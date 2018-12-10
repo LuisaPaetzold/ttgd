@@ -8,7 +8,7 @@ public class Test_PMEnemy
 {
 
     [UnityTest]
-    public IEnumerator HealthBarIsOnlyEnabledDuringBattle()
+    public IEnumerator Test_HealthBarIsOnlyEnabledDuringBattle()
     {
         Player player = CreatePlayer();
         Enemy enemy = CreateEnemy();
@@ -20,12 +20,12 @@ public class Test_PMEnemy
         GameController gameCtr = CreateGameController(player);
         yield return new WaitForEndOfFrame();
 
-        Assert.IsFalse(healthBarParent.activeSelf);
+        Assert.IsFalse(healthBarParent.activeSelf, "Enemy health bar was active outside of a battle!");
 
         gameCtr.StartBattle(enemy);
         yield return new WaitForEndOfFrame();
 
-        Assert.IsTrue(healthBarParent.activeSelf);
+        Assert.IsTrue(healthBarParent.activeSelf, "Enemy health bar wasn't active during a battle!");
     }
 
 
