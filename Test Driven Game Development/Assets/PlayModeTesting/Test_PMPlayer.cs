@@ -1,10 +1,21 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
 using NSubstitute;
 
-public class Test_PMPlayer {
+public class Test_PMPlayer
+{
+    [TearDown]
+    public void TearDown()
+    {
+        foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
+        {
+            GameObject.Destroy(o);
+        }
+    }
+
 
     [UnityTest]
     public IEnumerator Test_PlayerMovesAlongZAxisForHorizontalInput()
@@ -58,7 +69,34 @@ public class Test_PMPlayer {
         Assert.IsFalse(healthBarParent.activeSelf, "Player health bar didn't get deactivated again after a battle ended!");
     }
 
+    [UnityTest]
+    public IEnumerator Test_IndicatesAfterDodgingAnAttack()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+        Image dodgedSign = new GameObject().AddComponent<Image>();
+        player.stats.dodged = dodgedSign.gameObject;
+        player.stats.DodgePropability = 1;
 
+        GameController gameCtr = CreateGameController(player);
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsFalse(dodgedSign.gameObject.activeSelf, "Player dodged sign was active outside of a battle!");
+
+        gameCtr.StartBattle(enemy);
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsFalse(dodgedSign.gameObject.activeSelf, "Player dodged sign was active in battle when the player didn't dodge!");
+
+        enemy.stats.AttackOpponent(player.stats);
+        yield return new WaitForSeconds(0.5f);
+
+        Assert.IsTrue(dodgedSign.gameObject.activeSelf, "Player dodged sign wasn't active in battle when the player dodged!");
+
+        yield return new WaitForSeconds(1f);
+
+        Assert.IsFalse(dodgedSign.gameObject.activeSelf, "Player dodged sign wasn't deactivated!");
+    }
 
     // --------------------- helper methods ----------------------------------------
 

@@ -5,9 +5,16 @@ using System.Collections;
 
 public class Test_PMGameController
 {
-    // Enemies get removed when dead
-    // Healthbars are shown when battle starts
-    // battle ends when enemies are dead
+    [TearDown]
+    public void TearDown()
+    {
+        foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
+        {
+            GameObject.Destroy(o);
+        }
+    }
+
+
 
     [UnityTest]
     public IEnumerator Test_EnemiesAreDeletedWhenTheyDie()
@@ -44,7 +51,7 @@ public class Test_PMGameController
     }
 
     [UnityTest]
-    public IEnumerator BattleUIIsOnlyEnabledDuringBattle()
+    public IEnumerator Test_BattleUIIsOnlyEnabledDuringBattle()
     {
         Player player = CreatePlayer();
         Enemy enemy = CreateEnemy();

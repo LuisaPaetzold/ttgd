@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 114291592054772694}
   - component: {fileID: 114033365965471104}
   m_Layer: 0
-  m_Name: HealtSystem
+  m_Name: HealthSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -110,6 +110,23 @@ GameObject:
   - component: {fileID: 65342239714838884}
   m_Layer: 0
   m_Name: EnemyMesh
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1945855093230052
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 224765073605318280}
+  - component: {fileID: 222325961590986662}
+  - component: {fileID: 114657422164834468}
+  m_Layer: 0
+  m_Name: Dodged
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -231,6 +248,7 @@ MonoBehaviour:
     currentHealth: 100
     currentState: 0
     oneTimeDamageBoost: 0
+    dodged: {fileID: 1945855093230052}
     PointsToGain: 10
   healthBar: {fileID: 1021145741342840}
 --- !u!114 &114033365965471104
@@ -351,12 +369,46 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114657422164834468
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1945855093230052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 21300000, guid: 925a0897db9ed274cbe11afeda6445b5, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
 --- !u!222 &222162432828787762
 CanvasRenderer:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1764408741268414}
+  m_CullTransparentMesh: 0
+--- !u!222 &222325961590986662
+CanvasRenderer:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1945855093230052}
   m_CullTransparentMesh: 0
 --- !u!222 &222378499851383096
 CanvasRenderer:
@@ -446,6 +498,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 2, y: 0.3}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!224 &224765073605318280
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1945855093230052}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: -0.0118292915, y: 0.008599993, z: 0.0049137347}
+  m_Children: []
+  m_Father: {fileID: 224817320027111472}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0.61}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224817320027111472
 RectTransform:
   m_ObjectHideFlags: 1
@@ -459,6 +529,7 @@ RectTransform:
   - {fileID: 224073863810731830}
   - {fileID: 224598153864933238}
   - {fileID: 224017303360297172}
+  - {fileID: 224765073605318280}
   m_Father: {fileID: 4593674375580294}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}

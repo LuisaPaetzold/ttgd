@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
 
     public GameObject healthBar;
 
-    void Start ()
+    void Start()
     {
         if (GameCtr == null)
         {
@@ -21,14 +21,16 @@ public class Enemy : MonoBehaviour
         {
             healthBar.transform.parent.gameObject.SetActive(false);
         }
-        
-
+        if (stats.dodged != null)
+        {
+            stats.dodged.SetActive(false);
+        }
     }
 
-    void Update ()
+    void Update()
     {
         stats.SetHealthBar(healthBar);
-	}
+    }
 
     public bool IsAlive()
     {

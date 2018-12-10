@@ -5,10 +5,10 @@ using System.Collections;
 
 public class Test_FighterStats
 {
-
+    [SetUp]
     public void Setup()
     {
-        Debug.ClearDeveloperConsole(); // doesn't work?
+        Debug.ClearDeveloperConsole();
     }
 
     #region Health

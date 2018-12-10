@@ -3,7 +3,15 @@ using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
 
-public class Test_GameController {
+public class Test_GameController
+{
+    [SetUp]
+    public void Setup()
+    {
+        Debug.ClearDeveloperConsole();
+    }
+
+
 
     [Test]
     public void Test_GameControllerKnowsEnemiesWhenBattleStarts()
@@ -16,8 +24,6 @@ public class Test_GameController {
 
         Assert.IsNotEmpty(gameCtr.currentEnemies, "Game controller doesn't have any reference to the enemies of the current battle!");
     }
-
-
 
 
     // --------------------- helper methods ----------------------------------------

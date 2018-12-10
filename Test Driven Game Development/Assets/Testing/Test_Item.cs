@@ -3,7 +3,15 @@ using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
 
-public class Test_Item {
+public class Test_Item
+{
+
+    [SetUp]
+    public void Setup()
+    {
+        Debug.ClearDeveloperConsole();
+    }
+
 
     #region Uses
 

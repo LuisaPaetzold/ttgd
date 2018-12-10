@@ -18,6 +18,8 @@ public class FighterStatsClass
     public Dictionary<string, float> lastingDamageBoosts;
     public float oneTimeDamageBoost;
 
+    public GameObject dodged;
+
     #region Setup
     public FighterStatsClass()
     {
@@ -26,7 +28,6 @@ public class FighterStatsClass
 
     public virtual void SetUpStats()
     {
-        // IPlayer needed for player stats setup
         currentHealth = MaxHealth;
         currentState = FighterState.alive;
         lastingDamageBoosts = new Dictionary<string, float>();
@@ -169,6 +170,7 @@ public class FighterStatsClass
                 }
                 else
                 {
+                    opponent.ShowDodge();
                     Debug.Log("Dodged!");
                 }
             }
@@ -178,6 +180,13 @@ public class FighterStatsClass
             }
         }
     }
+
+    public virtual void ShowDodge()
+    {
+        // in sub classes!
+    }
+
+
     #endregion Attack
 
     #region Boost

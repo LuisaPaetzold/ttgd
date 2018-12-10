@@ -5,11 +5,22 @@ using System.Collections;
 
 public class Test_PMCamera
 {
+    [TearDown]
+    public void TearDown()
+    {
+        foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
+        {
+            GameObject.Destroy(o);
+        }
+    }
+
+
     [UnityTest]
     public IEnumerator Test_CameraFollowsPlayerAround()
     {
         Player player = CreatePlayer();
         CameraFollow cameraMock = CreateCameraMock();
+        GameController gameCtr = CreateGameController(player);
 
         yield return new WaitForSeconds(1);
 

@@ -5,6 +5,13 @@ using System.Collections;
 
 public class Test_PlayerInventory
 {
+    [SetUp]
+    public void Setup()
+    {
+        Debug.ClearDeveloperConsole();
+    }
+
+
     #region Start
     [Test]
     public void Test_PlayerStartsWithEmptyInventory()

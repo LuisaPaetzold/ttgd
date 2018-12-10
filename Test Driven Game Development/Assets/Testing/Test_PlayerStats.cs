@@ -6,6 +6,13 @@ using NSubstitute;
 
 public class Test_PlayerStats
 {
+    [SetUp]
+    public void Setup()
+    {
+        Debug.ClearDeveloperConsole();
+    }
+
+
     #region Points
     [Test]
     public void Test_PlayerBeginsWithZeroPoints()

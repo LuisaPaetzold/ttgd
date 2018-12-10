@@ -34,4 +34,16 @@ public class EnemyStatsClass : FighterStatsClass
         }
     }
     #endregion Health
+
+    #region Attack
+
+    public override void ShowDodge()
+    {
+        if (GameCtr != null)
+        {
+            GameCtr.ReactToDodge(dodged);
+        }
+    }
+
+    #endregion Attack
 }

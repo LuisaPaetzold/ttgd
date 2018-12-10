@@ -27,7 +27,7 @@ public class CameraFollow : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        if (!gameCtr.IsInBattle())
+        if (gameCtr != null && !gameCtr.IsInBattle())
         {
             transform.position = new Vector3(
             PlayerObject.transform.position.x + xDistance,

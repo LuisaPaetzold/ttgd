@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour, IGameController
 {
@@ -104,7 +105,28 @@ public class GameController : MonoBehaviour, IGameController
         return isInBattle;
     }
 
+    public void ReactToDodge(GameObject dodged)
+    {
+        StartCoroutine("HandleDodge", dodged);
+    }
+
     #endregion Implementation IGameController
+
+    private IEnumerator HandleDodge(GameObject dodged)
+    {
+        if (dodged != null)
+        {
+            Image dodgeImg = dodged.GetComponent<Image>();
+            if (dodgeImg != null)
+            {
+                dodged.SetActive(true);
+                yield return new WaitForSeconds(0.5f);
+                dodgeImg.CrossFadeAlpha(0, 0.5f, true);
+                yield return new WaitForSeconds(0.5f);
+                dodged.SetActive(false);
+            }
+        }
+    }
 }
 
 public interface IGameController
@@ -112,4 +134,5 @@ public interface IGameController
     PlayerStatsClass GetPlayerStats();
     List<Enemy> GetCurrentEnemies();
     bool IsInBattle();
+    void ReactToDodge(GameObject dodged);
 }

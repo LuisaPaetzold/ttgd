@@ -58,6 +58,16 @@ public class PlayerStatsClass : FighterStatsClass
 
         return baseDamage + bonusDamage;
     }
+
+    public override void ShowDodge()
+    {
+        IGameController gameCtr = playerAddition.GetGameController();
+        if (gameCtr != null)
+        {
+            gameCtr.ReactToDodge(dodged);
+        }
+    }
+
     #endregion Attack
 
     #region Health

@@ -35,6 +35,11 @@ public class Player : MonoBehaviour, IPlayer
         {
             healthBar.transform.parent.gameObject.SetActive(false);
         }
+
+        if (stats.dodged != null)
+        {
+            stats.dodged.SetActive(false);
+        }
         
     }
 
