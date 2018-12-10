@@ -54,7 +54,10 @@ public class GameController : MonoBehaviour, IGameController
         isInBattle = true;
         currentEnemies.Add(enemy);
         player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z - 2);
-        gameCam.transform.position = new Vector3(gameCam.transform.position.x, gameCam.transform.position.y, gameCam.transform.position.z - 1);
+        if (gameCam != null)
+        {
+            gameCam.transform.position = new Vector3(gameCam.transform.position.x, gameCam.transform.position.y, gameCam.transform.position.z - 1);
+        }
         if (battleUI != null)
         {
             battleUI.SetActive(true);
