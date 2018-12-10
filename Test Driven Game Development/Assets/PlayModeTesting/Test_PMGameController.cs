@@ -85,6 +85,31 @@ public class Test_PMGameController
         Assert.AreNotEqual(playerPos.z, player.transform.position.z, "Player didn't get moved on z axis when battle started!");
     }
 
+    [UnityTest]
+    public IEnumerator Test_CameraOnlyGetsTeleportedBackwardsHalfTheDistance()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+        CameraFollow cameraMock = CreateCameraMock();
+        GameController gameCtr = CreateGameController(player);
+
+        Vector3 playerPos = new Vector3(2, 3, 4);
+        player.transform.position = playerPos;
+        Vector3 camPos = cameraMock.transform.position;
+        yield return new WaitForEndOfFrame();
+
+        gameCtr.StartBattle(enemy);
+        yield return new WaitForEndOfFrame();
+
+        float cameraMovedZ = cameraMock.transform.position.z - camPos.z;
+        float playerMovedZ = player.transform.position.z - playerPos.z;
+
+        Assert.AreEqual(camPos.x, cameraMock.transform.position.x, "Camera got moved on x axis when battle started!");
+        Assert.AreEqual(camPos.y, cameraMock.transform.position.y, "Camera got moved on y axis when battle started!");
+        Assert.AreNotEqual(camPos.z, cameraMock.transform.position.z, "Camera didn't get moved on z axis when battle started!");
+        Assert.AreEqual(cameraMovedZ * 2, playerMovedZ);
+    }
+
     // --------------------- helper methods ----------------------------------------
 
     public Player CreatePlayer()
@@ -114,5 +139,11 @@ public class Test_PMGameController
         GameObject o = new GameObject();
         o.name = name;
         return o;
+    }
+
+    public CameraFollow CreateCameraMock()
+    {
+        CameraFollow c = new GameObject().AddComponent<CameraFollow>();
+        return c;
     }
 }
