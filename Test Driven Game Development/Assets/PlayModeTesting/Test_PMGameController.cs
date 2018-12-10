@@ -66,6 +66,24 @@ public class Test_PMGameController
         Assert.IsFalse(battleUI.activeSelf);
     }
 
+    [UnityTest]
+    public IEnumerator Test_PlayerOnlyGetsTeleportedBackwardsOnZAxisWhenBattleStarts()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+        GameController gameCtr = CreateGameController(player);
+
+        Vector3 playerPos = new Vector3(2, 3, 4);
+        player.transform.position = playerPos;
+        yield return new WaitForEndOfFrame();
+
+        gameCtr.StartBattle(enemy);
+        yield return new WaitForEndOfFrame();
+
+        Assert.AreEqual(playerPos.x, player.transform.position.x, "Player got moved on x axis when battle started!");
+        Assert.AreEqual(playerPos.y, player.transform.position.y, "Player got moved on y axis when battle started!");
+        Assert.AreNotEqual(playerPos.z, player.transform.position.z, "Player didn't get moved on z axis when battle started!");
+    }
 
     // --------------------- helper methods ----------------------------------------
 

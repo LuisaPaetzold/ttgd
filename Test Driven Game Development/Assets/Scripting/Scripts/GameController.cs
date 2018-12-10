@@ -48,12 +48,11 @@ public class GameController : MonoBehaviour, IGameController
     {
         isInBattle = true;
         currentEnemies.Add(enemy);
-        player.transform.position = new Vector3(0, 0, -1);
+        player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z - 2);
         if (battleUI != null)
         {
             battleUI.SetActive(true);
         }
-        
 
         player.OnStartBattle();
         foreach (Enemy e in currentEnemies)
