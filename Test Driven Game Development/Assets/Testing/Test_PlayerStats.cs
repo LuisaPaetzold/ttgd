@@ -102,7 +102,7 @@ public class Test_PlayerStats
 
     #endregion Points
 
-    #region Damage
+    #region Attack
 
     [Test]
     public void Test_PlayerReceivesDamageIncreaseFromEquippedWeapon()
@@ -124,7 +124,21 @@ public class Test_PlayerStats
         Assert.Greater(damageAfterEquip, damageWithoutWeapon, "Player damage did not increase after equipping a weapon!");
     }
 
-    #endregion Damage
+    [Test]
+    public void Test_PlayerStatsHasDeclaredOwnShowDodgeFunction()
+    {
+        PlayerStatsClass stats = new PlayerStatsClass();
+        IPlayer mockPlayer = Substitute.For<IPlayer>();
+        IGameController mockController = Substitute.For<IGameController>();
+        mockPlayer.GetGameController().Returns(mockController);
+        stats.SetPlayerAddition(mockPlayer);
+
+        stats.ShowDodge();
+
+        LogAssert.NoUnexpectedReceived();
+    }
+
+    #endregion Attack
 
     #region Movement
 

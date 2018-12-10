@@ -21,6 +21,7 @@ public class Test_PMCamera
         Player player = CreatePlayer();
         CameraFollow cameraMock = CreateCameraMock();
         GameController gameCtr = CreateGameController(player);
+        cameraMock.gameCtr = gameCtr;
 
         yield return new WaitForSeconds(1);
 

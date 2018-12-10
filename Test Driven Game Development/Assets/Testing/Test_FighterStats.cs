@@ -104,16 +104,6 @@ public class Test_FighterStats
         Assert.AreEqual(stats.GetMaxHealth(), stats.GetCurrentHealth(), "Fighter health was modified by negative damage!");
     }
 
-    // this test became out-dated, will keep it around for reference
-    /*[Test]
-    public void Test_FighterSubclassesMustDeclareOwnDieFunction()
-    {
-        FighterStatsClass stats = new FighterStatsClass();
-        stats.HandleDeath();
-
-        LogAssert.Expect(LogType.Error, "Die() must be implemented inside the sub-class!");
-    }*/
-
     #endregion Health
 
     #region FighterState
@@ -392,6 +382,7 @@ public class Test_FighterStats
         int afterAttack = stats2.GetCurrentHealth();
 
         Assert.AreEqual(fullHealth, afterAttack, "Fighter wasn't able to dodge incoming attack!");
+        LogAssert.Expect(LogType.Error, "ShowDodge() must be implemented inside the sub-class!");
     }
 
     [Test]
@@ -406,6 +397,15 @@ public class Test_FighterStats
         int afterAttack = stats2.GetCurrentHealth();
 
         Assert.Less(afterAttack, fullHealth, "Fighter was able to dodge unavoidable attack!");
+    }
+
+    [Test]
+    public void Test_FighterSubclassesMustDeclareOwnReactToDodgeFunction()
+    {
+        FighterStatsClass stats = new FighterStatsClass();
+        stats.ShowDodge();
+
+        LogAssert.Expect(LogType.Error, "ShowDodge() must be implemented inside the sub-class!");
     }
 
     #endregion Attack

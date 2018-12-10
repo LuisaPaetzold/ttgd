@@ -5,17 +5,16 @@ using System.Collections;
 
 public class Test_EnemyStats
 {
-    #region Health
+    #region Attack
 
-    // this test became out-dated, will keep it around for reference
-    /*[Test]
-    public void Test_EnemyStatsHasDeclaredOwnDieFunction()
+    [Test]
+    public void Test_EnemyStatsHasDeclaredOwnShowDodgeFunction()
     {
-        PlayerStatsClass stats = new PlayerStatsClass();
-        stats.HandleDeath();
+        EnemyStatsClass stats = new EnemyStatsClass();
+        stats.ShowDodge();
 
         LogAssert.NoUnexpectedReceived();
-    }*/
+    }
 
-    #endregion Health
+    #endregion Attack
 }

@@ -104,7 +104,6 @@ public class FighterStatsClass
     {
         currentHealth = 0;
         currentState = FighterState.dead;
-        //Debug.LogError("Die() must be implemented inside the sub-class!");
     }
 
     #endregion Health
@@ -183,7 +182,7 @@ public class FighterStatsClass
 
     public virtual void ShowDodge()
     {
-        // in sub classes!
+        Debug.LogError("ShowDodge() must be implemented inside the sub-class!");
     }
 
 
