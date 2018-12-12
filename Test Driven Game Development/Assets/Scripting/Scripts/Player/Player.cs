@@ -67,13 +67,14 @@ public class Player : MonoBehaviour, IPlayer
 
 
         #region Movement
-        float horizontal = staticService.GetInputAxisRaw("Horizontal");
-        float vertical = (-1) * staticService.GetInputAxisRaw("Vertical");
+        float horizontal = 2.5f * staticService.GetInputAxisRaw("Horizontal");
+        float vertical = 2.5f * (-1) * staticService.GetInputAxisRaw("Vertical");
 
         transform.position += stats.CalcMovement(horizontal, vertical, staticService.GetDeltaTime());
         #endregion Movement
 
         stats.SetHealthBar(healthBar);
+
     }
 
     public void OnTriggerEnter(Collider other)
