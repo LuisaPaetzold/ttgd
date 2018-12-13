@@ -172,11 +172,12 @@ public class FighterStatsClass
         }
     }
 
-    public void AttackOpponent(FighterStatsClass opponent, bool CanBeDodged = true)
+    public void AttackOpponent(FighterStatsClass opponent, bool CanBeDodged = true, bool ignoreTurnTime = false)
     {
-        if (!CanAttack())
+        if (!CanAttack() && !ignoreTurnTime)
         {
             Debug.LogWarning("Tried to attack an opponent when not allowed to do that!");
+            return;
         }
         if (opponent == null)
         {

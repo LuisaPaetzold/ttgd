@@ -353,7 +353,7 @@ public class Test_FighterStats
         FighterStatsClass stats2 = new FighterStatsClass();
 
         int fullHealth = stats2.GetCurrentHealth();
-        stats1.AttackOpponent(stats2, false);
+        stats1.AttackOpponent(stats2, false, true);
         int damagedHealth = stats2.GetCurrentHealth();
 
         Assert.Less(damagedHealth, fullHealth, "Fighter wasn't able to attack another fighter and damage them!");
@@ -365,7 +365,7 @@ public class Test_FighterStats
         FighterStatsClass stats1 = new FighterStatsClass();
         FighterStatsClass stats2 = null;
 
-        stats1.AttackOpponent(stats2, false);
+        stats1.AttackOpponent(stats2, false, true);
 
         LogAssert.Expect(LogType.Warning, "Fighter tried to attack an opponent that's a nnullpointer. Can't attack non-existant opponents!");
     }
@@ -378,7 +378,7 @@ public class Test_FighterStats
         stats2.DodgePropability = 1f;
 
         int fullHealth = stats2.GetCurrentHealth();
-        stats1.AttackOpponent(stats2);
+        stats1.AttackOpponent(stats2, true, true);
         int afterAttack = stats2.GetCurrentHealth();
 
         Assert.AreEqual(fullHealth, afterAttack, "Fighter wasn't able to dodge incoming attack!");
@@ -393,7 +393,7 @@ public class Test_FighterStats
         stats2.DodgePropability = 1f;
 
         int fullHealth = stats2.GetCurrentHealth();
-        stats1.AttackOpponent(stats2, false);
+        stats1.AttackOpponent(stats2, false, true);
         int afterAttack = stats2.GetCurrentHealth();
 
         Assert.Less(afterAttack, fullHealth, "Fighter was able to dodge unavoidable attack!");

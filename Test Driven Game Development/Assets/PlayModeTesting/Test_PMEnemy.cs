@@ -78,7 +78,7 @@ public class Test_PMEnemy
 
         Assert.IsFalse(dodgedSign.gameObject.activeSelf, "Enemy dodged sign was active in battle when the enemy didn't dodge!");
 
-        player.stats.AttackOpponent(enemy.stats);
+        player.stats.AttackOpponent(enemy.stats, true, true);
         yield return new WaitForSeconds(0.5f);
 
         Assert.IsTrue(dodgedSign.gameObject.activeSelf, "Enemy dodged sign wasn't active in battle when the enemy dodged!");
@@ -91,11 +91,16 @@ public class Test_PMEnemy
     [UnityTest]
     public IEnumerator Test_CanAttackAfterWaitingTurnTime()
     {
+        Player player = CreatePlayer();
         Enemy enemy = CreateEnemy();
         IUnityStaticService staticService = CreateUnityService(enemy.stats.TurnTime, 0, 0);
         enemy.staticService = staticService;
 
-        yield return null;
+        GameController gameCtr = CreateGameController(player);
+        enemy.GameCtr = gameCtr;
+        player.GameCtr = gameCtr;
+        gameCtr.StartBattle(enemy);
+        yield return new WaitForSeconds(0.1f);
 
         Assert.IsTrue(enemy.stats.CanAttack(), "Enemy wasn't able to attack after waiting their turn time!");
     }
@@ -108,9 +113,9 @@ public class Test_PMEnemy
         IUnityStaticService staticService = CreateUnityService(enemy.stats.TurnTime, 0, 0);
         enemy.staticService = staticService;
 
-        yield return null;
+        yield return new WaitForEndOfFrame();
 
-        enemy.stats.AttackOpponent(player.stats);
+        enemy.stats.AttackOpponent(player.stats, false, true);
 
         Assert.IsFalse(enemy.stats.CanAttack(), "Enemy turn time did not reset after their attack!");
     }
@@ -124,9 +129,9 @@ public class Test_PMEnemy
         IUnityStaticService staticService = CreateUnityService(enemy.stats.TurnTime, 0, 0);
         enemy.staticService = staticService;
 
-        yield return null;
+        yield return new WaitForEndOfFrame();
 
-        enemy.stats.AttackOpponent(player.stats);
+        enemy.stats.AttackOpponent(player.stats, true, true);
 
         Assert.AreEqual(player.stats.MaxHealth, player.stats.currentHealth, "Player did not dodge!");
         Assert.IsFalse(enemy.stats.CanAttack(), "Enemy turn time did ot reset after an unsuccessful attack!");

@@ -2,6 +2,8 @@
 using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
+using UnityEngine.UI;
+using NSubstitute;
 
 public class Test_PMGameController
 {
@@ -60,17 +62,44 @@ public class Test_PMGameController
         GameController gameCtr = CreateGameController(player);
         yield return new WaitForEndOfFrame();
 
-        Assert.IsFalse(battleUI.activeSelf);
+        Assert.IsFalse(battleUI.activeSelf, "Battle UI was active outside of battle!");
 
         gameCtr.StartBattle(enemy);
         yield return new WaitForEndOfFrame();
 
-        Assert.IsTrue(battleUI.activeSelf);
+        Assert.IsTrue(battleUI.activeSelf, "Battle UI wasn't active in battle!");
 
         enemy.stats.ReceiveDamage(enemy.stats.GetCurrentHealth());
         yield return new WaitForEndOfFrame();
 
-        Assert.IsFalse(battleUI.activeSelf);
+        Assert.IsFalse(battleUI.activeSelf, "Battle UI wasn't deactivated after battle ended!");
+    }
+
+    [UnityTest]
+    public IEnumerator Test_AttackButtonOnlyInteractableIfCanAttack()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+        enemy.stats.currentHealth = 1000;
+        //IUnityStaticService staticService = CreateUnityService(player.stats.TurnTime, 0, 0);
+        //player.staticService = staticService;
+        Button attackBtnScript = CreateMockObjectWithName("AttackBtn").AddComponent<Button>();
+
+        GameController gameCtr = CreateGameController(player);
+        yield return new WaitForEndOfFrame();
+        gameCtr.StartBattle(enemy);
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsFalse(attackBtnScript.IsInteractable(), "Attack Button was interactable before the player waited their turn time!");
+
+        yield return new WaitForSeconds(3);
+
+        Assert.IsTrue(attackBtnScript.IsInteractable(), "Attack Button wasn't interactable after the player waited their turn time!");
+
+        player.stats.AttackOpponent(enemy.stats, false);
+        yield return new WaitForEndOfFrame();
+
+        //Assert.IsFalse(attackBtnScript.IsInteractable(), "Attack Button wasn't reset to not interactable after the player attacked!");
     }
 
     [UnityTest]
@@ -152,5 +181,15 @@ public class Test_PMGameController
     {
         CameraFollow c = new GameObject().AddComponent<CameraFollow>();
         return c;
+    }
+
+    IUnityStaticService CreateUnityService(float deltaTimeReturn, float horizontalReturn, float verticalReturn)
+    {
+        IUnityStaticService s = Substitute.For<IUnityStaticService>();
+        s.GetDeltaTime().Returns(deltaTimeReturn);
+        s.GetInputAxisRaw("Horizontal").Returns(horizontalReturn);
+        s.GetInputAxisRaw("Vertical").Returns(verticalReturn);
+
+        return s;
     }
 }

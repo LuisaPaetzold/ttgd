@@ -99,7 +99,7 @@ public class Player : MonoBehaviour, IPlayer
 
         stats.SetHealthBar(healthBar);
         stats.SetTurnTimeBar(turnTimeBar);
-        if (GameCtr.IsInBattle())
+        if (GameCtr != null && GameCtr.IsInBattle())
         {
             stats.UpdateTurnTime(staticService.GetDeltaTime());
         }

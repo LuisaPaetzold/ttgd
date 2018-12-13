@@ -11,6 +11,8 @@ public class GameController : MonoBehaviour, IGameController
     internal bool isInBattle = false;
 
     internal GameObject battleUI;
+    internal GameObject attackBtn;
+    internal Button attackBtnScript;
     internal CameraFollow gameCam;
 
     void Start ()
@@ -23,6 +25,13 @@ public class GameController : MonoBehaviour, IGameController
         {
             battleUI.SetActive(false);
         }
+
+        attackBtn = GameObject.Find("AttackBtn");
+        if (attackBtn != null)
+        {
+            attackBtnScript = attackBtn.GetComponent<Button>();
+        }
+        
         if (gameCam == null)
         {
             gameCam = FindObjectOfType<CameraFollow>();
@@ -46,6 +55,18 @@ public class GameController : MonoBehaviour, IGameController
             if (currentEnemies.Count == 0)
             {
                 EndBattle();
+            }
+
+            if (attackBtnScript != null)
+            {
+                if (player.stats.CanAttack() && !attackBtnScript.IsInteractable())
+                {
+                    attackBtnScript.interactable = true;
+                }
+                else if (!player.stats.CanAttack() && attackBtnScript.IsInteractable())
+                {
+                    attackBtnScript.interactable = false;
+                }
             }
         }
 	}

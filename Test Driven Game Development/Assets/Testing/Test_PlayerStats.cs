@@ -74,7 +74,7 @@ public class Test_PlayerStats
 
 
         int pointsBefore = player.GetCurrentPoints();
-        player.AttackOpponent(enemy, false);
+        player.AttackOpponent(enemy, false, true);
         int pointsAfter = player.GetCurrentPoints();
 
         Assert.Greater(pointsAfter, pointsBefore, "Player did not receive any points after killing an enemy!");
@@ -91,9 +91,9 @@ public class Test_PlayerStats
         enemy.SetUpEnemyStats(mockController);
 
         
-        player.AttackOpponent(enemy, false);
+        player.AttackOpponent(enemy, false, true);
         int pointsAfterFirstKill = player.GetCurrentPoints();
-        player.AttackOpponent(enemy, false);
+        player.AttackOpponent(enemy, false, true);
         int pointsAfterSecondKill = player.GetCurrentPoints();
         
         Assert.AreEqual(pointsAfterFirstKill, pointsAfterSecondKill, "Player received points after trying to kill an enemy that's already dead!");

@@ -114,7 +114,7 @@ public class Test_PMPlayer
 
         Assert.IsFalse(dodgedSign.gameObject.activeSelf, "Player dodged sign was active in battle when the player didn't dodge!");
 
-        enemy.stats.AttackOpponent(player.stats);
+        enemy.stats.AttackOpponent(player.stats, true, true);
         yield return new WaitForSeconds(0.5f);
 
         Assert.IsTrue(dodgedSign.gameObject.activeSelf, "Player dodged sign wasn't active in battle when the player dodged!");
@@ -128,10 +128,15 @@ public class Test_PMPlayer
     public IEnumerator Test_CanAttackAfterWaitingTurnTime()
     {
         Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
         IUnityStaticService staticService = CreateUnityService(player.stats.TurnTime, 0, 0);
         player.staticService = staticService;
 
-        yield return null;
+        GameController gameCtr = CreateGameController(player);
+        enemy.GameCtr = gameCtr;
+        player.GameCtr = gameCtr;
+        gameCtr.StartBattle(enemy);
+        yield return new WaitForSeconds(0.1f);
 
         Assert.IsTrue(player.stats.CanAttack(), "Player wasn't able to attack after waiting their turn time!");
     }
@@ -146,7 +151,7 @@ public class Test_PMPlayer
 
         yield return null;
 
-        player.stats.AttackOpponent(enemy.stats);
+        player.stats.AttackOpponent(enemy.stats, false, true);
 
         Assert.IsFalse(player.stats.CanAttack(), "Player turn time did not reset after their attack!");
     }
@@ -162,7 +167,7 @@ public class Test_PMPlayer
 
         yield return null;
 
-        player.stats.AttackOpponent(enemy.stats);
+        player.stats.AttackOpponent(enemy.stats, true, true);
 
         Assert.AreEqual(enemy.stats.MaxHealth, enemy.stats.currentHealth, "Enemy did not dodge!");
         Assert.IsFalse(player.stats.CanAttack(), "Player turn time did ot reset after an unsuccessful attack!");
