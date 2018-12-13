@@ -56,6 +56,16 @@ public class FighterStatsClass
         }
     }
 
+    public void SetTurnTimeBar(GameObject turnTimeBar)
+    {
+        if (turnTimeBar != null)
+        {
+            float percentage = currentTurnTime * 1.0f / TurnTime * 1.0f;
+            Debug.Log(percentage);
+            turnTimeBar.transform.localScale = new Vector3(percentage, turnTimeBar.transform.localScale.y, turnTimeBar.transform.localScale.z);
+        }
+    }
+
     public void ReceiveDamage(int damage)
     {
         if (currentState == FighterState.dead)
@@ -158,7 +168,7 @@ public class FighterStatsClass
     {
         if (currentTurnTime < TurnTime)
         {
-            currentTurnTime += TurnTime;
+            currentTurnTime += passedTime;
         }
     }
 

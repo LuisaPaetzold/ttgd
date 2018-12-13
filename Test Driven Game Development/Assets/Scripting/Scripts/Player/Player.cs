@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Player : MonoBehaviour, IPlayer
@@ -11,7 +12,7 @@ public class Player : MonoBehaviour, IPlayer
     public GameController GameCtr;
 
     public GameObject healthBar;
-
+    public GameObject turnTimeBar;
 
     [Header("Gravity")]
     public float verticalVelocity = 0;
@@ -41,6 +42,10 @@ public class Player : MonoBehaviour, IPlayer
         {
             healthBar.transform.parent.gameObject.SetActive(false);
         }
+        if (turnTimeBar != null)
+        {
+            turnTimeBar.transform.parent.gameObject.SetActive(false);
+        }
 
         if (stats.dodged != null)
         {
@@ -52,11 +57,6 @@ public class Player : MonoBehaviour, IPlayer
     void Update ()
     {
 		// TMP
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            EnemyStatsClass enemy = FindObjectOfType<Enemy>().stats;
-            stats.AttackOpponent(enemy);
-        }
         if (Input.GetKeyDown(KeyCode.C))
         {
             stats.UseChargeForDamageBoost();
@@ -98,7 +98,11 @@ public class Player : MonoBehaviour, IPlayer
         #endregion Movement
 
         stats.SetHealthBar(healthBar);
-        stats.UpdateTurnTime(staticService.GetDeltaTime());
+        stats.SetTurnTimeBar(turnTimeBar);
+        if (GameCtr.IsInBattle())
+        {
+            stats.UpdateTurnTime(staticService.GetDeltaTime());
+        }
     }
 
     public void OnTriggerEnter(Collider other)
@@ -116,6 +120,11 @@ public class Player : MonoBehaviour, IPlayer
         {
             healthBar.transform.parent.gameObject.SetActive(true);
         }
+        if (turnTimeBar != null)
+        {
+            turnTimeBar.transform.parent.gameObject.SetActive(true);
+        }
+        stats.currentTurnTime = 0;
     }
 
     public void OnEndBattle()
@@ -123,6 +132,10 @@ public class Player : MonoBehaviour, IPlayer
         if (healthBar != null)
         {
             healthBar.transform.parent.gameObject.SetActive(false);
+        }
+        if (turnTimeBar != null)
+        {
+            turnTimeBar.transform.parent.gameObject.SetActive(false);
         }
     }
 

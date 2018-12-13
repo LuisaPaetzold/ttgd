@@ -7,9 +7,11 @@ public class Enemy : MonoBehaviour
 {
     public GameController GameCtr;
     public EnemyStatsClass stats;
+    public IUnityStaticService staticService;
 
     public GameObject healthBar;
-    public IUnityStaticService staticService;
+    public GameObject turnTimeBar;
+
 
     void Start()
     {
@@ -21,6 +23,10 @@ public class Enemy : MonoBehaviour
         if (healthBar != null)
         {
             healthBar.transform.parent.gameObject.SetActive(false);
+        }
+        if (turnTimeBar != null)
+        {
+            turnTimeBar.transform.parent.gameObject.SetActive(false);
         }
         if (stats.dodged != null)
         {
@@ -35,7 +41,11 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         stats.SetHealthBar(healthBar);
-        stats.UpdateTurnTime(staticService.GetDeltaTime());
+        stats.SetTurnTimeBar(turnTimeBar);
+        if (GameCtr.IsInBattle())
+        {
+            stats.UpdateTurnTime(staticService.GetDeltaTime());
+        }
     }
 
     public bool IsAlive()
@@ -49,5 +59,10 @@ public class Enemy : MonoBehaviour
         {
             healthBar.transform.parent.gameObject.SetActive(true);
         }
+        if (turnTimeBar != null)
+        {
+            turnTimeBar.transform.parent.gameObject.SetActive(true);
+        }
+        stats.currentTurnTime = 0;
     }
 }

@@ -39,6 +39,27 @@ public class Test_PMEnemy
     }
 
     [UnityTest]
+    public IEnumerator Test_TurnTimeBarIsOnlyEnabledDuringBattle()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+        GameObject turnTimeBar = new GameObject();
+        GameObject turnTimeBarParent = new GameObject();
+        turnTimeBar.transform.parent = turnTimeBarParent.transform;
+        enemy.healthBar = turnTimeBar;
+
+        GameController gameCtr = CreateGameController(player);
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsFalse(turnTimeBarParent.activeSelf, "Enemy turn time bar was active outside of a battle!");
+
+        gameCtr.StartBattle(enemy);
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsTrue(turnTimeBarParent.activeSelf, "Enemy turn time bar wasn't active during a battle!");
+    }
+
+    [UnityTest]
     public IEnumerator Test_IndicatesAfterDodgingAnAttack()
     {
         Player player = CreatePlayer();
