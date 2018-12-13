@@ -45,5 +45,18 @@ public class EnemyStatsClass : FighterStatsClass
         }
     }
 
+    public override void AttackOpponent(FighterStatsClass opponent, bool CanBeDodged = true, bool ignoreTurnTime = false)
+    {
+        if (GameCtr != null)
+        {
+            if (!GameCtr.TakesPartInCurrentBattle(this))
+            {
+                Debug.LogError("Enemy that is not part of the current battle tried to attack the player!");
+            }
+        }
+        
+        base.AttackOpponent(opponent, CanBeDodged, ignoreTurnTime);
+    }
+
     #endregion Attack
 }

@@ -5933,11 +5933,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 114877764231116416, guid: b05e3196ec239d04f915aec87ccf748d,
-        type: 2}
-      propertyPath: stats.playerSpeed
-      value: 2.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b05e3196ec239d04f915aec87ccf748d, type: 2}
   m_IsPrefabAsset: 0

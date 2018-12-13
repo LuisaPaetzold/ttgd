@@ -18,6 +18,27 @@ public class Test_PMEnemy
 
 
     [UnityTest]
+    public IEnumerator Test_EnemyCanOnlyAttackIfPartOfCurrentBattle()
+    {
+        Player player = CreatePlayer();
+        Enemy enemyRight = CreateEnemy();
+        Enemy enemyWrong = CreateEnemy();
+
+        GameController gameCtr = CreateGameController(player);
+        enemyRight.GameCtr = gameCtr;
+        enemyWrong.GameCtr = gameCtr;
+        player.GameCtr = gameCtr;
+
+        yield return new WaitForEndOfFrame();
+
+        gameCtr.StartBattle(enemyRight);
+
+        enemyWrong.stats.AttackOpponent(player.stats, false, true);
+
+        LogAssert.Expect(LogType.Error, "Enemy that is not part of the current battle tried to attack the player!");
+    }
+
+    [UnityTest]
     public IEnumerator Test_HealthBarIsOnlyEnabledDuringBattle()
     {
         Player player = CreatePlayer();

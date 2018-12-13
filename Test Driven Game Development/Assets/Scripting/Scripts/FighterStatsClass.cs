@@ -171,13 +171,15 @@ public class FighterStatsClass
         }
     }
 
-    public void AttackOpponent(FighterStatsClass opponent, bool CanBeDodged = true, bool ignoreTurnTime = false)
+    public virtual void AttackOpponent(FighterStatsClass opponent, bool CanBeDodged = true, bool ignoreTurnTime = false)
     {
         if (!CanAttack() && !ignoreTurnTime)
         {
             Debug.LogWarning("Tried to attack an opponent when not allowed to do that!");
             return;
         }
+        currentTurnTime = 0;
+
         if (opponent == null)
         {
             Debug.LogWarning("Fighter tried to attack an opponent that's a nnullpointer. Can't attack non-existant opponents!");
@@ -188,7 +190,6 @@ public class FighterStatsClass
         }
         else
         {
-            currentTurnTime = 0;
             if (CanBeDodged)
             {
                 float dodgeRand = 1;

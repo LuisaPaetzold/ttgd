@@ -311,11 +311,11 @@ MonoBehaviour:
   stats:
     MaxHealth: 100
     LastBreathThreshold: 0.1
-    AttackDamage: 15
+    AttackDamage: 10
     ChargeDamageBoost: 1
     MaxAmountOfChargings: 3
-    DodgePropability: 0.1
-    TurnTime: 3
+    DodgePropability: 0.4
+    TurnTime: 2
     currentTurnTime: 0
     currentHealth: 100
     currentState: 0
@@ -324,6 +324,7 @@ MonoBehaviour:
     PointsToGain: 10
   healthBar: {fileID: 1502959572228554}
   turnTimeBar: {fileID: 1909795313975284}
+  autoAttack: 1
 --- !u!114 &114219176394840140
 MonoBehaviour:
   m_ObjectHideFlags: 1

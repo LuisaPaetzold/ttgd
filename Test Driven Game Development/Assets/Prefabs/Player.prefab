@@ -554,7 +554,7 @@ MonoBehaviour:
     AttackDamage: 20
     ChargeDamageBoost: 1
     MaxAmountOfChargings: 3
-    DodgePropability: 0.2
+    DodgePropability: 0.25
     TurnTime: 3
     currentTurnTime: 0
     currentHealth: 100
@@ -562,7 +562,7 @@ MonoBehaviour:
     oneTimeDamageBoost: 0
     dodged: {fileID: 1821901957689766}
     currentPoints: 0
-    playerSpeed: 1
+    playerSpeed: 2.5
   inventory:
     MaxItemSlots: 5
     equippedWeapon: {fileID: 0}

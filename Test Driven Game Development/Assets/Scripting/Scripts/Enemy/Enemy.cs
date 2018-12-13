@@ -48,15 +48,15 @@ public class Enemy : MonoBehaviour
             stats.UpdateTurnTime(staticService.GetDeltaTime());
         }
 
-        if (GameCtr != null && GameCtr.IsInBattle())
+        if (GameCtr != null
+            && GameCtr.IsInBattle()
+            && autoAttack
+            && stats.CanAttack()
+            && GameCtr.player != null
+            && GameCtr.player.stats.GetCurrentFighterState() != FighterState.dead
+            && GameCtr.TakesPartInCurrentBattle(this))
         {
-            if (stats.CanAttack() 
-                && autoAttack
-                && GameCtr.player != null 
-                && GameCtr.player.stats.GetCurrentFighterState() != FighterState.dead)
-            {
-                stats.AttackOpponent(GameCtr.player.stats);
-            }
+            stats.AttackOpponent(GameCtr.player.stats);
         }
     }
 

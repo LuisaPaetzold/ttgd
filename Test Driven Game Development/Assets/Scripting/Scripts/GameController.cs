@@ -128,6 +128,30 @@ public class GameController : MonoBehaviour, IGameController
         return currentEnemies;
     }
 
+    public bool TakesPartInCurrentBattle(EnemyStatsClass enemy)
+    {
+        foreach (Enemy e in GetCurrentEnemies())
+        {
+            if (e.stats == enemy)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool TakesPartInCurrentBattle(Enemy enemy)
+    {
+        foreach (Enemy e in GetCurrentEnemies())
+        {
+            if (e == enemy)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public bool IsInBattle()
     {
         return isInBattle;
@@ -177,4 +201,6 @@ public interface IGameController
     bool IsInBattle();
     void ReactToDodge(GameObject dodged);
     void HandlePlayerDeath();
+    bool TakesPartInCurrentBattle(EnemyStatsClass enemy);
+    bool TakesPartInCurrentBattle(Enemy enemy);
 }
