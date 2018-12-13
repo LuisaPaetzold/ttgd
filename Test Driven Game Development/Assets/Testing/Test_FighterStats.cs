@@ -408,5 +408,19 @@ public class Test_FighterStats
         LogAssert.Expect(LogType.Error, "ShowDodge() must be implemented inside the sub-class!");
     }
 
+    [Test]
+    public void Test_FighterCannotAttackWithoutWaitingTurnTime()
+    {
+        FighterStatsClass stats = new FighterStatsClass();
+        FighterStatsClass enemy = new FighterStatsClass();
+
+        Assert.IsFalse(stats.CanAttack(), "Fighter was able to attack without having to wait their turn time!");
+
+        stats.AttackOpponent(enemy);
+
+        LogAssert.Expect(LogType.Warning, "Tried to attack an opponent when not allowed to do that!");
+    }
+
+
     #endregion Attack
 }

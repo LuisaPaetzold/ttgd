@@ -73,8 +73,8 @@ public class Player : MonoBehaviour, IPlayer
 
 
         #region Movement
-        float horizontal = 2.5f * staticService.GetInputAxisRaw("Horizontal");
-        float vertical = 2.5f * (-1) * staticService.GetInputAxisRaw("Vertical");
+        float horizontal = staticService.GetInputAxisRaw("Horizontal");
+        float vertical = (-1) * staticService.GetInputAxisRaw("Vertical");
         /*RaycastHit groundCheck;
         //isGrounded = Physics.Raycast(this.transform.position + new Vector3(0, 0.5f, 0), Vector3.down, out groundCheck, 0.5f + 0.1f);
         if (transform.position.y < 0.1f)
@@ -98,7 +98,7 @@ public class Player : MonoBehaviour, IPlayer
         #endregion Movement
 
         stats.SetHealthBar(healthBar);
-
+        stats.UpdateTurnTime(staticService.GetDeltaTime());
     }
 
     public void OnTriggerEnter(Collider other)

@@ -11,6 +11,8 @@ public class FighterStatsClass
     public int MaxAmountOfChargings = 3;
     [Range(0, 1)]
     public float DodgePropability = 0.1f;
+    public float TurnTime = 3.0f;
+    public float currentTurnTime = 0;
 
     public int currentHealth;
 
@@ -147,8 +149,25 @@ public class FighterStatsClass
         return damage;
     }
 
+    public bool CanAttack()
+    {
+        return (currentTurnTime >= TurnTime);
+    }
+
+    public void UpdateTurnTime(float passedTime)
+    {
+        if (currentTurnTime < TurnTime)
+        {
+            currentTurnTime += TurnTime;
+        }
+    }
+
     public void AttackOpponent(FighterStatsClass opponent, bool CanBeDodged = true)
     {
+        if (!CanAttack())
+        {
+            Debug.LogWarning("Tried to attack an opponent when not allowed to do that!");
+        }
         if (opponent == null)
         {
             Debug.LogWarning("Fighter tried to attack an opponent that's a nnullpointer. Can't attack non-existant opponents!");

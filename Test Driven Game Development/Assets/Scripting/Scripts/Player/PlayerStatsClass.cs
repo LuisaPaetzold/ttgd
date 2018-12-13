@@ -9,7 +9,7 @@ public class PlayerStatsClass : FighterStatsClass
     private IPlayer playerAddition;
 
     public int currentPoints;
-    public float playerSpeed = 1.0f;
+    public float playerSpeed = 2.5f;
 
     #region Setup
     public PlayerStatsClass()

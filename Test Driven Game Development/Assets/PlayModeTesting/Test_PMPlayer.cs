@@ -98,6 +98,18 @@ public class Test_PMPlayer
         Assert.IsFalse(dodgedSign.gameObject.activeSelf, "Player dodged sign wasn't deactivated!");
     }
 
+    [UnityTest]
+    public IEnumerator Test_CanAttackAfterWaitingTurnTime()
+    {
+        Player player = CreatePlayer();
+        IUnityStaticService staticService = CreateUnityService(player.stats.TurnTime, 0, 0);
+        player.staticService = staticService;
+
+        yield return null;
+
+        Assert.IsTrue(player.stats.CanAttack(), "Player wasn't able to attack after waiting their turn time!");
+    }
+
     // --------------------- helper methods ----------------------------------------
 
     public Player CreatePlayer()
