@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour
     public EnemyStatsClass stats;
 
     public GameObject healthBar;
+    public IUnityStaticService staticService;
 
     void Start()
     {
@@ -25,11 +26,16 @@ public class Enemy : MonoBehaviour
         {
             stats.dodged.SetActive(false);
         }
+        if (staticService == null)  // only setup staticServe anew if it's not there already (a playmode test might have set a substitute object here that we don't want to replace)
+        {
+            staticService = new UnityStaticService();
+        }
     }
 
     void Update()
     {
         stats.SetHealthBar(healthBar);
+        stats.UpdateTurnTime(staticService.GetDeltaTime());
     }
 
     public bool IsAlive()

@@ -110,6 +110,38 @@ public class Test_PMPlayer
         Assert.IsTrue(player.stats.CanAttack(), "Player wasn't able to attack after waiting their turn time!");
     }
 
+    [UnityTest]
+    public IEnumerator Test_TurnTimeIsResetAfterAttack()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+        IUnityStaticService staticService = CreateUnityService(player.stats.TurnTime, 0, 0);
+        player.staticService = staticService;
+
+        yield return null;
+
+        player.stats.AttackOpponent(enemy.stats);
+
+        Assert.IsFalse(player.stats.CanAttack(), "Player turn time did not reset after their attack!");
+    }
+
+    [UnityTest]
+    public IEnumerator Test_TurnTimeIsResetEvenIfOpponentDodged()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+        enemy.stats.DodgePropability = 1;
+        IUnityStaticService staticService = CreateUnityService(player.stats.TurnTime, 0, 0);
+        player.staticService = staticService;
+
+        yield return null;
+
+        player.stats.AttackOpponent(enemy.stats);
+
+        Assert.AreEqual(enemy.stats.MaxHealth, enemy.stats.currentHealth, "Enemy did not dodge!");
+        Assert.IsFalse(player.stats.CanAttack(), "Player turn time did ot reset after an unsuccessful attack!");
+    }
+
     // --------------------- helper methods ----------------------------------------
 
     public Player CreatePlayer()

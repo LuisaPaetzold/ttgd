@@ -178,6 +178,7 @@ public class FighterStatsClass
         }
         else
         {
+            currentTurnTime = 0;
             if (CanBeDodged)
             {
                 float dodgeRand = 1;
