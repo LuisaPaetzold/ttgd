@@ -12,6 +12,12 @@ public class Player : MonoBehaviour, IPlayer
 
     public GameObject healthBar;
 
+
+    [Header("Gravity")]
+    public float verticalVelocity = 0;
+    public float gravity = 0.1f;
+    public bool isGrounded = true;
+
     void Start ()
     {
         if (GameCtr == null)
@@ -69,8 +75,26 @@ public class Player : MonoBehaviour, IPlayer
         #region Movement
         float horizontal = 2.5f * staticService.GetInputAxisRaw("Horizontal");
         float vertical = 2.5f * (-1) * staticService.GetInputAxisRaw("Vertical");
+        /*RaycastHit groundCheck;
+        //isGrounded = Physics.Raycast(this.transform.position + new Vector3(0, 0.5f, 0), Vector3.down, out groundCheck, 0.5f + 0.1f);
+        if (transform.position.y < 0.1f)
+        {
+            isGrounded = true;
+        }
+        if (isGrounded)
+        {
+            verticalVelocity = 0;
+            //verticalVelocity = gravity * Time.deltaTime;
+        }
+        
+        verticalVelocity += gravity * Time.deltaTime;
+        if (transform.position.y > 0.1f)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y - 0.01f, transform.position.z);
+        }*/
 
         transform.position += stats.CalcMovement(horizontal, vertical, staticService.GetDeltaTime());
+        
         #endregion Movement
 
         stats.SetHealthBar(healthBar);

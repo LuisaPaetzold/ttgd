@@ -54,6 +54,7 @@ public class GameController : MonoBehaviour, IGameController
     {
         isInBattle = true;
         currentEnemies.Add(enemy);
+        //player.GetComponent<Rigidbody>().isKinematic = false;
         player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z - 2);
         if (gameCam != null)
         {
@@ -79,6 +80,7 @@ public class GameController : MonoBehaviour, IGameController
             battleUI.SetActive(false);
         }
 
+        //player.GetComponent<Rigidbody>().isKinematic = true;
         player.OnEndBattle();
     }
 
@@ -123,7 +125,11 @@ public class GameController : MonoBehaviour, IGameController
                 yield return new WaitForSeconds(0.5f);
                 dodgeImg.CrossFadeAlpha(0, 0.5f, true);
                 yield return new WaitForSeconds(0.5f);
-                dodged.SetActive(false);
+                if (dodged != null)
+                {
+                    // check for nullpointer again as fighter might have died in the meantime
+                    dodged.SetActive(false);
+                }
             }
         }
     }
