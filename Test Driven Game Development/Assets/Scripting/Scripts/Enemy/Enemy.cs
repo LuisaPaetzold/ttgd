@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     public GameObject healthBar;
     public GameObject turnTimeBar;
 
+    public bool autoAttack = true;
 
     void Start()
     {
@@ -45,6 +46,17 @@ public class Enemy : MonoBehaviour
         if (GameCtr != null && GameCtr.IsInBattle())
         {
             stats.UpdateTurnTime(staticService.GetDeltaTime());
+        }
+
+        if (GameCtr != null && GameCtr.IsInBattle())
+        {
+            if (stats.CanAttack() 
+                && autoAttack
+                && GameCtr.player != null 
+                && GameCtr.player.stats.GetCurrentFighterState() != FighterState.dead)
+            {
+                stats.AttackOpponent(GameCtr.player.stats);
+            }
         }
     }
 

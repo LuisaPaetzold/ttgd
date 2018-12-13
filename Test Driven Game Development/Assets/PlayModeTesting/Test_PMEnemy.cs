@@ -111,6 +111,7 @@ public class Test_PMEnemy
         Enemy enemy = CreateEnemy();
         IUnityStaticService staticService = CreateUnityService(enemy.stats.TurnTime, 0, 0);
         enemy.staticService = staticService;
+        enemy.autoAttack = false;
 
         GameController gameCtr = CreateGameController(player);
         enemy.GameCtr = gameCtr;

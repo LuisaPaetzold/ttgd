@@ -10,6 +10,7 @@ public class Test_PMGameController
     [TearDown]
     public void TearDown()
     {
+        Time.timeScale = 1;
         foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
         {
             GameObject.Destroy(o);
@@ -144,6 +145,60 @@ public class Test_PMGameController
         Assert.AreEqual(camPos.y, cameraMock.transform.position.y, "Camera got moved on y axis when battle started!");
         Assert.AreNotEqual(camPos.z, cameraMock.transform.position.z, "Camera didn't get moved on z axis when battle started!");
         Assert.AreEqual(cameraMovedZ * 2, playerMovedZ, "Camera did not get moved half the distance the player was moved!");
+    }
+
+    [UnityTest]
+    public IEnumerator Test_BattleEndsWhenPlayerDies()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+        GameController gameCtr = CreateGameController(player);
+
+        gameCtr.StartBattle(enemy);
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsTrue(gameCtr.IsInBattle(), "Battle didn't even start when it should have!");
+
+        player.stats.ReceiveDamage(player.stats.MaxHealth);
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsFalse(gameCtr.IsInBattle(), "Battle did not end when player died!");
+
+    }
+
+    [UnityTest]
+    public IEnumerator Test_ShowsGameOverUIWhenPlayerDies()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+        GameController gameCtr = CreateGameController(player);
+        GameObject gameOverUI = CreateMockObjectWithName("GameOverUI");
+
+        gameCtr.StartBattle(enemy);
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsFalse(gameOverUI.activeSelf, "Game over UI wasn't deactivated on game start!");
+
+        player.stats.ReceiveDamage(player.stats.MaxHealth);
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsTrue(gameOverUI.activeSelf, "Game over UI wasn't activated when player died!");
+    }
+
+    [UnityTest]
+    public IEnumerator Test_StopsTimeScaleWhenPlayerDies()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+        GameController gameCtr = CreateGameController(player);
+
+        gameCtr.StartBattle(enemy);
+        yield return new WaitForEndOfFrame();
+
+        player.stats.ReceiveDamage(player.stats.MaxHealth);
+        yield return new WaitForEndOfFrame();
+
+        Assert.Zero(Time.timeScale, "Time scale wasn't set to 0 when the game ended!");
     }
 
     // --------------------- helper methods ----------------------------------------

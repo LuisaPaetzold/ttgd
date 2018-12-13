@@ -74,6 +74,7 @@ public class PlayerStatsClass : FighterStatsClass
     public override void HandleDeath()
     {
         base.HandleDeath();
+        playerAddition.GetGameController().HandlePlayerDeath();
         // End game? 
     }
     #endregion Health

@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour, IGameController
     internal GameObject battleUI;
     internal GameObject attackBtn;
     internal Button attackBtnScript;
+    internal GameObject gameOverUI;
     internal CameraFollow gameCam;
 
     void Start ()
@@ -22,6 +23,7 @@ public class GameController : MonoBehaviour, IGameController
 
         battleUI = GameObject.Find("BattleUI");
         attackBtn = GameObject.Find("AttackBtn");
+        gameOverUI = GameObject.Find("GameOverUI");
         if (battleUI != null)
         {
             battleUI.SetActive(false);
@@ -29,6 +31,11 @@ public class GameController : MonoBehaviour, IGameController
         if (attackBtn != null)
         {
             attackBtnScript = attackBtn.GetComponent<Button>();
+            attackBtnScript.interactable = false;
+        }
+        if (gameOverUI != null)
+        {
+            gameOverUI.SetActive(false);
         }
         
         if (gameCam == null)
@@ -131,8 +138,6 @@ public class GameController : MonoBehaviour, IGameController
         StartCoroutine("HandleDodge", dodged);
     }
 
-    #endregion Implementation IGameController
-
     private IEnumerator HandleDodge(GameObject dodged)
     {
         if (dodged != null)
@@ -152,6 +157,17 @@ public class GameController : MonoBehaviour, IGameController
             }
         }
     }
+
+    public void HandlePlayerDeath()
+    {
+        if (gameOverUI != null)
+        {
+            gameOverUI.SetActive(true);
+        }
+        Time.timeScale = 0;
+        EndBattle();
+    }
+    #endregion Implementation IGameController
 }
 
 public interface IGameController
@@ -160,4 +176,5 @@ public interface IGameController
     List<Enemy> GetCurrentEnemies();
     bool IsInBattle();
     void ReactToDodge(GameObject dodged);
+    void HandlePlayerDeath();
 }
