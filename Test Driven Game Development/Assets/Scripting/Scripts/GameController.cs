@@ -21,12 +21,11 @@ public class GameController : MonoBehaviour, IGameController
         playerStats = player.stats;
 
         battleUI = GameObject.Find("BattleUI");
+        attackBtn = GameObject.Find("AttackBtn");
         if (battleUI != null)
         {
             battleUI.SetActive(false);
         }
-
-        attackBtn = GameObject.Find("AttackBtn");
         if (attackBtn != null)
         {
             attackBtnScript = attackBtn.GetComponent<Button>();
@@ -36,7 +35,6 @@ public class GameController : MonoBehaviour, IGameController
         {
             gameCam = FindObjectOfType<CameraFollow>();
         }
-        
 	}
 	
 	void Update ()

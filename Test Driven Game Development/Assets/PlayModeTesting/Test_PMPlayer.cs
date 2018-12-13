@@ -125,6 +125,21 @@ public class Test_PMPlayer
     }
 
     [UnityTest]
+    public IEnumerator Test_PlayerStartsBattleWithTurnTimeAtZero()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+        yield return null;
+
+        GameController gameCtr = CreateGameController(player);
+        enemy.GameCtr = gameCtr;
+        player.GameCtr = gameCtr;
+        gameCtr.StartBattle(enemy);
+
+        Assert.Zero(player.stats.currentTurnTime, "Player did not start the battle with their turn time at 0!");
+    }
+
+    [UnityTest]
     public IEnumerator Test_CanAttackAfterWaitingTurnTime()
     {
         Player player = CreatePlayer();
@@ -139,6 +154,25 @@ public class Test_PMPlayer
         yield return new WaitForSeconds(0.1f);
 
         Assert.IsTrue(player.stats.CanAttack(), "Player wasn't able to attack after waiting their turn time!");
+    }
+
+    [UnityTest]
+    public IEnumerator Test_TurnTimeIsOnlyUpdatedInBattle()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+
+        yield return new WaitForEndOfFrame();
+        Assert.Zero(player.stats.currentTurnTime, "Player turn time was updated outside of battle!");
+
+        GameController gameCtr = CreateGameController(player);
+        enemy.GameCtr = gameCtr;
+        player.GameCtr = gameCtr;
+        gameCtr.StartBattle(enemy);
+
+        yield return new WaitForEndOfFrame();
+
+        Assert.NotZero(player.stats.currentTurnTime, "Player turn time was not updated inside battle!");
     }
 
     [UnityTest]
