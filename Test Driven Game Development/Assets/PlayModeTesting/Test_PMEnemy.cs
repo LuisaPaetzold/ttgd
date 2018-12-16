@@ -140,7 +140,7 @@ public class Test_PMEnemy
         gameCtr.StartBattle(enemy);
         yield return new WaitForSeconds(0.1f);
 
-        Assert.IsTrue(enemy.stats.CanAttack(), "Enemy wasn't able to attack after waiting their turn time!");
+        Assert.IsTrue(enemy.stats.CanAct(), "Enemy wasn't able to attack after waiting their turn time!");
     }
 
     [UnityTest]
@@ -174,7 +174,7 @@ public class Test_PMEnemy
 
         enemy.stats.AttackOpponent(player.stats, false, true);
 
-        Assert.IsFalse(enemy.stats.CanAttack(), "Enemy turn time did not reset after their attack!");
+        Assert.IsFalse(enemy.stats.CanAct(), "Enemy turn time did not reset after their attack!");
     }
 
     [UnityTest]
@@ -191,7 +191,7 @@ public class Test_PMEnemy
         enemy.stats.AttackOpponent(player.stats, true, true);
 
         Assert.AreEqual(player.stats.MaxHealth, player.stats.currentHealth, "Player did not dodge!");
-        Assert.IsFalse(enemy.stats.CanAttack(), "Enemy turn time did ot reset after an unsuccessful attack!");
+        Assert.IsFalse(enemy.stats.CanAct(), "Enemy turn time did ot reset after an unsuccessful attack!");
     }
 
     // --------------------- helper methods ----------------------------------------

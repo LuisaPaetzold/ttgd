@@ -187,7 +187,7 @@ public class Test_FighterStats
         int dummyEnemyLifeHeavyDamage = 100;
 
         dummyEnemyLifeNormalDamage -= stats.GetCurrentAttackDamage();
-        stats.UseChargeForDamageBoost();
+        stats.UseChargeForDamageBoost(true);
         dummyEnemyLifeHeavyDamage -= stats.GetCurrentAttackDamage();
 
         Assert.AreNotEqual(dummyEnemyLifeHeavyDamage, dummyEnemyLifeNormalDamage, "Heavy damage and normal attack damage are equal!");
@@ -203,7 +203,7 @@ public class Test_FighterStats
         int dummyEnemyLifeNormalDamage2 = 100;
 
         dummyEnemyLifeNormalDamage1 -= stats.GetCurrentAttackDamage();
-        stats.UseChargeForDamageBoost();
+        stats.UseChargeForDamageBoost(true);
         dummyEnemyLifeHeavyDamage -= stats.GetCurrentAttackDamage();
         dummyEnemyLifeNormalDamage2 -= stats.GetCurrentAttackDamage();
 
@@ -215,7 +215,7 @@ public class Test_FighterStats
     public void Test_FighterGetCurrentAttackDamageCanBeDisplayedWithoutReset()
     {
         FighterStatsClass stats = new FighterStatsClass();
-        stats.UseChargeForDamageBoost();
+        stats.UseChargeForDamageBoost(true);
         int chargedValueDisplayed = stats.GetCurrentAttackDamage(false);
         int chargedValueForAttack = stats.GetCurrentAttackDamage();
         int resettedValue = stats.GetCurrentAttackDamage(false);
@@ -230,13 +230,13 @@ public class Test_FighterStats
     {
         FighterStatsClass stats = new FighterStatsClass();
         int normalAttackValue = stats.GetCurrentAttackDamage(false);
-        stats.UseChargeForDamageBoost();
+        stats.UseChargeForDamageBoost(true);
         int firstBoostValue = stats.GetCurrentAttackDamage(false);
-        stats.UseChargeForDamageBoost();
+        stats.UseChargeForDamageBoost(true);
         int secondBoostValue = stats.GetCurrentAttackDamage(false);
-        stats.UseChargeForDamageBoost();
+        stats.UseChargeForDamageBoost(true);
         int thirdBoostValue = stats.GetCurrentAttackDamage(false);
-        stats.UseChargeForDamageBoost();
+        stats.UseChargeForDamageBoost(true);
         int forthBoostValue = stats.GetCurrentAttackDamage(false);
 
         // TODO: Rechnung irgendwie hier rausziehen?
@@ -414,7 +414,7 @@ public class Test_FighterStats
         FighterStatsClass stats = new FighterStatsClass();
         FighterStatsClass enemy = new FighterStatsClass();
 
-        Assert.IsFalse(stats.CanAttack(), "Fighter was able to attack without having to wait their turn time!");
+        Assert.IsFalse(stats.CanAct(), "Fighter was able to attack without having to wait their turn time!");
 
         stats.AttackOpponent(enemy);
 

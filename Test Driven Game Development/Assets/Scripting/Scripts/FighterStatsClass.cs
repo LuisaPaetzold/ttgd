@@ -158,7 +158,7 @@ public class FighterStatsClass
         return damage;
     }
 
-    public bool CanAttack()
+    public bool CanAct()
     {
         return (currentTurnTime >= TurnTime);
     }
@@ -173,7 +173,7 @@ public class FighterStatsClass
 
     public virtual void AttackOpponent(FighterStatsClass opponent, bool CanBeDodged = true, bool ignoreTurnTime = false)
     {
-        if (!CanAttack() && !ignoreTurnTime)
+        if (!CanAct() && !ignoreTurnTime)
         {
             Debug.LogWarning("Tried to attack an opponent when not allowed to do that!");
             return;
@@ -230,6 +230,11 @@ public class FighterStatsClass
         return MaxAmountOfChargings;
     }
 
+    public int GetCurrentAmountOfChargings()
+    {
+        return Mathf.FloorToInt(oneTimeDamageBoost / ChargeDamageBoost);
+    }
+
     public void AddLastingDamageBoost(string source, float mod)
     {
         if (lastingDamageBoosts.ContainsKey(source))
@@ -248,10 +253,16 @@ public class FighterStatsClass
         lastingDamageBoosts.Remove(source);
     }
 
-    public void UseChargeForDamageBoost()
+    public void UseChargeForDamageBoost(bool ignoreTurnTime = false)
     {
+        if (!CanAct() && !ignoreTurnTime)
+        {
+            Debug.LogWarning("Tried to charge when not allowed to do that!");
+            return;
+        }
         if (oneTimeDamageBoost < MaxAmountOfChargings * ChargeDamageBoost)
         {
+            currentTurnTime = 0;
             oneTimeDamageBoost += ChargeDamageBoost;
         }
     }

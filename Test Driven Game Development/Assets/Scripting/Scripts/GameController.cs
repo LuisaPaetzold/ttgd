@@ -12,7 +12,10 @@ public class GameController : MonoBehaviour, IGameController
 
     internal GameObject battleUI;
     internal GameObject attackBtn;
+    internal GameObject chargeBtn;
     internal Button attackBtnScript;
+    internal Button chargeBtnScript;
+    internal Text chargeBtnText;
     internal GameObject gameOverUI;
     internal CameraFollow gameCam;
 
@@ -23,6 +26,7 @@ public class GameController : MonoBehaviour, IGameController
 
         battleUI = GameObject.Find("BattleUI");
         attackBtn = GameObject.Find("AttackBtn");
+        chargeBtn = GameObject.Find("ChargeBtn");
         gameOverUI = GameObject.Find("GameOverUI");
         if (battleUI != null)
         {
@@ -31,7 +35,24 @@ public class GameController : MonoBehaviour, IGameController
         if (attackBtn != null)
         {
             attackBtnScript = attackBtn.GetComponent<Button>();
-            attackBtnScript.interactable = false;
+            if (attackBtnScript != null)
+            {
+                attackBtnScript.interactable = false;
+            }
+        }
+        if (chargeBtn != null)
+        {
+            chargeBtnScript = chargeBtn.GetComponent<Button>();
+            if (chargeBtnScript != null)
+            {
+                chargeBtnScript.interactable = false;
+                Transform textObject = chargeBtnScript.transform.GetChild(0);
+                if (textObject != null)
+                {
+                    chargeBtnText = textObject.GetComponent<Text>();
+                }
+            }
+            
         }
         if (gameOverUI != null)
         {
@@ -64,13 +85,36 @@ public class GameController : MonoBehaviour, IGameController
 
             if (attackBtnScript != null)
             {
-                if (player.stats.CanAttack() && !attackBtnScript.IsInteractable())
+                if (player.stats.CanAct() && !attackBtnScript.IsInteractable())
                 {
                     attackBtnScript.interactable = true;
                 }
-                else if (!player.stats.CanAttack() && attackBtnScript.IsInteractable())
+                else if (!player.stats.CanAct() && attackBtnScript.IsInteractable())
                 {
                     attackBtnScript.interactable = false;
+                }
+            }
+
+            if (chargeBtnScript != null)
+            {
+                if (chargeBtnText != null)
+                {
+                    chargeBtnText.text = "Charge (" + player.stats.GetCurrentAmountOfChargings() + "x)";
+                }
+                
+                if (!chargeBtnScript.IsInteractable())
+                {
+                    if (player.stats.CanAct() && player.stats.GetCurrentAmountOfChargings() < player.stats.GetMaxAmountOfChargings())
+                    {
+                        chargeBtnScript.interactable = true;
+                    }
+                }
+                else if (chargeBtnScript.IsInteractable())
+                {
+                    if (!player.stats.CanAct() || player.stats.GetCurrentAmountOfChargings() >= player.stats.GetMaxAmountOfChargings())
+                    {
+                        chargeBtnScript.interactable = false;
+                    }
                 }
             }
         }
@@ -113,6 +157,11 @@ public class GameController : MonoBehaviour, IGameController
     public void PlayerAttackEnemy()
     {
         playerStats.AttackOpponent(currentEnemies[0].stats);
+    }
+
+    public void PlayerChargeForBoost()
+    {
+        playerStats.UseChargeForDamageBoost();
     }
 
 

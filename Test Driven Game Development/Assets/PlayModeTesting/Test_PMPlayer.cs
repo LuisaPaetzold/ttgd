@@ -153,7 +153,7 @@ public class Test_PMPlayer
         gameCtr.StartBattle(enemy);
         yield return new WaitForSeconds(0.1f);
 
-        Assert.IsTrue(player.stats.CanAttack(), "Player wasn't able to attack after waiting their turn time!");
+        Assert.IsTrue(player.stats.CanAct(), "Player wasn't able to attack after waiting their turn time!");
     }
 
     [UnityTest]
@@ -183,11 +183,29 @@ public class Test_PMPlayer
         IUnityStaticService staticService = CreateUnityService(player.stats.TurnTime, 0, 0);
         player.staticService = staticService;
 
-        yield return null;
+        yield return new WaitForEndOfFrame();
 
         player.stats.AttackOpponent(enemy.stats, false, true);
 
-        Assert.IsFalse(player.stats.CanAttack(), "Player turn time did not reset after their attack!");
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsFalse(player.stats.CanAct(), "Player turn time did not reset after their attack!");
+    }
+
+    [UnityTest]
+    public IEnumerator Test_TurnTimeIsResetAfterCharge()
+    {
+        Player player = CreatePlayer();
+        IUnityStaticService staticService = CreateUnityService(player.stats.TurnTime, 0, 0);
+        player.staticService = staticService;
+
+        yield return new WaitForEndOfFrame();
+
+        player.stats.UseChargeForDamageBoost();
+
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsFalse(player.stats.CanAct(), "Player turn time did not reset after charging!");
     }
 
     [UnityTest]
@@ -204,7 +222,7 @@ public class Test_PMPlayer
         player.stats.AttackOpponent(enemy.stats, true, true);
 
         Assert.AreEqual(enemy.stats.MaxHealth, enemy.stats.currentHealth, "Enemy did not dodge!");
-        Assert.IsFalse(player.stats.CanAttack(), "Player turn time did ot reset after an unsuccessful attack!");
+        Assert.IsFalse(player.stats.CanAct(), "Player turn time did ot reset after an unsuccessful attack!");
     }
 
     // --------------------- helper methods ----------------------------------------

@@ -51,7 +51,7 @@ public class Enemy : MonoBehaviour
         if (GameCtr != null
             && GameCtr.IsInBattle()
             && autoAttack
-            && stats.CanAttack()
+            && stats.CanAct()
             && GameCtr.player != null
             && GameCtr.player.stats.GetCurrentFighterState() != FighterState.dead
             && GameCtr.TakesPartInCurrentBattle(this))
