@@ -315,7 +315,7 @@ MonoBehaviour:
     ChargeDamageBoost: 1
     MaxAmountOfChargings: 3
     DodgePropability: 0.15
-    TurnTime: 5
+    TurnTime: 6
     currentTurnTime: 0
     currentHealth: 100
     currentState: 0

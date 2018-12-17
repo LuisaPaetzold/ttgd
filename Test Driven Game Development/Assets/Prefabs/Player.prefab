@@ -552,7 +552,7 @@ MonoBehaviour:
     MaxHealth: 200
     LastBreathThreshold: 0.15
     AttackDamage: 20
-    ChargeDamageBoost: 1
+    ChargeDamageBoost: 1.5
     MaxAmountOfChargings: 3
     DodgePropability: 0.25
     TurnTime: 3
