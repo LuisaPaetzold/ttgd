@@ -91,6 +91,7 @@ GameObject:
   - component: {fileID: 400010}
   - component: {fileID: 3300006}
   - component: {fileID: 2300006}
+  - component: {fileID: 114338390199424288}
   m_Layer: 0
   m_Name: SkyDome
   m_TagString: Untagged
@@ -171,8 +172,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100010}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 278.46155, y: -41.230984, z: 28.925968}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children:
   - {fileID: 400008}
@@ -360,3 +361,16 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100010}
   m_IsPrefabAsset: 1
+--- !u!114 &114338390199424288
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4958c5cf92705634faf6d5f14d655b70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skyMat: {fileID: 2100000, guid: e68f77e240a7f8643b5cc4253dc37516, type: 2}
+  stepSize: 0.00015
