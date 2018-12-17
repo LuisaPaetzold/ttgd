@@ -178,7 +178,10 @@ public class FighterStatsClass
             Debug.LogWarning("Tried to attack an opponent when not allowed to do that!");
             return;
         }
-        currentTurnTime = 0;
+        if (!ignoreTurnTime)
+        {
+            currentTurnTime = 0;
+        }
 
         if (opponent == null)
         {
@@ -262,7 +265,11 @@ public class FighterStatsClass
         }
         if (oneTimeDamageBoost < MaxAmountOfChargings * ChargeDamageBoost)
         {
-            currentTurnTime = 0;
+            if (!ignoreTurnTime)
+            {
+                currentTurnTime = 0;
+            }
+            
             oneTimeDamageBoost += ChargeDamageBoost;
         }
     }

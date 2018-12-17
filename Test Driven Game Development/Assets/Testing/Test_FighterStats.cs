@@ -416,7 +416,7 @@ public class Test_FighterStats
 
         Assert.IsFalse(stats.CanAct(), "Fighter was able to attack without having to wait their turn time!");
 
-        stats.AttackOpponent(enemy);
+        stats.AttackOpponent(enemy, false);
 
         LogAssert.Expect(LogType.Warning, "Tried to attack an opponent when not allowed to do that!");
     }

@@ -23,7 +23,7 @@ public class Test_PMGameController
     public IEnumerator Test_EnemiesAreDeletedWhenTheyDie()
     {
         Player player = CreatePlayer();
-        Enemy enemy = CreateEnemy();
+        Enemy enemy = CreateEnemy(false);
         GameController gameCtr = CreateGameController(player);
 
         gameCtr.StartBattle(enemy);
@@ -39,7 +39,7 @@ public class Test_PMGameController
     public IEnumerator Test_BattleEndsAfterAllEnemiesDied()
     {
         Player player = CreatePlayer();
-        Enemy enemy = CreateEnemy();
+        Enemy enemy = CreateEnemy(false);
         GameController gameCtr = CreateGameController(player);
 
         gameCtr.StartBattle(enemy);
@@ -57,7 +57,7 @@ public class Test_PMGameController
     public IEnumerator Test_BattleUIIsOnlyEnabledDuringBattle()
     {
         Player player = CreatePlayer();
-        Enemy enemy = CreateEnemy();
+        Enemy enemy = CreateEnemy(false);
         GameObject battleUI = CreateMockObjectWithName("BattleUI");
 
         GameController gameCtr = CreateGameController(player);
@@ -77,13 +77,11 @@ public class Test_PMGameController
     }
 
     [UnityTest]
-    public IEnumerator Test_AttackButtonOnlyInteractableIfCanAttack()
+    public IEnumerator Test_AttackButtonOnlyInteractableIfCanAct()
     {
         Player player = CreatePlayer();
-        Enemy enemy = CreateEnemy();
+        Enemy enemy = CreateEnemy(false);
         enemy.stats.currentHealth = 1000;
-        //IUnityStaticService staticService = CreateUnityService(player.stats.TurnTime, 0, 0);
-        //player.staticService = staticService;
         Button attackBtnScript = CreateMockObjectWithName("AttackBtn").AddComponent<Button>();
 
         GameController gameCtr = CreateGameController(player);
@@ -98,16 +96,100 @@ public class Test_PMGameController
         Assert.IsTrue(attackBtnScript.IsInteractable(), "Attack Button wasn't interactable after the player waited their turn time!");
 
         player.stats.AttackOpponent(enemy.stats, false);
+        yield return new WaitForEndOfFrame(); yield return new WaitForEndOfFrame();
+
+        Assert.IsFalse(attackBtnScript.IsInteractable(), "Attack Button wasn't reset to not interactable after the player attacked!");
+    }
+
+    [UnityTest]
+    public IEnumerator Test_ChargeButtonOnlyInteractableIfCanAct()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy(false);
+        Button chargeBtnScript = CreateMockObjectWithName("ChargeBtn").AddComponent<Button>();
+
+        GameController gameCtr = CreateGameController(player);
+        yield return new WaitForEndOfFrame();
+        gameCtr.StartBattle(enemy);
         yield return new WaitForEndOfFrame();
 
-        //Assert.IsFalse(attackBtnScript.IsInteractable(), "Attack Button wasn't reset to not interactable after the player attacked!");
+        Assert.IsFalse(chargeBtnScript.IsInteractable(), "Charge Button was interactable before the player waited their turn time!");
+
+        yield return new WaitForSeconds(3);
+
+        Assert.IsTrue(chargeBtnScript.IsInteractable(), "Charge Button wasn't interactable after the player waited their turn time!");
+
+        player.stats.UseChargeForDamageBoost();
+        yield return new WaitForEndOfFrame(); yield return new WaitForEndOfFrame();
+
+        Assert.IsFalse(chargeBtnScript.IsInteractable(), "Charge Button wasn't reset to not interactable after the player attacked!");
+    }
+
+    [UnityTest]
+    public IEnumerator Test_ChargeButtonOnlyInteractableIfChargeCountBelowMax()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy(false);
+        Button chargeBtnScript = CreateMockObjectWithName("ChargeBtn").AddComponent<Button>();
+
+        GameController gameCtr = CreateGameController(player);
+        yield return new WaitForEndOfFrame();
+        gameCtr.StartBattle(enemy);
+
+        yield return new WaitForSeconds(3);
+
+        Assert.IsTrue(chargeBtnScript.IsInteractable(), "Charge Button wasn't interactable after the player waited their turn time!");
+
+        for (int i = 0; i < player.stats.GetMaxAmountOfChargings(); i++)
+        {
+            player.stats.UseChargeForDamageBoost(true);
+        }
+
+        yield return new WaitForEndOfFrame(); yield return new WaitForEndOfFrame();
+
+        Assert.IsFalse(chargeBtnScript.IsInteractable(), "Charge Button wasn't reset to not interactable when the player already charged the max amount of times!");
+
+        player.stats.AttackOpponent(enemy.stats, false, true);
+        yield return new WaitForEndOfFrame(); yield return new WaitForEndOfFrame();
+
+        Assert.IsTrue(chargeBtnScript.IsInteractable(), "Charge Button wasn't set to interactable after the player fell back to zero chargings");
+    }
+
+    [UnityTest]
+    public IEnumerator Test_ChargeButtonDisplaysCurrentChargeCount()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy(false);
+        Button chargeBtnScript = CreateMockObjectWithName("ChargeBtn").AddComponent<Button>();
+        Text chargeBtnText = new GameObject().AddComponent<Text>();
+        chargeBtnText.transform.SetParent(chargeBtnScript.transform);
+
+        GameController gameCtr = CreateGameController(player);
+        yield return new WaitForEndOfFrame();
+        gameCtr.StartBattle(enemy);
+
+        yield return new WaitForEndOfFrame(); yield return new WaitForEndOfFrame();
+
+        Assert.IsTrue(chargeBtnText.text.Contains(player.stats.GetCurrentAmountOfChargings().ToString()), "Charge Button doesn't display current charge amount of 0 after start!");
+
+        for (int i = 0; i < player.stats.GetMaxAmountOfChargings(); i++)
+        {
+            player.stats.UseChargeForDamageBoost(true);
+            yield return new WaitForEndOfFrame(); yield return new WaitForEndOfFrame();
+            Assert.IsTrue(chargeBtnText.text.Contains(player.stats.GetCurrentAmountOfChargings().ToString()), "Charge Button doesn't display current charge amount after charging!");
+        }
+
+        player.stats.AttackOpponent(enemy.stats, false, true);
+        yield return new WaitForEndOfFrame(); yield return new WaitForEndOfFrame();
+
+        Assert.IsTrue(chargeBtnText.text.Contains(player.stats.GetCurrentAmountOfChargings().ToString()), "Charge Button doesn't display current charge amount of 0 after attacking!");
     }
 
     [UnityTest]
     public IEnumerator Test_PlayerOnlyGetsTeleportedBackwardsOnZAxisWhenBattleStarts()
     {
         Player player = CreatePlayer();
-        Enemy enemy = CreateEnemy();
+        Enemy enemy = CreateEnemy(false);
         GameController gameCtr = CreateGameController(player);
 
         Vector3 playerPos = new Vector3(2, 3, 4);
@@ -126,7 +208,7 @@ public class Test_PMGameController
     public IEnumerator Test_CameraOnlyGetsTeleportedBackwardsHalfTheDistance()
     {
         Player player = CreatePlayer();
-        Enemy enemy = CreateEnemy();
+        Enemy enemy = CreateEnemy(false);
         CameraFollow cameraMock = CreateCameraMock();
         GameController gameCtr = CreateGameController(player);
 
@@ -151,7 +233,7 @@ public class Test_PMGameController
     public IEnumerator Test_BattleEndsWhenPlayerDies()
     {
         Player player = CreatePlayer();
-        Enemy enemy = CreateEnemy();
+        Enemy enemy = CreateEnemy(false);
         GameController gameCtr = CreateGameController(player);
 
         gameCtr.StartBattle(enemy);
@@ -170,7 +252,7 @@ public class Test_PMGameController
     public IEnumerator Test_ShowsGameOverUIWhenPlayerDies()
     {
         Player player = CreatePlayer();
-        Enemy enemy = CreateEnemy();
+        Enemy enemy = CreateEnemy(false);
         GameController gameCtr = CreateGameController(player);
         GameObject gameOverUI = CreateMockObjectWithName("GameOverUI");
 
@@ -189,7 +271,7 @@ public class Test_PMGameController
     public IEnumerator Test_StopsTimeScaleWhenPlayerDies()
     {
         Player player = CreatePlayer();
-        Enemy enemy = CreateEnemy();
+        Enemy enemy = CreateEnemy(false);
         GameController gameCtr = CreateGameController(player);
 
         gameCtr.StartBattle(enemy);
@@ -211,10 +293,11 @@ public class Test_PMGameController
         return p;
     }
 
-    public Enemy CreateEnemy()
+    public Enemy CreateEnemy(bool autoAttack)
     {
         Enemy e = new GameObject().AddComponent<Enemy>();
         e.stats = new EnemyStatsClass();
+        e.autoAttack = autoAttack;
         return e;
     }
 

@@ -46,10 +46,13 @@ public class GameController : MonoBehaviour, IGameController
             if (chargeBtnScript != null)
             {
                 chargeBtnScript.interactable = false;
-                Transform textObject = chargeBtnScript.transform.GetChild(0);
-                if (textObject != null)
+                if (chargeBtnScript.transform.childCount > 0)
                 {
-                    chargeBtnText = textObject.GetComponent<Text>();
+                    Transform textObject = chargeBtnScript.transform.GetChild(0);
+                    if (textObject != null)
+                    {
+                        chargeBtnText = textObject.GetComponent<Text>();
+                    }
                 }
             }
             
