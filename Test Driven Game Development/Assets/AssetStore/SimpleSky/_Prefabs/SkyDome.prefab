@@ -373,4 +373,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skyMat: {fileID: 2100000, guid: e68f77e240a7f8643b5cc4253dc37516, type: 2}
-  stepSize: 0.00015
+  stepSize: 0.000155
+  sceneLight: {fileID: 0}
+  lightStepMultiplier: 1.4

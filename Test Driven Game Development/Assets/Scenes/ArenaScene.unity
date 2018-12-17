@@ -4009,6 +4009,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114338390199424288, guid: d0223f77114284b47a0e8b317e71e4dc,
+        type: 2}
+      propertyPath: sceneLight
+      value: 
+      objectReference: {fileID: 170076734}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0223f77114284b47a0e8b317e71e4dc, type: 2}
   m_IsPrefabAsset: 0
