@@ -16,6 +16,8 @@ public class GameController : MonoBehaviour, IGameController
     internal Button attackBtnScript;
     internal Button chargeBtnScript;
     internal Text chargeBtnText;
+    internal GameObject gameUI;
+    internal Text pointsText;
     internal GameObject gameOverUI;
     internal CameraFollow gameCam;
 
@@ -27,6 +29,7 @@ public class GameController : MonoBehaviour, IGameController
         battleUI = GameObject.Find("BattleUI");
         attackBtn = GameObject.Find("AttackBtn");
         chargeBtn = GameObject.Find("ChargeBtn");
+        gameUI = GameObject.Find("GameUI");
         gameOverUI = GameObject.Find("GameOverUI");
         if (battleUI != null)
         {
@@ -56,6 +59,18 @@ public class GameController : MonoBehaviour, IGameController
                 }
             }
             
+        }
+        if (gameUI != null)
+        {
+            Transform textObj = gameUI.transform.Find("PointsText");
+            if (textObj != null)
+            {
+                pointsText = textObj.gameObject.GetComponent<Text>();
+                if (pointsText != null)
+                {
+                    pointsText.text = "0";
+                }
+            }
         }
         if (gameOverUI != null)
         {
@@ -121,7 +136,12 @@ public class GameController : MonoBehaviour, IGameController
                 }
             }
         }
-	}
+
+        if (pointsText != null)
+        {
+            pointsText.text = player.stats.GetCurrentPoints().ToString();
+        }
+    }
 
     public void StartBattle(Enemy enemy)
     {

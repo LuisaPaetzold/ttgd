@@ -54,6 +54,28 @@ public class Test_PMGameController
     }
 
     [UnityTest]
+    public IEnumerator Test_GameUIDisplayCurrentPoints()
+    {
+        Player player = CreatePlayer();
+        GameObject gameUI = CreateMockObjectWithName("GameUI");
+        Text pointsText = CreateMockObjectWithName("PointsText").AddComponent<Text>();
+        pointsText.transform.SetParent(gameUI.transform);
+
+        GameController gameCtr = CreateGameController(player);
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsTrue(pointsText.text.Contains(player.stats.GetCurrentPoints().ToString()), "Game UI does not display current points after game start!");
+        gameCtr.GetPlayerStats().ModifyPoints(10);
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsTrue(pointsText.text.Contains(player.stats.GetCurrentPoints().ToString()), "Game UI does not display current points after adding points!");
+        player.stats.ModifyPoints(-10);
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsTrue(pointsText.text.Contains(player.stats.GetCurrentPoints().ToString()), "Game UI does not display current points after losing points!");
+    }
+
+    [UnityTest]
     public IEnumerator Test_BattleUIIsOnlyEnabledDuringBattle()
     {
         Player player = CreatePlayer();
