@@ -45,4 +45,9 @@ public class SkyController : MonoBehaviour {
             Mathf.Clamp01(sceneLight.intensity);
         }
 	}
+
+    private void OnApplicationQuit()
+    {
+        skyMat.mainTextureOffset = new Vector2(0, 0);
+    }
 }

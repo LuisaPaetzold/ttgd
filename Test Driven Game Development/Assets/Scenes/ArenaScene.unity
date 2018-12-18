@@ -4014,22 +4014,6 @@ Prefab:
       propertyPath: sceneLight
       value: 
       objectReference: {fileID: 170076734}
-    - target: {fileID: 400006, guid: d0223f77114284b47a0e8b317e71e4dc, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400006, guid: d0223f77114284b47a0e8b317e71e4dc, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: -0.24577093
-      objectReference: {fileID: 0}
-    - target: {fileID: 400006, guid: d0223f77114284b47a0e8b317e71e4dc, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0.9693279
-      objectReference: {fileID: 0}
-    - target: {fileID: 400006, guid: d0223f77114284b47a0e8b317e71e4dc, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -28.455002
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0223f77114284b47a0e8b317e71e4dc, type: 2}
   m_IsPrefabAsset: 0
