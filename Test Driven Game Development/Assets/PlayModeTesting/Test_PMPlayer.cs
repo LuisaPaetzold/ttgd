@@ -148,10 +148,11 @@ public class Test_PMPlayer
         player.staticService = staticService;
 
         GameController gameCtr = CreateGameController(player);
+        yield return new WaitForEndOfFrame();
         enemy.GameCtr = gameCtr;
         player.GameCtr = gameCtr;
         gameCtr.StartBattle(enemy);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForEndOfFrame();
 
         Assert.IsTrue(player.stats.CanAct(), "Player wasn't able to attack after waiting their turn time!");
     }
