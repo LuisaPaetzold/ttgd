@@ -7318,7 +7318,7 @@ Prefab:
         type: 2}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: d05c65343761305459dd4f72d1f51309, type: 2}
+      objectReference: {fileID: 9100000, guid: 84f9d613a6aa6934d8510a542fadac39, type: 2}
     - target: {fileID: 4931337058853592, guid: 5b5b1958cdf88ce49989e326859b9572, type: 2}
       propertyPath: m_LocalRotation.x
       value: -0.013919361
@@ -7326,6 +7326,21 @@ Prefab:
     - target: {fileID: 4931337058853592, guid: 5b5b1958cdf88ce49989e326859b9572, type: 2}
       propertyPath: m_LocalRotation.z
       value: -0.010662489
+      objectReference: {fileID: 0}
+    - target: {fileID: 95382778294392932, guid: 5b5b1958cdf88ce49989e326859b9572,
+        type: 2}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: 445581dbfbbea06408d552fa1aca77fc, type: 3}
+    - target: {fileID: 95382778294392932, guid: 5b5b1958cdf88ce49989e326859b9572,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 95382778294392932, guid: 5b5b1958cdf88ce49989e326859b9572,
+        type: 2}
+      propertyPath: m_CullingMode
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5b5b1958cdf88ce49989e326859b9572, type: 2}
