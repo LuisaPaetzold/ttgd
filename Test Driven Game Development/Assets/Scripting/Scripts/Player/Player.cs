@@ -26,8 +26,17 @@ public class Player : MonoBehaviour, IPlayer
             GameCtr = FindObjectOfType<GameController>();
         }
 
+        if (stats == null)
+        {
+            stats = new PlayerStatsClass();
+        }
         stats.SetUpPlayerStats(this);
+        if (inventory == null)
+        {
+            inventory = new PlayerInventoryClass();
+        }
         inventory.SetUpInventory(this);
+
         if (staticService == null)  // only setup staticServe anew if it's not there already (a playmode test might have set a substitute object here that we don't want to replace)
         {
             staticService = new UnityStaticService();

@@ -20,7 +20,13 @@ public class Enemy : MonoBehaviour
         {
             GameCtr = FindObjectOfType<GameController>();
         }
+
+        if (stats == null)
+        {
+            stats = new EnemyStatsClass();
+        }
         stats.SetUpEnemyStats(GameCtr);
+
         if (healthBar != null)
         {
             healthBar.transform.parent.gameObject.SetActive(false);

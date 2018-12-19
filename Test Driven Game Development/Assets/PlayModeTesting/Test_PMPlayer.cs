@@ -17,6 +17,21 @@ public class Test_PMPlayer
         }
     }
 
+    [UnityTest]
+    public IEnumerator Test_PlayerCreatesInventoryIfNotSet()
+    {
+        Player player = CreatePlayer(false);
+        yield return null;
+        Assert.IsNotNull(player.inventory, "Player did not have an inventory after game start!");
+    }
+
+    [UnityTest]
+    public IEnumerator Test_PlayerCreatesStatsIfNotSet()
+    {
+        Player player = CreatePlayer(false);
+        yield return null;
+        Assert.IsNotNull(player.stats, "Player did not have stats after game start!");
+    }
 
     [UnityTest]
     public IEnumerator Test_PlayerMovesAlongZAxisForHorizontalInput()
@@ -229,11 +244,14 @@ public class Test_PMPlayer
 
     // --------------------- helper methods ----------------------------------------
 
-    public Player CreatePlayer()
+    public Player CreatePlayer(bool setUpComponentsInTest = true)
     {
         Player p = new GameObject().AddComponent<Player>();
-        p.stats = new PlayerStatsClass();
-        p.inventory = new PlayerInventoryClass();
+        if (setUpComponentsInTest)
+        {
+            p.stats = new PlayerStatsClass();
+            p.inventory = new PlayerInventoryClass();
+        }
         return p;
     }
 

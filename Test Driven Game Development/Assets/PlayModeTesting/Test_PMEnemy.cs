@@ -17,6 +17,13 @@ public class Test_PMEnemy
         }
     }
 
+    [UnityTest]
+    public IEnumerator Test_EnemyCreatesStatsIfNotSet()
+    {
+        Enemy enemy = CreateEnemy(false);
+        yield return null;
+        Assert.IsNotNull(enemy.stats, "Enemy did not have stats after game start!");
+    }
 
     [UnityTest]
     public IEnumerator Test_EnemyCanOnlyAttackIfPartOfCurrentBattle()
@@ -214,10 +221,13 @@ public class Test_PMEnemy
         return p;
     }
 
-    public Enemy CreateEnemy()
+    public Enemy CreateEnemy(bool setUpComponentsInTest = true)
     {
         Enemy e = new GameObject().AddComponent<Enemy>();
-        e.stats = new EnemyStatsClass();
+        if (setUpComponentsInTest)
+        {
+            e.stats = new EnemyStatsClass();
+        }
         return e;
     }
 
