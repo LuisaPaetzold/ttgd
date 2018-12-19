@@ -77,4 +77,16 @@ public class Enemy : MonoBehaviour
         }
         stats.currentTurnTime = 0;
     }
+
+    public void OnEndBattle()
+    {
+        if (healthBar != null)
+        {
+            healthBar.transform.parent.gameObject.SetActive(false);
+        }
+        if (turnTimeBar != null)
+        {
+            turnTimeBar.transform.parent.gameObject.SetActive(false);
+        }
+    }
 }

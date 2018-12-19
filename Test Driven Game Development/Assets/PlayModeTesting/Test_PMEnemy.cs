@@ -10,6 +10,7 @@ public class Test_PMEnemy
     [TearDown]
     public void TearDown()
     {
+        Time.timeScale = 1;
         foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
         {
             GameObject.Destroy(o);
@@ -43,6 +44,7 @@ public class Test_PMEnemy
     {
         Player player = CreatePlayer();
         Enemy enemy = CreateEnemy();
+        enemy.stats.AttackDamage = player.stats.GetCurrentHealth();
         GameObject healthBar = new GameObject();
         GameObject healthBarParent = new GameObject();
         healthBar.transform.parent = healthBarParent.transform;
@@ -57,6 +59,14 @@ public class Test_PMEnemy
         yield return new WaitForEndOfFrame();
 
         Assert.IsTrue(healthBarParent.activeSelf, "Enemy health bar wasn't active during a battle!");
+
+        //player.stats.ReceiveDamage(player.stats.GetCurrentHealth());
+        //enemy.stats.AttackOpponent(player.stats);
+
+        player.stats.ReceiveDamage(player.stats.MaxHealth);
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsFalse(healthBarParent.activeSelf, "Enemy health bar didn't get deactivated again after a battle ended!");
     }
 
     [UnityTest]

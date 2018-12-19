@@ -175,6 +175,13 @@ public class GameController : MonoBehaviour, IGameController
 
         //player.GetComponent<Rigidbody>().isKinematic = true;
         player.OnEndBattle();
+        foreach (Enemy e in currentEnemies)
+        {
+            if (e != null)
+            {
+                e.OnEndBattle();
+            }
+        }
     }
 
     public void PlayerAttackEnemy()

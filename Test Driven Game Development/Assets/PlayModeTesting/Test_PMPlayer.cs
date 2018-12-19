@@ -10,6 +10,7 @@ public class Test_PMPlayer
     [TearDown]
     public void TearDown()
     {
+        Time.timeScale = 1;
         foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
         {
             GameObject.Destroy(o);
