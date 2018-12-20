@@ -1,7 +1,8 @@
 {
     "name": "PlayModeTesting",
     "references": [
-        "Scripts"
+        "Scripts",
+        "Unity.TextMeshPro"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"

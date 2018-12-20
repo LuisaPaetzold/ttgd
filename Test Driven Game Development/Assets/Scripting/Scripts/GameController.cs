@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameController : MonoBehaviour, IGameController
 {
@@ -17,7 +18,7 @@ public class GameController : MonoBehaviour, IGameController
     internal Button chargeBtnScript;
     internal Text chargeBtnText;
     internal GameObject gameUI;
-    internal Text pointsText;
+    internal TextMeshProUGUI pointsText;
     internal GameObject gameOverUI;
     internal CameraFollow gameCam;
 
@@ -65,7 +66,7 @@ public class GameController : MonoBehaviour, IGameController
             Transform textObj = gameUI.transform.Find("PointsText");
             if (textObj != null)
             {
-                pointsText = textObj.gameObject.GetComponent<Text>();
+                pointsText = textObj.gameObject.GetComponent<TextMeshProUGUI>();
                 if (pointsText != null)
                 {
                     pointsText.text = "0";

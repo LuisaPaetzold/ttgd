@@ -4,6 +4,7 @@ using NUnit.Framework;
 using System.Collections;
 using UnityEngine.UI;
 using NSubstitute;
+using TMPro;
 
 public class Test_PMGameController
 {
@@ -58,7 +59,7 @@ public class Test_PMGameController
     {
         Player player = CreatePlayer();
         GameObject gameUI = CreateMockObjectWithName("GameUI");
-        Text pointsText = CreateMockObjectWithName("PointsText").AddComponent<Text>();
+        TextMeshProUGUI pointsText = CreateMockObjectWithName("PointsText").AddComponent<TextMeshProUGUI>();
         pointsText.transform.SetParent(gameUI.transform);
 
         GameController gameCtr = CreateGameController(player);

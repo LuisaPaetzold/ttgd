@@ -1,3 +1,10 @@
-﻿{
-	"name": "Scripts"
+{
+    "name": "Scripts",
+    "references": [
+        "Unity.TextMeshPro"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
 }
