@@ -16,7 +16,7 @@ public class GameController : MonoBehaviour, IGameController
     internal GameObject chargeBtn;
     internal Button attackBtnScript;
     internal Button chargeBtnScript;
-    internal Text chargeBtnText;
+    internal TextMeshProUGUI chargeBtnText;
     internal GameObject gameUI;
     internal TextMeshProUGUI pointsText;
     internal GameObject gameOverUI;
@@ -55,7 +55,7 @@ public class GameController : MonoBehaviour, IGameController
                     Transform textObject = chargeBtnScript.transform.GetChild(0);
                     if (textObject != null)
                     {
-                        chargeBtnText = textObject.GetComponent<Text>();
+                        chargeBtnText = textObject.GetComponent<TextMeshProUGUI>();
                     }
                 }
             }

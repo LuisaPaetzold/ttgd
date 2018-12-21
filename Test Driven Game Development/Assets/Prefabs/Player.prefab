@@ -748,8 +748,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4881286039335914}
   - component: {fileID: 114877764231116416}
-  - component: {fileID: 135679296622921486}
   - component: {fileID: 54451500219664060}
+  - component: {fileID: 65772938173171136}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1542,7 +1542,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1807535916868980}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.8, y: 0.17, z: -0}
+  m_LocalPosition: {x: 0.8, y: 0.17, z: -0.99}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4396876046044916}
@@ -1759,8 +1759,20 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.55290556, y: 1, z: 0.5138507}
-  m_Center: {x: -0.0018646196, y: 0.5, z: 0.046786312}
+  m_Size: {x: 0.55290556, y: 1.623148, z: 0.5138507}
+  m_Center: {x: -0.0018646121, y: 0.811574, z: 0.04678631}
+--- !u!65 &65772938173171136
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1807535916868980}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.4817358, z: 1}
+  m_Center: {x: 0, y: 0.7684768, z: 0}
 --- !u!65 &65779966612845762
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -2102,18 +2114,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!135 &135679296622921486
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1807535916868980}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!137 &137980647467173292
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -2344,7 +2344,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 1.674}
+  m_AnchoredPosition: {x: 0.59, y: 2.434}
   m_SizeDelta: {x: 2, y: 0.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224327722952407230
@@ -2420,7 +2420,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 1.86}
+  m_AnchoredPosition: {x: 0.59, y: 2.62}
   m_SizeDelta: {x: 2, y: 0.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224669034466586926

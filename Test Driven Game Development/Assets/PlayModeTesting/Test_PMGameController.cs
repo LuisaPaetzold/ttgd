@@ -184,7 +184,7 @@ public class Test_PMGameController
         Player player = CreatePlayer();
         Enemy enemy = CreateEnemy(false);
         Button chargeBtnScript = CreateMockObjectWithName("ChargeBtn").AddComponent<Button>();
-        Text chargeBtnText = new GameObject().AddComponent<Text>();
+        TextMeshProUGUI chargeBtnText = new GameObject().AddComponent<TextMeshProUGUI>();
         chargeBtnText.transform.SetParent(chargeBtnScript.transform);
 
         GameController gameCtr = CreateGameController(player);
