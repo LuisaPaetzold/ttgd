@@ -148,11 +148,11 @@ public class Test_PlayerStats
         PlayerStatsClass stats = new PlayerStatsClass();
         IUnityStaticService staticService = CreateUnityService(1, 1, 1);
 
-        float expectedX = staticService.GetInputAxisRaw("Horizontal") * stats.playerSpeed * staticService.GetDeltaTime();
+        float expectedX = staticService.GetInputAxis("Horizontal") * stats.playerSpeed * staticService.GetDeltaTime();
         float expectedY = 0;
-        float expectedZ = staticService.GetInputAxisRaw("Vertical") * stats.playerSpeed * staticService.GetDeltaTime();
+        float expectedZ = staticService.GetInputAxis("Vertical") * stats.playerSpeed * staticService.GetDeltaTime();
 
-        Vector3 calculatedMovement = stats.CalcMovement(staticService.GetInputAxisRaw("Horizontal"), staticService.GetInputAxisRaw("Vertical"), staticService.GetDeltaTime());
+        Vector3 calculatedMovement = stats.CalcMovement(staticService.GetInputAxis("Horizontal"), staticService.GetInputAxis("Vertical"), staticService.GetDeltaTime());
 
         Assert.NotZero(calculatedMovement.magnitude, "Player movement calculation resulted in no movement!");
         Assert.AreEqual(calculatedMovement.x, expectedX, "Player movement calculation did not return the expected x movement!");
@@ -166,7 +166,7 @@ public class Test_PlayerStats
         PlayerStatsClass stats = new PlayerStatsClass();
         IUnityStaticService staticService = CreateUnityService(1, 0, 0);
 
-        Vector3 calculatedMovement = stats.CalcMovement(staticService.GetInputAxisRaw("Horizontal"), staticService.GetInputAxisRaw("Vertical"), staticService.GetDeltaTime());
+        Vector3 calculatedMovement = stats.CalcMovement(staticService.GetInputAxis("Horizontal"), staticService.GetInputAxis("Vertical"), staticService.GetDeltaTime());
 
         Assert.Zero(calculatedMovement.magnitude, "Player moved without input!");
     }
@@ -182,7 +182,7 @@ public class Test_PlayerStats
         mockPlayer.GetGameController().Returns(ctr);
         stats.SetPlayerAddition(mockPlayer);
 
-        Vector3 calculatedMovement = stats.CalcMovement(staticService.GetInputAxisRaw("Horizontal"), staticService.GetInputAxisRaw("Vertical"), staticService.GetDeltaTime());
+        Vector3 calculatedMovement = stats.CalcMovement(staticService.GetInputAxis("Horizontal"), staticService.GetInputAxis("Vertical"), staticService.GetDeltaTime());
 
         Assert.Zero(calculatedMovement.magnitude, "Player was able to move while in battle!");
     }
@@ -202,8 +202,8 @@ public class Test_PlayerStats
     {
         IUnityStaticService s = Substitute.For<IUnityStaticService>();
         s.GetDeltaTime().Returns(deltaTimeReturn);
-        s.GetInputAxisRaw("Horizontal").Returns(horizontalReturn);
-        s.GetInputAxisRaw("Vertical").Returns(verticalReturn);
+        s.GetInputAxis("Horizontal").Returns(horizontalReturn);
+        s.GetInputAxis("Vertical").Returns(verticalReturn);
 
         return s;
     }

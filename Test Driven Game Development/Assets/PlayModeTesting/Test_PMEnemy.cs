@@ -242,8 +242,8 @@ public class Test_PMEnemy
     {
         IUnityStaticService s = Substitute.For<IUnityStaticService>();
         s.GetDeltaTime().Returns(deltaTimeReturn);
-        s.GetInputAxisRaw("Horizontal").Returns(horizontalReturn);
-        s.GetInputAxisRaw("Vertical").Returns(verticalReturn);
+        s.GetInputAxis("Horizontal").Returns(horizontalReturn);
+        s.GetInputAxis("Vertical").Returns(verticalReturn);
 
         return s;
     }

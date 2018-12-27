@@ -5,7 +5,7 @@ using UnityEngine;
 
 public interface IUnityStaticService
 {
-    float GetInputAxisRaw(string axisName);
+    float GetInputAxis(string axisName);
     float GetDeltaTime();
 }
 
@@ -16,14 +16,14 @@ public class UnityStaticService : IUnityStaticService
         return Time.deltaTime;
     }
 
-    public float GetInputAxisRaw(string axisName)
+    public float GetInputAxis(string axisName)
     {
         switch(axisName)
         {
             case "Horizontal":
-                return Input.GetAxisRaw("Horizontal");
+                return Input.GetAxis("Horizontal");
             case "Vertical":
-                return Input.GetAxisRaw("Vertical");
+                return Input.GetAxis("Vertical");
             default:
                 Debug.LogError("String " + axisName + " passed to GetInputAxisRaw was not known!");
                 return 0.0f;

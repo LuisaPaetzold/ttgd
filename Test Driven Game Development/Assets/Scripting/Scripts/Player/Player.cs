@@ -81,10 +81,22 @@ public class Player : MonoBehaviour, IPlayer
 
 
 
+
+
+        stats.SetHealthBar(healthBar);
+        stats.SetTurnTimeBar(turnTimeBar);
+        if (GameCtr != null && GameCtr.IsInBattle())
+        {
+            stats.UpdateTurnTime(staticService.GetDeltaTime());
+        }
+    }
+
+    public void FixedUpdate()
+    {
         #region Movement
-        float horizontal = staticService.GetInputAxisRaw("Horizontal");
-        float vertical = (-1) * staticService.GetInputAxisRaw("Vertical");
-        
+        float horizontal = staticService.GetInputAxis("Horizontal");
+        float vertical = (-1) * staticService.GetInputAxis("Vertical");
+
         if (charContr != null)
         {
             charContr.Move(stats.CalcMovement(horizontal, vertical, staticService.GetDeltaTime()));
@@ -96,13 +108,6 @@ public class Player : MonoBehaviour, IPlayer
         }
 
         #endregion Movement
-
-        stats.SetHealthBar(healthBar);
-        stats.SetTurnTimeBar(turnTimeBar);
-        if (GameCtr != null && GameCtr.IsInBattle())
-        {
-            stats.UpdateTurnTime(staticService.GetDeltaTime());
-        }
     }
 
     public void OnTriggerEnter(Collider other)
