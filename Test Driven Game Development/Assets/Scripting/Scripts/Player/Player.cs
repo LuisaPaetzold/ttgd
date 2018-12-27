@@ -15,7 +15,7 @@ public class Player : MonoBehaviour, IPlayer
     public GameObject turnTimeBar;
 
     [Header("Gravity")]
-    public float gravValue = -0.1f;
+    public float gravityValue = -0.1f;
     public CharacterController charContr;
 
     void Start ()
@@ -91,7 +91,7 @@ public class Player : MonoBehaviour, IPlayer
 
             if (!charContr.isGrounded)
             {
-                charContr.Move(new Vector3(0, gravValue, 0));
+                charContr.Move(new Vector3(0, gravityValue, 0));
             }
         }
 

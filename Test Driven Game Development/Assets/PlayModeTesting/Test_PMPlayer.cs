@@ -64,7 +64,7 @@ public class Test_PMPlayer
     public IEnumerator Test_PlayerIsAffectedByGravity()
     {
         Player player = CreatePlayer();
-        player.gravValue = -1.0f;
+        player.gravityValue = -1.0f;
         IUnityStaticService staticService = CreateUnityService(1, 0, 0);
         player.staticService = staticService;
 
