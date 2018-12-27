@@ -67,9 +67,6 @@ public class Test_PMEnemy
 
         Assert.IsTrue(healthBarParent.activeSelf, "Enemy health bar wasn't active during a battle!");
 
-        //player.stats.ReceiveDamage(player.stats.GetCurrentHealth());
-        //enemy.stats.AttackOpponent(player.stats);
-
         player.stats.ReceiveDamage(player.stats.MaxHealth);
         yield return new WaitForEndOfFrame();
 

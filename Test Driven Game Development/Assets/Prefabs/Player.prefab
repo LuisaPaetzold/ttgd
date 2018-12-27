@@ -2057,8 +2057,10 @@ MonoBehaviour:
   GameCtr: {fileID: 0}
   healthBar: {fileID: 1658482455450062}
   turnTimeBar: {fileID: 1678116041347848}
-  gravValue: -0.1
+  gravityValue: -0.1
   charContr: {fileID: 0}
+  AttackParticle: {fileID: 100000, guid: f06e78284f831ae469c74624ab5d513b, type: 2}
+  AttackParticleLength: 1
 --- !u!114 &114916035641440850
 MonoBehaviour:
   m_ObjectHideFlags: 1

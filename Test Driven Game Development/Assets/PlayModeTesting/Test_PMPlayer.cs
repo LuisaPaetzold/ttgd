@@ -43,8 +43,7 @@ public class Test_PMPlayer
         player.staticService = staticService;
 
         yield return new WaitForFixedUpdate();
-
-        //Debug.Log(player.charContr);
+        
         Assert.AreEqual(1, player.transform.position.z, 0.1f, "Player didn't move on z axis after horizontal input!");
     }
 
@@ -58,8 +57,7 @@ public class Test_PMPlayer
         player.staticService = staticService;
 
         yield return new WaitForFixedUpdate();
-
-        Debug.Log(player.charContr);
+        
         Assert.AreEqual(-1, player.transform.position.x, 0.1f, "Player didn't move on x axis after vertical input!");
     }
 
@@ -67,11 +65,12 @@ public class Test_PMPlayer
     public IEnumerator Test_PlayerIsAffectedByGravity()
     {
         Player player = CreatePlayer();
+        player.gameObject.AddComponent<CharacterController>();
         player.gravityValue = -1.0f;
         IUnityStaticService staticService = CreateUnityService(1, 0, 0);
         player.staticService = staticService;
 
-        yield return null;
+        yield return new WaitForFixedUpdate();
 
         Assert.AreEqual(-1, player.transform.position.y, 0.1f, "Player wasn't affected by gravity!");
     }
@@ -257,6 +256,44 @@ public class Test_PMPlayer
 
         Assert.AreEqual(enemy.stats.MaxHealth, enemy.stats.currentHealth, "Enemy did not dodge!");
         Assert.IsFalse(player.stats.CanAct(), "Player turn time did ot reset after an unsuccessful attack!");
+    }
+
+    [UnityTest]
+    public IEnumerator Test_SpawnsAttackParticlesAfterLandingAHit()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+        ParticleSystem hitParticles = new GameObject("hitParticles").AddComponent<ParticleSystem>();
+        player.AttackParticle = hitParticles.gameObject;
+        player.AttackParticleLength = 0.01f;
+
+        GameController gameCtr = CreateGameController(player);
+        player.GameCtr = gameCtr;
+        gameCtr.StartBattle(enemy);
+
+        yield return new WaitForEndOfFrame();
+
+        gameCtr.PlayerAttackEnemyNoDodging();
+
+        yield return new WaitForSeconds(0.005f);
+
+        ParticleSystem[] foundParticles = GameObject.FindObjectsOfType<ParticleSystem>();
+        bool foundInstantiated = false;
+
+        foreach (ParticleSystem p in foundParticles)
+        {
+            if (p.gameObject.name.Contains("(Clone)"))
+            {
+                foundInstantiated = true;
+            }
+        }
+
+        Assert.IsTrue(foundParticles.Length == 2, "No new particle system was spawned!");
+        Assert.IsTrue(foundInstantiated, "Player did not spawn a correct particle system after landing a hit!");
+
+        yield return new WaitForSeconds(player.AttackParticleLength + 0.1f);
+        foundParticles = GameObject.FindObjectsOfType<ParticleSystem>();
+        Assert.IsTrue(foundParticles.Length == 1, "Spawned particle system was not removed!");
     }
 
     // --------------------- helper methods ----------------------------------------

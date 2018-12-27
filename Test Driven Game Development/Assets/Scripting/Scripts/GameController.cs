@@ -187,7 +187,20 @@ public class GameController : MonoBehaviour, IGameController
 
     public void PlayerAttackEnemy()
     {
-        playerStats.AttackOpponent(currentEnemies[0].stats);
+        bool attackLanded = playerStats.AttackOpponent(currentEnemies[0].stats);
+        if (attackLanded)
+        {
+            HandleLandedAttack(currentEnemies[0].transform, player.AttackParticle, player.AttackParticleLength);
+        }
+    }
+
+    public void PlayerAttackEnemyNoDodging()
+    {
+        bool attackLanded = playerStats.AttackOpponent(currentEnemies[0].stats, false, true);
+        if (attackLanded)
+        {
+            HandleLandedAttack(currentEnemies[0].transform, player.AttackParticle, player.AttackParticleLength);
+        }
     }
 
     public void PlayerChargeForBoost()
@@ -274,9 +287,12 @@ public class GameController : MonoBehaviour, IGameController
 
     public IEnumerator SpawnParticlesAtPosition(Transform hit, GameObject particles, float particleTime)
     {
-        GameObject spawnedObject = GameObject.Instantiate(particles, hit.position + new Vector3(0, 1, 0), hit.rotation);
-        yield return new WaitForSeconds(particleTime);
-        GameObject.Destroy(spawnedObject);
+        if (particles != null)
+        {
+            GameObject spawnedObject = GameObject.Instantiate(particles, hit.position + new Vector3(0, 1, 0), hit.rotation);
+            yield return new WaitForSeconds(particleTime);
+            GameObject.Destroy(spawnedObject);
+        }
     }
 
     public void HandleLandedAttack(Transform hit, GameObject particles, float particleTime)

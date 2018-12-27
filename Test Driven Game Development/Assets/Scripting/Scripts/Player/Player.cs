@@ -11,12 +11,17 @@ public class Player : MonoBehaviour, IPlayer
     public IUnityStaticService staticService;
     public GameController GameCtr;
 
+    [Header("Battle UI")]
     public GameObject healthBar;
     public GameObject turnTimeBar;
 
     [Header("Gravity")]
     public float gravityValue = -0.1f;
     public CharacterController charContr;
+
+    [Header("Particles")]
+    public GameObject AttackParticle;
+    public float AttackParticleLength = 1;
 
     void Start ()
     {
