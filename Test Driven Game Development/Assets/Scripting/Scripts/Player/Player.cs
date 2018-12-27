@@ -15,9 +15,8 @@ public class Player : MonoBehaviour, IPlayer
     public GameObject turnTimeBar;
 
     [Header("Gravity")]
-    public float verticalVelocity = 0;
-    public float gravity = 0.1f;
-    public bool isGrounded = true;
+    public float gravValue = -0.1f;
+    public CharacterController charContr;
 
     void Start ()
     {
@@ -60,16 +59,17 @@ public class Player : MonoBehaviour, IPlayer
         {
             stats.dodged.SetActive(false);
         }
+
+        if (charContr == null)
+        {
+            charContr = GetComponent<CharacterController>();
+        }
         
     }
 
     void Update ()
     {
 		// TMP
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            stats.UseChargeForDamageBoost();
-        }
         if (Input.GetKeyDown(KeyCode.R))
         {
             stats.ReceiveDamage(10);
@@ -84,26 +84,17 @@ public class Player : MonoBehaviour, IPlayer
         #region Movement
         float horizontal = staticService.GetInputAxisRaw("Horizontal");
         float vertical = (-1) * staticService.GetInputAxisRaw("Vertical");
-        /*RaycastHit groundCheck;
-        //isGrounded = Physics.Raycast(this.transform.position + new Vector3(0, 0.5f, 0), Vector3.down, out groundCheck, 0.5f + 0.1f);
-        if (transform.position.y < 0.1f)
-        {
-            isGrounded = true;
-        }
-        if (isGrounded)
-        {
-            verticalVelocity = 0;
-            //verticalVelocity = gravity * Time.deltaTime;
-        }
         
-        verticalVelocity += gravity * Time.deltaTime;
-        if (transform.position.y > 0.1f)
+        if (charContr != null)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y - 0.01f, transform.position.z);
-        }*/
+            charContr.Move(stats.CalcMovement(horizontal, vertical, staticService.GetDeltaTime()));
 
-        transform.position += stats.CalcMovement(horizontal, vertical, staticService.GetDeltaTime());
-        
+            if (!charContr.isGrounded)
+            {
+                charContr.Move(new Vector3(0, gravValue, 0));
+            }
+        }
+
         #endregion Movement
 
         stats.SetHealthBar(healthBar);

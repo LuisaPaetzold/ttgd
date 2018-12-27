@@ -748,8 +748,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4881286039335914}
   - component: {fileID: 114877764231116416}
-  - component: {fileID: 54451500219664060}
   - component: {fileID: 65772938173171136}
+  - component: {fileID: 143588533486747696}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1542,7 +1542,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1807535916868980}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.8, y: 0.17, z: -0.99}
+  m_LocalPosition: {x: 0.8, y: 2.07, z: -0.99}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4396876046044916}
@@ -1734,21 +1734,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1948300690639646}
   m_Mesh: {fileID: 4300000, guid: 6cadb436dcf802e4597c2c9a0131ed52, type: 3}
---- !u!54 &54451500219664060
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1807535916868980}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!65 &65342672913562302
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1759,8 +1744,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.55290556, y: 1.623148, z: 0.5138507}
-  m_Center: {x: -0.0018646121, y: 0.811574, z: 0.04678631}
+  m_Size: {x: 0.55290556, y: 1.5563649, z: 0.5138507}
+  m_Center: {x: -0.0018646121, y: 0.8449656, z: 0.04678631}
 --- !u!65 &65772938173171136
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1771,8 +1756,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.4817358, z: 1}
-  m_Center: {x: 0, y: 0.7684768, z: 0}
+  m_Size: {x: 1, y: 1.3849391, z: 1}
+  m_Center: {x: 0, y: 0.81687516, z: 0}
 --- !u!65 &65779966612845762
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -2072,9 +2057,8 @@ MonoBehaviour:
   GameCtr: {fileID: 0}
   healthBar: {fileID: 1658482455450062}
   turnTimeBar: {fileID: 1678116041347848}
-  verticalVelocity: 0
-  gravity: 0.1
-  isGrounded: 1
+  gravValue: -0.1
+  charContr: {fileID: 0}
 --- !u!114 &114916035641440850
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2201,6 +2185,23 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.27948382, y: -0.019828975, z: 0.00000071525574}
     m_Extent: {x: 0.8476794, y: 0.29246682, z: 0.9239605}
   m_DirtyAABB: 0
+--- !u!143 &143588533486747696
+CharacterController:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1807535916868980}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!222 &222164566507370744
 CanvasRenderer:
   m_ObjectHideFlags: 1

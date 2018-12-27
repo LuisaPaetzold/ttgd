@@ -43,6 +43,7 @@ public class Test_PMPlayer
 
         yield return null;
 
+        Debug.Log(player.charContr);
         Assert.AreEqual(1, player.transform.position.z, 0.1f, "Player didn't move on z axis after horizontal input!");
     }
 
@@ -57,6 +58,19 @@ public class Test_PMPlayer
         yield return null;
 
         Assert.AreEqual(-1, player.transform.position.x, 0.1f, "Player didn't move on x axis after vertical input!");
+    }
+
+    [UnityTest]
+    public IEnumerator Test_PlayerIsAffectedByGravity()
+    {
+        Player player = CreatePlayer();
+        player.gravValue = -1.0f;
+        IUnityStaticService staticService = CreateUnityService(1, 0, 0);
+        player.staticService = staticService;
+
+        yield return null;
+
+        Assert.AreEqual(-1, player.transform.position.y, 0.1f, "Player wasn't affected by gravity!");
     }
 
     [UnityTest]
@@ -251,6 +265,7 @@ public class Test_PMPlayer
         {
             p.stats = new PlayerStatsClass();
             p.inventory = new PlayerInventoryClass();
+            p.gameObject.AddComponent<CharacterController>();
         }
         return p;
     }
