@@ -45,7 +45,7 @@ public class EnemyStatsClass : FighterStatsClass
         }
     }
 
-    public override void AttackOpponent(FighterStatsClass opponent, bool CanBeDodged = true, bool ignoreTurnTime = false)
+    public override bool AttackOpponent(FighterStatsClass opponent, bool CanBeDodged = true, bool ignoreTurnTime = false)
     {
         if (GameCtr != null)
         {
@@ -55,7 +55,7 @@ public class EnemyStatsClass : FighterStatsClass
             }
         }
         
-        base.AttackOpponent(opponent, CanBeDodged, ignoreTurnTime);
+        return base.AttackOpponent(opponent, CanBeDodged, ignoreTurnTime);
     }
 
     #endregion Attack

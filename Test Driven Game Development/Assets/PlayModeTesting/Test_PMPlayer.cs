@@ -37,13 +37,14 @@ public class Test_PMPlayer
     public IEnumerator Test_PlayerMovesAlongZAxisForHorizontalInput()
     {
         Player player = CreatePlayer();
+        player.gameObject.AddComponent<CharacterController>();
         player.stats.playerSpeed = 1.0f;
         IUnityStaticService staticService = CreateUnityService(1, 1, 0);
         player.staticService = staticService;
 
-        yield return null;
+        yield return new WaitForFixedUpdate();
 
-        Debug.Log(player.charContr);
+        //Debug.Log(player.charContr);
         Assert.AreEqual(1, player.transform.position.z, 0.1f, "Player didn't move on z axis after horizontal input!");
     }
 
@@ -51,12 +52,14 @@ public class Test_PMPlayer
     public IEnumerator Test_PlayerMovesAlongXAxisForVerticalInput()
     {
         Player player = CreatePlayer();
+        player.gameObject.AddComponent<CharacterController>();
         player.stats.playerSpeed = 1.0f;
         IUnityStaticService staticService = CreateUnityService(1, 0, 1);
         player.staticService = staticService;
 
-        yield return null;
+        yield return new WaitForFixedUpdate();
 
+        Debug.Log(player.charContr);
         Assert.AreEqual(-1, player.transform.position.x, 0.1f, "Player didn't move on x axis after vertical input!");
     }
 
@@ -265,7 +268,6 @@ public class Test_PMPlayer
         {
             p.stats = new PlayerStatsClass();
             p.inventory = new PlayerInventoryClass();
-            p.gameObject.AddComponent<CharacterController>();
         }
         return p;
     }

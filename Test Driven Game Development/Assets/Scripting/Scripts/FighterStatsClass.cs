@@ -171,12 +171,12 @@ public class FighterStatsClass
         }
     }
 
-    public virtual void AttackOpponent(FighterStatsClass opponent, bool CanBeDodged = true, bool ignoreTurnTime = false)
+    public virtual bool AttackOpponent(FighterStatsClass opponent, bool CanBeDodged = true, bool ignoreTurnTime = false)
     {
         if (!CanAct() && !ignoreTurnTime)
         {
             Debug.LogWarning("Tried to attack an opponent when not allowed to do that!");
-            return;
+            return false;
         }
         if (!ignoreTurnTime)
         {
@@ -200,18 +200,22 @@ public class FighterStatsClass
                 if (dodgeRand >= opponent.GetDodgePropability())
                 {
                     opponent.ReceiveDamage(GetCurrentAttackDamage());
+                    return true;
                 }
                 else
                 {
                     opponent.ShowDodge();
                     Debug.Log("Dodged!");
+                    return false;
                 }
             }
             else
             {
                 opponent.ReceiveDamage(GetCurrentAttackDamage());
+                return true;
             }
         }
+        return false;
     }
 
     public virtual void ShowDodge()

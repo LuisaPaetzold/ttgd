@@ -8483,6 +8483,9 @@ MonoBehaviour:
   healthBar: {fileID: 1502959572228554}
   turnTimeBar: {fileID: 1909795313975284}
   autoAttack: 1
+  AttackProbability: 0.7
+  AttackParticle: {fileID: 100000, guid: f06e78284f831ae469c74624ab5d513b, type: 2}
+  AttackParticleLength: 1
 --- !u!114 &114219176394840140
 MonoBehaviour:
   m_ObjectHideFlags: 1

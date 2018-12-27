@@ -271,6 +271,19 @@ public class GameController : MonoBehaviour, IGameController
         Time.timeScale = 0;
         EndBattle();
     }
+
+    public IEnumerator SpawnParticlesAtPosition(Transform hit, GameObject particles, float particleTime)
+    {
+        GameObject spawnedObject = GameObject.Instantiate(particles, hit.position + new Vector3(0, 1, 0), hit.rotation);
+        yield return new WaitForSeconds(particleTime);
+        GameObject.Destroy(spawnedObject);
+    }
+
+    public void HandleLandedAttack(Transform hit, GameObject particles, float particleTime)
+    {
+        StartCoroutine(SpawnParticlesAtPosition(hit, particles, particleTime));
+    }
+
     #endregion Implementation IGameController
 }
 
@@ -283,4 +296,6 @@ public interface IGameController
     void HandlePlayerDeath();
     bool TakesPartInCurrentBattle(EnemyStatsClass enemy);
     bool TakesPartInCurrentBattle(Enemy enemy);
+    IEnumerator SpawnParticlesAtPosition(Transform hit, GameObject particles, float particleTime);
+    void HandleLandedAttack(Transform hit, GameObject particles, float particleTime);
 }

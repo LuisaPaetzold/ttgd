@@ -127,6 +127,43 @@ public class Test_PMEnemy
     }
 
     [UnityTest]
+    public IEnumerator Test_SpawnsAttackParticlesAfterLandingAHit()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+        ParticleSystem hitParticles = new GameObject("hitParticles").AddComponent<ParticleSystem>();
+        enemy.AttackParticle = hitParticles.gameObject;
+        enemy.AttackProbability = 1;
+        enemy.AttackParticleLength = 0.01f;
+
+        GameController gameCtr = CreateGameController(player);
+        enemy.GameCtr = gameCtr;
+        gameCtr.StartBattle(enemy);
+
+        enemy.ChooseRandomBattleActionAndAct(false, true);
+
+        yield return new WaitForEndOfFrame();
+
+        ParticleSystem[] foundParticles = GameObject.FindObjectsOfType<ParticleSystem>();
+        bool foundInstantiated = false;
+
+        foreach(ParticleSystem p in foundParticles)
+        {
+            if (p.gameObject.name.Contains("(Clone)"))
+            {
+                foundInstantiated = true;
+            }
+        }
+
+        Assert.IsTrue(foundParticles.Length == 2, "No new particle system was spawned!");
+        Assert.IsTrue(foundInstantiated, "Enemy did not spawn a correct particle system after landing a hit!");
+
+        yield return new WaitForSeconds(enemy.AttackParticleLength + 0.1f);
+        foundParticles = GameObject.FindObjectsOfType<ParticleSystem>();
+        Assert.IsTrue(foundParticles.Length == 1, "Spawned particle system was not removed!");
+    }
+
+    [UnityTest]
     public IEnumerator Test_EnemyStartsBattleWithTurnTimeAtZero()
     {
         Player player = CreatePlayer();
@@ -143,7 +180,7 @@ public class Test_PMEnemy
     }
 
     [UnityTest]
-    public IEnumerator Test_CanAttackAfterWaitingTurnTime()
+    public IEnumerator Test_CanActAfterWaitingTurnTime()
     {
         Player player = CreatePlayer();
         Enemy enemy = CreateEnemy();

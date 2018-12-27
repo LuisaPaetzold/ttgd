@@ -360,6 +360,36 @@ public class Test_FighterStats
     }
 
     [Test]
+    public void Test_AttackingAnOpponentReturnsTrueAfterLandingAHit()
+    {
+        FighterStatsClass stats1 = new FighterStatsClass();
+        FighterStatsClass stats2 = new FighterStatsClass();
+
+        int fullHealth = stats2.GetCurrentHealth();
+        bool landedHit = stats1.AttackOpponent(stats2, false, true);
+        int damagedHealth = stats2.GetCurrentHealth();
+
+        Assert.Less(damagedHealth, fullHealth, "Fighter wasn't able to attack another fighter and damage them!");
+        Assert.IsTrue(landedHit, "AttackOpponent() did not return true after landing a hit!");
+    }
+
+    [Test]
+    public void Test_AttackingAnOpponentReturnsFalseAfterOpponentDodged()
+    {
+        FighterStatsClass stats1 = new FighterStatsClass();
+        FighterStatsClass stats2 = new FighterStatsClass();
+        stats2.DodgePropability = 1;
+
+        int fullHealth = stats2.GetCurrentHealth();
+        bool landedHit = stats1.AttackOpponent(stats2, true, true);
+        int damagedHealth = stats2.GetCurrentHealth();
+
+        LogAssert.Expect(LogType.Error, "ShowDodge() must be implemented inside the sub-class!");
+        Assert.AreEqual(damagedHealth, fullHealth, "Attacked opponent did not dodge as expected!");
+        Assert.IsFalse(landedHit, "AttackOpponent() did not return false after the opponent dodged!");
+    }
+
+    [Test]
     public void Test_FighterCannotAttackNullPointer()
     {
         FighterStatsClass stats1 = new FighterStatsClass();
