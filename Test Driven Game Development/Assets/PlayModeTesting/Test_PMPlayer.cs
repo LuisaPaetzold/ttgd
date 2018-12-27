@@ -296,6 +296,45 @@ public class Test_PMPlayer
         Assert.IsTrue(foundParticles.Length == 1, "Spawned particle system was not removed!");
     }
 
+    [UnityTest]
+    public IEnumerator Test_SpawnsChargeParticlesAfterCharging()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+        ParticleSystem chargeParticles = new GameObject("chargeParticles").AddComponent<ParticleSystem>();
+        player.ChargeParticle = chargeParticles.gameObject;
+        player.ChargeParticleLength = 0.01f;
+
+        GameController gameCtr = CreateGameController(player);
+        player.GameCtr = gameCtr;
+        gameCtr.StartBattle(enemy);
+
+        yield return new WaitForEndOfFrame();
+
+        gameCtr.PlayerChargeForBoost();
+
+        yield return new WaitForSeconds(0.005f);
+
+        ParticleSystem[] foundParticles = GameObject.FindObjectsOfType<ParticleSystem>();
+        bool foundInstantiated = false;
+
+        foreach (ParticleSystem p in foundParticles)
+        {
+            if (p.gameObject.name.Contains("(Clone)"))
+            {
+                foundInstantiated = true;
+            }
+        }
+
+        Assert.IsTrue(foundParticles.Length == 2, "No new particle system was spawned!");
+        Assert.IsTrue(foundInstantiated, "Player did not spawn a correct particle system after charging!");
+
+        yield return new WaitForSeconds(player.ChargeParticleLength + 0.1f);
+        foundParticles = GameObject.FindObjectsOfType<ParticleSystem>();
+        Assert.IsTrue(foundParticles.Length == 1, "Spawned particle system was not removed!");
+    }
+
+
     // --------------------- helper methods ----------------------------------------
 
     public Player CreatePlayer(bool setUpComponentsInTest = true)

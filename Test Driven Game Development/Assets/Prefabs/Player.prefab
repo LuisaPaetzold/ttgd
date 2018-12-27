@@ -2061,6 +2061,8 @@ MonoBehaviour:
   charContr: {fileID: 0}
   AttackParticle: {fileID: 100000, guid: f06e78284f831ae469c74624ab5d513b, type: 2}
   AttackParticleLength: 1
+  ChargeParticle: {fileID: 100006, guid: 60bc526f4be1e044ab9e46340b82ffb3, type: 2}
+  ChargeParticleLength: 2.5
 --- !u!114 &114916035641440850
 MonoBehaviour:
   m_ObjectHideFlags: 1

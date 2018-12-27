@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, IPlayer
 {
+    [Header("Set Up")]
     public PlayerStatsClass stats;
     public PlayerInventoryClass inventory;
     public IUnityStaticService staticService;
@@ -22,6 +23,8 @@ public class Player : MonoBehaviour, IPlayer
     [Header("Particles")]
     public GameObject AttackParticle;
     public float AttackParticleLength = 1;
+    public GameObject ChargeParticle;
+    public float ChargeParticleLength = 1;
 
     void Start ()
     {

@@ -5,18 +5,24 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [Header("Set Up")]
     public GameController GameCtr;
     public EnemyStatsClass stats;
     public IUnityStaticService staticService;
 
+    [Header("Battle UI")]
     public GameObject healthBar;
     public GameObject turnTimeBar;
 
+    [Header("Battle Behavior")]
     public bool autoAttack = true;
-
     public float AttackProbability = 0.7f;
+
+    [Header("Particles")]
     public GameObject AttackParticle;
     public float AttackParticleLength = 1;
+    public GameObject ChargeParticle;
+    public float ChargeParticleLength = 1;
 
     void Start()
     {
@@ -104,7 +110,7 @@ public class Enemy : MonoBehaviour
     {
         float randValue = UnityEngine.Random.value;
 
-        if (randValue < AttackProbability)
+        if (randValue < AttackProbability || stats.GetCurrentAmountOfChargings() == stats.GetMaxAmountOfChargings())
         {
             bool attackLanded = stats.AttackOpponent(GameCtr.player.stats, CanBeDodged, IgnoreTurnTime);
             if (attackLanded)
@@ -114,7 +120,11 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            stats.UseChargeForDamageBoost();
+            if (stats.GetCurrentAmountOfChargings() < stats.GetMaxAmountOfChargings())
+            {
+                stats.UseChargeForDamageBoost();
+                GameCtr.HandleCharging(transform, ChargeParticle, ChargeParticleLength, new Vector3(0, 0.23f, 0));
+            }
         }
     }
 }

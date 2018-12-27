@@ -206,6 +206,7 @@ public class GameController : MonoBehaviour, IGameController
     public void PlayerChargeForBoost()
     {
         playerStats.UseChargeForDamageBoost();
+        HandleCharging(player.transform, player.ChargeParticle, player.ChargeParticleLength);
     }
 
 
@@ -285,11 +286,11 @@ public class GameController : MonoBehaviour, IGameController
         EndBattle();
     }
 
-    public IEnumerator SpawnParticlesAtPosition(Transform hit, GameObject particles, float particleTime)
+    public IEnumerator SpawnParticlesAtPosition(Vector3 pos, GameObject particles, float particleTime, Vector3 addHeight = new Vector3())
     {
         if (particles != null)
         {
-            GameObject spawnedObject = GameObject.Instantiate(particles, hit.position + new Vector3(0, 1, 0), hit.rotation);
+            GameObject spawnedObject = GameObject.Instantiate(particles, pos + addHeight, particles.transform.rotation);
             yield return new WaitForSeconds(particleTime);
             GameObject.Destroy(spawnedObject);
         }
@@ -297,7 +298,13 @@ public class GameController : MonoBehaviour, IGameController
 
     public void HandleLandedAttack(Transform hit, GameObject particles, float particleTime)
     {
-        StartCoroutine(SpawnParticlesAtPosition(hit, particles, particleTime));
+        Vector3 pos = hit.position + new Vector3(0, 1, 0);
+        StartCoroutine(SpawnParticlesAtPosition(pos, particles, particleTime));
+    }
+
+    public void HandleCharging(Transform charger, GameObject particles, float particleTime, Vector3 addHeight = new Vector3())
+    {
+        StartCoroutine(SpawnParticlesAtPosition(charger.position, particles, particleTime, addHeight));
     }
 
     #endregion Implementation IGameController
@@ -312,6 +319,7 @@ public interface IGameController
     void HandlePlayerDeath();
     bool TakesPartInCurrentBattle(EnemyStatsClass enemy);
     bool TakesPartInCurrentBattle(Enemy enemy);
-    IEnumerator SpawnParticlesAtPosition(Transform hit, GameObject particles, float particleTime);
+    IEnumerator SpawnParticlesAtPosition(Vector3 pos, GameObject particles, float particleTime, Vector3 addHeight = new Vector3());
     void HandleLandedAttack(Transform hit, GameObject particles, float particleTime);
+    void HandleCharging(Transform charger, GameObject particles, float particleTime, Vector3 addHeight = new Vector3());
 }

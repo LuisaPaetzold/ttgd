@@ -161,6 +161,43 @@ public class Test_PMEnemy
     }
 
     [UnityTest]
+    public IEnumerator Test_SpawnsChargeParticlesAfterCharging()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+        ParticleSystem chargeParticles = new GameObject("chargeParticles").AddComponent<ParticleSystem>();
+        enemy.ChargeParticle = chargeParticles.gameObject;
+        enemy.AttackProbability = 0;
+        enemy.ChargeParticleLength = 0.01f;
+
+        GameController gameCtr = CreateGameController(player);
+        enemy.GameCtr = gameCtr;
+        gameCtr.StartBattle(enemy);
+
+        enemy.ChooseRandomBattleActionAndAct(false, true);
+
+        yield return new WaitForEndOfFrame();
+
+        ParticleSystem[] foundParticles = GameObject.FindObjectsOfType<ParticleSystem>();
+        bool foundInstantiated = false;
+
+        foreach (ParticleSystem p in foundParticles)
+        {
+            if (p.gameObject.name.Contains("(Clone)"))
+            {
+                foundInstantiated = true;
+            }
+        }
+
+        Assert.IsTrue(foundParticles.Length == 2, "No new particle system was spawned!");
+        Assert.IsTrue(foundInstantiated, "Enemy did not spawn a correct particle system after landing a hit!");
+
+        yield return new WaitForSeconds(enemy.ChargeParticleLength + 0.1f);
+        foundParticles = GameObject.FindObjectsOfType<ParticleSystem>();
+        Assert.IsTrue(foundParticles.Length == 1, "Spawned particle system was not removed!");
+    }
+
+    [UnityTest]
     public IEnumerator Test_EnemyStartsBattleWithTurnTimeAtZero()
     {
         Player player = CreatePlayer();
@@ -243,6 +280,31 @@ public class Test_PMEnemy
 
         Assert.AreEqual(player.stats.MaxHealth, player.stats.currentHealth, "Player did not dodge!");
         Assert.IsFalse(enemy.stats.CanAct(), "Enemy turn time did ot reset after an unsuccessful attack!");
+    }
+
+    [UnityTest]
+    public IEnumerator Test_AttacksIfFullyCharged()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+        IUnityStaticService staticService = CreateUnityService(enemy.stats.TurnTime, 0, 0);
+        enemy.staticService = staticService;
+        enemy.AttackProbability = 0;
+        enemy.stats.MaxAmountOfChargings = 1;
+
+        GameController gameCtr = CreateGameController(player);
+        enemy.GameCtr = gameCtr;
+        player.GameCtr = gameCtr;
+        float oldHealth = player.stats.GetCurrentHealth();
+
+        yield return new WaitForEndOfFrame();
+
+        gameCtr.StartBattle(enemy);
+
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+
+        Assert.AreNotEqual(player.stats.GetCurrentHealth(), oldHealth, "Enemy wasn't forced to attack after charging to max!");
     }
 
     // --------------------- helper methods ----------------------------------------

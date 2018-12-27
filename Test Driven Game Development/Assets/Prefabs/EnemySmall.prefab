@@ -8486,6 +8486,8 @@ MonoBehaviour:
   AttackProbability: 0.7
   AttackParticle: {fileID: 100000, guid: f06e78284f831ae469c74624ab5d513b, type: 2}
   AttackParticleLength: 1
+  ChargeParticle: {fileID: 100000, guid: 56c54a1220dc4b54aae769c7682cfbbb, type: 2}
+  ChargeParticleLength: 1
 --- !u!114 &114219176394840140
 MonoBehaviour:
   m_ObjectHideFlags: 1
