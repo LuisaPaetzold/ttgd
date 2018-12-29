@@ -13,6 +13,7 @@ public class InventoryUI : MonoBehaviour
     public GameController GameCtr;
 
     private List<Button> slots;
+    private bool firstFrame = true;
 
     void Start ()
     {
@@ -25,12 +26,16 @@ public class InventoryUI : MonoBehaviour
         slots.Add(Slot1);
         slots.Add(Slot2);
         slots.Add(Slot3);
+
     }
-	
 
 	void Update ()
     {
-        UpdateInventoryUI();
+        if (firstFrame)
+        {
+            UpdateInventoryUI();
+            firstFrame = false;
+        }
 	}
 
     public void UpdateInventoryUI()
@@ -81,5 +86,16 @@ public class InventoryUI : MonoBehaviour
 
             index++;
         }
+    }
+
+
+    public void InventoryUIButtonClick(int index)
+    {
+        PlayerInventoryClass inventory = GameCtr.player.GetPlayerInventory();
+        if (index < inventory.items.Count)
+        {
+            inventory.UseItem(index);
+        }
+        UpdateInventoryUI();
     }
 }
