@@ -2051,7 +2051,7 @@ MonoBehaviour:
     currentPoints: 0
     playerSpeed: 2.5
   inventory:
-    MaxItemSlots: 5
+    MaxItemSlots: 3
     equippedWeapon: {fileID: 0}
     items: []
   GameCtr: {fileID: 0}

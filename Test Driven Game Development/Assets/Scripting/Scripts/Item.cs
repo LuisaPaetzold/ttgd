@@ -6,6 +6,7 @@ using UnityEngine;
 public class Item : ScriptableObject
 {
     public ItemType type;
+    public Sprite Icon;
     public int MaxUses = 3;
     private int usesLeft;
 
@@ -20,6 +21,11 @@ public class Item : ScriptableObject
         usesLeft = MaxUses;
     }
     #endregion Setup
+
+    public Sprite GetIcon()
+    {
+        return Icon;
+    }
 
     #region Uses
     public void Use(FighterStatsClass user) 
@@ -65,5 +71,6 @@ public class Item : ScriptableObject
 public enum ItemType
 {
     Healing,
-    AttackBoost
+    AttackBoost,
+    DealDamage
 }
