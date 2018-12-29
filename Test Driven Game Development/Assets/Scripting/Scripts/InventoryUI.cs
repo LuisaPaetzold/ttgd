@@ -49,7 +49,7 @@ public class InventoryUI : MonoBehaviour
             {
                 if (slot.transform.GetChild(0) != null)
                 {
-                    Image img = slot.transform.GetChild(0).GetComponent<Image>();
+                    Image img = GetImageOfSlot(slot);
                     if (img != null)
                     {
                         if (index < inventory.items.Count)
@@ -68,7 +68,7 @@ public class InventoryUI : MonoBehaviour
 
                 if (slot.transform.GetChild(1) != null)
                 {
-                    TextMeshProUGUI uses = slot.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+                    TextMeshProUGUI uses = GetUsesTextOfSlot(slot);
                     if (uses != null)
                     {
                         if (index < inventory.items.Count)
@@ -83,7 +83,6 @@ public class InventoryUI : MonoBehaviour
                     }
                 }
             }
-
             index++;
         }
     }
@@ -98,4 +97,14 @@ public class InventoryUI : MonoBehaviour
         }
         UpdateInventoryUI();
     }
+
+    public Image GetImageOfSlot(Button slot)
+    {
+        return slot.transform.GetChild(0).GetComponent<Image>();
+    }
+    public TextMeshProUGUI GetUsesTextOfSlot(Button slot)
+    {
+        return slot.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+    }
 }
+
