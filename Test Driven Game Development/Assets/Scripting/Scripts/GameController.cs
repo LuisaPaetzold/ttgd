@@ -21,6 +21,7 @@ public class GameController : MonoBehaviour, IGameController
     internal TextMeshProUGUI pointsText;
     internal GameObject gameOverUI;
     internal CameraFollow gameCam;
+    internal GameObject inventoryUI;
 
     void Start ()
     {
@@ -32,6 +33,7 @@ public class GameController : MonoBehaviour, IGameController
         chargeBtn = GameObject.Find("ChargeBtn");
         gameUI = GameObject.Find("GameUI");
         gameOverUI = GameObject.Find("GameOverUI");
+        inventoryUI = GameObject.Find("InventoryUI");
         if (battleUI != null)
         {
             battleUI.SetActive(false);
@@ -77,7 +79,11 @@ public class GameController : MonoBehaviour, IGameController
         {
             gameOverUI.SetActive(false);
         }
-        
+        if (inventoryUI != null)
+        {
+            inventoryUI.SetActive(false);
+        }
+
         if (gameCam == null)
         {
             gameCam = FindObjectOfType<CameraFollow>();
@@ -142,13 +148,15 @@ public class GameController : MonoBehaviour, IGameController
         {
             pointsText.text = player.stats.GetCurrentPoints().ToString();
         }
+
+        //TODO: buttons nur aktivieren, wenn Spieler agieren kann und Items vorhanden!
+
     }
 
     public void StartBattle(Enemy enemy)
     {
         isInBattle = true;
         currentEnemies.Add(enemy);
-        //player.GetComponent<Rigidbody>().isKinematic = false;
         player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z - 2);
         if (gameCam != null)
         {
@@ -157,6 +165,15 @@ public class GameController : MonoBehaviour, IGameController
         if (battleUI != null)
         {
             battleUI.SetActive(true);
+        }
+        if (inventoryUI != null)
+        {
+            inventoryUI.SetActive(true);
+            InventoryUI inventoryScript = GetInventoryUI();
+            if (inventoryScript != null)
+            {
+                inventoryScript.UpdateInventoryUI();
+            }
         }
 
         player.OnStartBattle();
@@ -173,8 +190,16 @@ public class GameController : MonoBehaviour, IGameController
         {
             battleUI.SetActive(false);
         }
+        if (inventoryUI != null)
+        {
+            inventoryUI.SetActive(false);
+            InventoryUI inventoryScript = GetInventoryUI();
+            if (inventoryScript != null)
+            {
+                inventoryScript.UpdateInventoryUI();
+            }
+        }
 
-        //player.GetComponent<Rigidbody>().isKinematic = true;
         player.OnEndBattle();
         foreach (Enemy e in currentEnemies)
         {
@@ -307,6 +332,11 @@ public class GameController : MonoBehaviour, IGameController
         StartCoroutine(SpawnParticlesAtPosition(charger.position, particles, particleTime, addHeight));
     }
 
+    public InventoryUI GetInventoryUI()
+    {
+        return inventoryUI.GetComponent<InventoryUI>();
+    }
+
     #endregion Implementation IGameController
 }
 
@@ -322,4 +352,5 @@ public interface IGameController
     IEnumerator SpawnParticlesAtPosition(Vector3 pos, GameObject particles, float particleTime, Vector3 addHeight = new Vector3());
     void HandleLandedAttack(Transform hit, GameObject particles, float particleTime);
     void HandleCharging(Transform charger, GameObject particles, float particleTime, Vector3 addHeight = new Vector3());
+    InventoryUI GetInventoryUI();
 }

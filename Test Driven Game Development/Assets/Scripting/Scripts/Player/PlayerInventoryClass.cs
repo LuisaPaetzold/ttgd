@@ -77,6 +77,13 @@ public class PlayerInventoryClass
         if (CanCollectItem())
         {
             items.Add(item);
+
+            if (playerAddition != null
+                && playerAddition.GetGameController() != null
+                && playerAddition.GetGameController().GetInventoryUI() != null)
+            {
+                playerAddition.GetGameController().GetInventoryUI().UpdateInventoryUI();
+            }
         }
         else
         {

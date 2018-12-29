@@ -7,21 +7,34 @@ using TMPro;
 
 public class Test_PMInventoryUI
 {
-    // to test:
-    // button images show icons? disabled when no item?
-    // button text shows uses left. no text when no item
-    // 
+    [TearDown]
+    public void TearDown()
+    {
+        Time.timeScale = 1;
+        foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
+        {
+            GameObject.Destroy(o);
+        }
+    }
 
     [UnityTest]
     public IEnumerator SlotImagesShowItemIcon()
     {
         Player player = CreatePlayer();
-        GameController gameCtr = CreateGameController(player);
+        Enemy enemy = CreateEnemy(false);
         InventoryUI inventoryUI = CreateInventoryUI();
+        GameController gameCtr = CreateGameController(player);
+
+        yield return new WaitForEndOfFrame();
+
         inventoryUI.GameCtr = gameCtr;
         Item item = ScriptableObject.CreateInstance<Item>();
         item.Icon = CreateExampleSprite();
-     
+
+        yield return new WaitForEndOfFrame();
+
+        gameCtr.StartBattle(enemy);
+
         yield return new WaitForEndOfFrame();
 
         Assert.IsNotNull(player.inventory, "Player did not have an inventory!");
@@ -30,6 +43,8 @@ public class Test_PMInventoryUI
         yield return new WaitForEndOfFrame();
 
         Image imageToTest = inventoryUI.GetImageOfSlot(inventoryUI.Slot1);
+
+        yield return new WaitForEndOfFrame();
 
         Assert.AreEqual(item.GetIcon(), imageToTest.sprite, "Item icon was not displayed correctly!");
         Assert.IsNotNull(imageToTest.sprite, "Displayed icon was null even though there was an item!");
@@ -40,10 +55,15 @@ public class Test_PMInventoryUI
     public IEnumerator SlotTextShowsItemUsesLeft()
     {
         Player player = CreatePlayer();
-        GameController gameCtr = CreateGameController(player);
+        Enemy enemy = CreateEnemy(false);
         InventoryUI inventoryUI = CreateInventoryUI();
+        GameController gameCtr = CreateGameController(player);
+
+        yield return new WaitForEndOfFrame();
+
         inventoryUI.GameCtr = gameCtr;
         Item item = ScriptableObject.CreateInstance<Item>();
+        gameCtr.StartBattle(enemy);
 
         yield return new WaitForEndOfFrame();
 
@@ -51,9 +71,11 @@ public class Test_PMInventoryUI
         player.inventory.CollectItem(item);
 
         yield return new WaitForEndOfFrame();
-        
+
         TextMeshProUGUI textToTest = inventoryUI.GetUsesTextOfSlot(inventoryUI.Slot1);
-        
+
+        yield return new WaitForEndOfFrame();
+
         Assert.AreEqual(item.GetUsesLeft().ToString(), textToTest.text, "Item uses were not displayed correctly!");
     }
 
@@ -61,11 +83,16 @@ public class Test_PMInventoryUI
     public IEnumerator SlotImagesShowNothingWhenSlotIsEmpty()
     {
         Player player = CreatePlayer();
-        GameController gameCtr = CreateGameController(player);
+        Enemy enemy = CreateEnemy(false);
         InventoryUI inventoryUI = CreateInventoryUI();
+        GameController gameCtr = CreateGameController(player);
+
+        yield return new WaitForEndOfFrame();
+
         inventoryUI.GameCtr = gameCtr;
         Item item = ScriptableObject.CreateInstance<Item>();
         item.Icon = CreateExampleSprite();
+        gameCtr.StartBattle(enemy);
 
         yield return new WaitForEndOfFrame();
 
@@ -76,7 +103,6 @@ public class Test_PMInventoryUI
         Image imageToTest = inventoryUI.GetImageOfSlot(inventoryUI.Slot1);
 
         Assert.AreNotEqual(item.GetIcon(), imageToTest.sprite, "Item icon was displayed even though there was no item!");
-        Assert.IsNull(imageToTest.sprite, "Displayed icon was not null even though there was no item!");
         Assert.IsFalse(imageToTest.enabled, "Item icon was enabled even though there was no item!");
     }
 
@@ -84,10 +110,15 @@ public class Test_PMInventoryUI
     public IEnumerator SlotTextShowsNothingWhenNoItem()
     {
         Player player = CreatePlayer();
-        GameController gameCtr = CreateGameController(player);
+        Enemy enemy = CreateEnemy(false);
         InventoryUI inventoryUI = CreateInventoryUI();
+        GameController gameCtr = CreateGameController(player);
+
+        yield return new WaitForEndOfFrame();
+
         inventoryUI.GameCtr = gameCtr;
         Item item = ScriptableObject.CreateInstance<Item>();
+        gameCtr.StartBattle(enemy);
 
         yield return new WaitForEndOfFrame();
 
@@ -101,11 +132,38 @@ public class Test_PMInventoryUI
         Assert.AreEqual("", textToTest.text, "Item uses were not displayed as empty even though there was no item!");
     }
 
+    [UnityTest]
+    public IEnumerator InventoryUIOnlyEnabledDuringBattle()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy(false);
+        InventoryUI inventoryUI = CreateInventoryUI();
+        GameController gameCtr = CreateGameController(player);
+        inventoryUI.GameCtr = gameCtr;
+
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsFalse(inventoryUI.gameObject.activeSelf, "Inventory UI was enabled on game start!");
+
+        gameCtr.StartBattle(enemy);
+
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsTrue(inventoryUI.gameObject.activeSelf, "Inventory UI was not enabled during battle!");
+
+        enemy.stats.ReceiveDamage(enemy.stats.GetMaxHealth());
+
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsFalse(inventoryUI.gameObject.activeSelf, "Inventory UI was not enabled after battle!");
+    }
 
 
-    // --------------------- helper methods ----------------------------------------
 
-    public Player CreatePlayer()
+
+        // --------------------- helper methods ----------------------------------------
+
+        public Player CreatePlayer()
     {
         Player p = new GameObject().AddComponent<Player>();
         p.stats = new PlayerStatsClass();
@@ -132,9 +190,9 @@ public class Test_PMInventoryUI
     {
         InventoryUI inventoryUI = new GameObject("InventoryUI").AddComponent<InventoryUI>();
 
-        Button slot = new GameObject().AddComponent<Button>();
-        Image slotImage = new GameObject().AddComponent<Image>();
-        TextMeshProUGUI uses = new GameObject().AddComponent<TextMeshProUGUI>();
+        Button slot = new GameObject("Slot").AddComponent<Button>();
+        Image slotImage = new GameObject("Image").AddComponent<Image>();
+        TextMeshProUGUI uses = new GameObject("Text").AddComponent<TextMeshProUGUI>();
 
         slot.transform.SetParent(inventoryUI.transform);
         slotImage.transform.SetParent(slot.transform);

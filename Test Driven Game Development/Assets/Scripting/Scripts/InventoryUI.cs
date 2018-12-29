@@ -36,11 +36,16 @@ public class InventoryUI : MonoBehaviour
             UpdateInventoryUI();
             firstFrame = false;
         }
-	}
+    }
 
     public void UpdateInventoryUI()
     {
         int index = 0;
+        if (slots == null)
+        {
+            return;
+        }
+
         foreach (Button slot in slots)
         {
             PlayerInventoryClass inventory = GameCtr.player.GetPlayerInventory();
@@ -60,7 +65,6 @@ public class InventoryUI : MonoBehaviour
                         }
                         else
                         {
-                            img.sprite = null;
                             img.enabled = false;
                         }
                     }
@@ -104,7 +108,9 @@ public class InventoryUI : MonoBehaviour
     }
     public TextMeshProUGUI GetUsesTextOfSlot(Button slot)
     {
-        return slot.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        Transform child = slot.transform.GetChild(1);
+        TextMeshProUGUI text = child.GetComponent<TextMeshProUGUI>();
+        return text;
     }
 }
 
