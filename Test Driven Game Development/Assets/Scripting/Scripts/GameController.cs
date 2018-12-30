@@ -330,6 +330,11 @@ public class GameController : MonoBehaviour, IGameController
         StartCoroutine(SpawnParticlesAtPosition(charger.position, particles, particleTime, addHeight));
     }
 
+    public void HandleDeath(Transform deadActor, GameObject particles, float particleTime, Vector3 addHeight = new Vector3())
+    {
+        StartCoroutine(SpawnParticlesAtPosition(deadActor.position, particles, particleTime, addHeight));
+    }
+
     public InventoryUI GetInventoryUI()
     {
         return inventoryUI.GetComponent<InventoryUI>();
@@ -350,5 +355,6 @@ public interface IGameController
     IEnumerator SpawnParticlesAtPosition(Vector3 pos, GameObject particles, float particleTime, Vector3 addHeight = new Vector3());
     void HandleLandedAttack(Transform hit, GameObject particles, float particleTime);
     void HandleCharging(Transform charger, GameObject particles, float particleTime, Vector3 addHeight = new Vector3());
+    void HandleDeath(Transform deadFighter, GameObject particles, float particleTime, Vector3 addHeight = new Vector3());
     InventoryUI GetInventoryUI();
 }

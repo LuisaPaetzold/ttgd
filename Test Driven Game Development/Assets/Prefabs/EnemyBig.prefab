@@ -3082,6 +3082,8 @@ MonoBehaviour:
   AttackParticleLength: 1
   ChargeParticle: {fileID: 100000, guid: 7b56cd9b663f23f429e131a54ec87db0, type: 2}
   ChargeParticleLength: 2.5
+  DeathParticle: {fileID: 100004, guid: 7867af58a6ec48846ae807eb4022fbaa, type: 2}
+  DeathParticleLength: 1
 --- !u!114 &114033365965471104
 MonoBehaviour:
   m_ObjectHideFlags: 1

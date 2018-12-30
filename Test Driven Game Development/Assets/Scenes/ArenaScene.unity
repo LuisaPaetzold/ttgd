@@ -11407,11 +11407,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114877764231116416, guid: b05e3196ec239d04f915aec87ccf748d,
-        type: 2}
-      propertyPath: inventory.items.Array.size
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 4881286039335914, guid: b05e3196ec239d04f915aec87ccf748d, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0.8
@@ -11444,24 +11439,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 114877764231116416, guid: b05e3196ec239d04f915aec87ccf748d,
-        type: 2}
-      propertyPath: inventory.items.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 3076ede8a1b89e742abb8d310b113581,
-        type: 2}
-    - target: {fileID: 114877764231116416, guid: b05e3196ec239d04f915aec87ccf748d,
-        type: 2}
-      propertyPath: inventory.items.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 0918fa50fe6f2f34bbc6e3d837ca540d,
-        type: 2}
-    - target: {fileID: 114877764231116416, guid: b05e3196ec239d04f915aec87ccf748d,
-        type: 2}
-      propertyPath: inventory.items.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: ab9899894c60acc45beac8c31e937336,
-        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b05e3196ec239d04f915aec87ccf748d, type: 2}
   m_IsPrefabAsset: 0

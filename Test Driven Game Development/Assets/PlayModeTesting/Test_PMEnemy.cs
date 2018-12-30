@@ -190,9 +190,48 @@ public class Test_PMEnemy
         }
 
         Assert.IsTrue(foundParticles.Length == 2, "No new particle system was spawned!");
-        Assert.IsTrue(foundInstantiated, "Enemy did not spawn a correct particle system after landing a hit!");
+        Assert.IsTrue(foundInstantiated, "Enemy did not spawn a correct particle system after charging!");
 
         yield return new WaitForSeconds(enemy.ChargeParticleLength + 0.1f);
+        foundParticles = GameObject.FindObjectsOfType<ParticleSystem>();
+        Assert.IsTrue(foundParticles.Length == 1, "Spawned particle system was not removed!");
+    }
+
+    [UnityTest]
+    public IEnumerator Test_SpawnsDeathParticlesAfterDying()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+        ParticleSystem deathParticles = new GameObject("deathParticles").AddComponent<ParticleSystem>();
+        enemy.DeathParticle = deathParticles.gameObject;
+        enemy.DeathParticleLength = 0.1f;
+        enemy.autoAttack = false;
+
+        GameController gameCtr = CreateGameController(player);
+        enemy.GameCtr = gameCtr;
+        gameCtr.StartBattle(enemy);
+
+        yield return new WaitForEndOfFrame();
+
+        enemy.stats.ReceiveDamage(enemy.stats.GetMaxHealth());
+
+        yield return new WaitForEndOfFrame();
+
+        ParticleSystem[] foundParticles = GameObject.FindObjectsOfType<ParticleSystem>();
+        bool foundInstantiated = false;
+
+        foreach (ParticleSystem p in foundParticles)
+        {
+            if (p.gameObject.name.Contains("(Clone)"))
+            {
+                foundInstantiated = true;
+            }
+        }
+
+        Assert.IsTrue(foundParticles.Length == 2, "No new particle system was spawned!");
+        Assert.IsTrue(foundInstantiated, "Enemy did not spawn a correct particle system after dying!");
+
+        yield return new WaitForSeconds(enemy.DeathParticleLength + 0.1f);
         foundParticles = GameObject.FindObjectsOfType<ParticleSystem>();
         Assert.IsTrue(foundParticles.Length == 1, "Spawned particle system was not removed!");
     }

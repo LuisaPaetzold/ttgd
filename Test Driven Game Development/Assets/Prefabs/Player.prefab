@@ -2053,7 +2053,10 @@ MonoBehaviour:
   inventory:
     MaxItemSlots: 3
     equippedWeapon: {fileID: 0}
-    items: []
+    items:
+    - {fileID: 11400000, guid: 3076ede8a1b89e742abb8d310b113581, type: 2}
+    - {fileID: 11400000, guid: 0918fa50fe6f2f34bbc6e3d837ca540d, type: 2}
+    - {fileID: 11400000, guid: ab9899894c60acc45beac8c31e937336, type: 2}
   GameCtr: {fileID: 0}
   healthBar: {fileID: 1658482455450062}
   turnTimeBar: {fileID: 1678116041347848}
