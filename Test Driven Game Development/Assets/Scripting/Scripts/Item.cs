@@ -28,7 +28,7 @@ public class Item : ScriptableObject
     }
 
     #region Uses
-    public void Use(FighterStatsClass user) 
+    public void Use(FighterStatsClass user, IGameController gameCtr = null) 
     {
         if (usesLeft == 0)
         {
@@ -47,6 +47,12 @@ public class Item : ScriptableObject
                 break;
             case ItemType.Healing:
                 user.GetHealedBy(40);
+                break;
+            case ItemType.DealDamage:
+                if (gameCtr != null)
+                {
+                    gameCtr.PlayerThrowBomb();
+                }
                 break;
             default:
                 Debug.LogWarning("There was no behavior specified for item of type " + type.ToString());

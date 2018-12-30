@@ -217,6 +217,12 @@ public class GameController : MonoBehaviour, IGameController
         }
     }
 
+    public void PlayerThrowBomb()
+    {
+        currentEnemies[0].stats.ReceiveDamage(100); //TOD nicht hard coden!
+        HandleLandedAttack(currentEnemies[0].transform, player.BombParticle, player.BombParticleLength);
+    }
+
     public void PlayerAttackEnemyNoDodging()
     {
         bool attackLanded = playerStats.AttackOpponent(currentEnemies[0].stats, false, true);
@@ -325,6 +331,12 @@ public class GameController : MonoBehaviour, IGameController
         StartCoroutine(SpawnParticlesAtPosition(pos, particles, particleTime));
     }
 
+    public void HandleBombExplosion(Transform hit, GameObject particles, float particleTime)
+    {
+        Vector3 pos = hit.position + new Vector3(0, 1, 0);
+        StartCoroutine(SpawnParticlesAtPosition(pos, particles, particleTime));
+    }
+
     public void HandleCharging(Transform charger, GameObject particles, float particleTime, Vector3 addHeight = new Vector3())
     {
         StartCoroutine(SpawnParticlesAtPosition(charger.position, particles, particleTime, addHeight));
@@ -352,8 +364,10 @@ public interface IGameController
     void HandlePlayerDeath();
     bool TakesPartInCurrentBattle(EnemyStatsClass enemy);
     bool TakesPartInCurrentBattle(Enemy enemy);
+    void PlayerThrowBomb();
     IEnumerator SpawnParticlesAtPosition(Vector3 pos, GameObject particles, float particleTime, Vector3 addHeight = new Vector3());
     void HandleLandedAttack(Transform hit, GameObject particles, float particleTime);
+    void HandleBombExplosion(Transform hit, GameObject particles, float particleTime);
     void HandleCharging(Transform charger, GameObject particles, float particleTime, Vector3 addHeight = new Vector3());
     void HandleDeath(Transform deadFighter, GameObject particles, float particleTime, Vector3 addHeight = new Vector3());
     InventoryUI GetInventoryUI();

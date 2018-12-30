@@ -25,6 +25,8 @@ public class Player : MonoBehaviour, IPlayer
     public float AttackParticleLength = 1;
     public GameObject ChargeParticle;
     public float ChargeParticleLength = 1;
+    public GameObject BombParticle;
+    public float BombParticleLength = 1;
 
     void Start ()
     {

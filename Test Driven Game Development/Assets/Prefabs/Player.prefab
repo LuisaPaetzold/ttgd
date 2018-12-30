@@ -1542,7 +1542,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1807535916868980}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.8, y: 2.07, z: -0.99}
+  m_LocalPosition: {x: 7.19, y: 2.07, z: 1.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4396876046044916}
@@ -2062,10 +2062,13 @@ MonoBehaviour:
   turnTimeBar: {fileID: 1678116041347848}
   gravityValue: -0.1
   charContr: {fileID: 0}
-  AttackParticle: {fileID: 100000, guid: f06e78284f831ae469c74624ab5d513b, type: 2}
+  AttackParticle: {fileID: 100004, guid: fb7b0526ade434043b350a180d741cf3, type: 2}
   AttackParticleLength: 1
   ChargeParticle: {fileID: 100006, guid: 60bc526f4be1e044ab9e46340b82ffb3, type: 2}
   ChargeParticleLength: 2.5
+  BombParticle: {fileID: 1892078723244562, guid: 46876a2780737ec45a19d62f88e5ce56,
+    type: 2}
+  BombParticleLength: 2
 --- !u!114 &114916035641440850
 MonoBehaviour:
   m_ObjectHideFlags: 1
