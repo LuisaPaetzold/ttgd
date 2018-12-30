@@ -46,7 +46,7 @@ public class Item : ScriptableObject
             case ItemType.AttackBoost:
                 break;
             case ItemType.Healing:
-                user.GetHealedBy(20);
+                user.GetHealedBy(40);
                 break;
             default:
                 Debug.LogWarning("There was no behavior specified for item of type " + type.ToString());
