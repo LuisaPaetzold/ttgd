@@ -172,7 +172,7 @@ public class Test_PMPlayer
     }
 
     [UnityTest]
-    public IEnumerator Test_CanAttackAfterWaitingTurnTime()
+    public IEnumerator Test_CanActAfterWaitingTurnTime()
     {
         Player player = CreatePlayer();
         Enemy enemy = CreateEnemy();
@@ -213,30 +213,66 @@ public class Test_PMPlayer
     {
         Player player = CreatePlayer();
         Enemy enemy = CreateEnemy();
+        GameController GameCtr = CreateGameController(player);
         IUnityStaticService staticService = CreateUnityService(player.stats.TurnTime, 0, 0);
         player.staticService = staticService;
 
         yield return new WaitForEndOfFrame();
 
-        player.stats.AttackOpponent(enemy.stats, false, true);
+        GameCtr.StartBattle(enemy);
 
         yield return new WaitForEndOfFrame();
+
+        Assert.IsTrue(player.stats.CanAct(), "Player wasn't allowed to act in the first place!");
+
+        player.stats.AttackOpponent(enemy.stats, false, false);
 
         Assert.IsFalse(player.stats.CanAct(), "Player turn time did not reset after their attack!");
     }
 
     [UnityTest]
-    public IEnumerator Test_TurnTimeIsResetAfterCharge()
+    public IEnumerator Test_TurnTimeIsResetAfterUsingAnItem()
     {
         Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+        GameController GameCtr = CreateGameController(player);
+        IUnityStaticService staticService = CreateUnityService(player.stats.TurnTime, 0, 0);
+        player.staticService = staticService;
+        Item item = ScriptableObject.CreateInstance<Item>();
+        item.type = ItemType.Healing;
+        player.inventory.CollectItem(item);
+
+        yield return new WaitForEndOfFrame();
+
+        GameCtr.StartBattle(enemy);
+
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsTrue(player.stats.CanAct(), "Player wasn't allowed to act in the first place!");
+
+        player.inventory.UseItem(0);
+
+        Assert.IsFalse(player.stats.CanAct(), "Player turn time did not reset after using an item!");
+    }
+
+    [UnityTest]
+    public IEnumerator Test_TurnTimeIsResetAfterCharging()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+        GameController GameCtr = CreateGameController(player);
         IUnityStaticService staticService = CreateUnityService(player.stats.TurnTime, 0, 0);
         player.staticService = staticService;
 
         yield return new WaitForEndOfFrame();
 
-        player.stats.UseChargeForDamageBoost();
+        GameCtr.StartBattle(enemy);
 
         yield return new WaitForEndOfFrame();
+
+        Assert.IsTrue(player.stats.CanAct(), "Player wasn't allowed to act in the first place!");
+
+        player.stats.UseChargeForDamageBoost();
 
         Assert.IsFalse(player.stats.CanAct(), "Player turn time did not reset after charging!");
     }

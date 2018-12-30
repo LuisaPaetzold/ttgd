@@ -149,8 +149,6 @@ public class GameController : MonoBehaviour, IGameController
             pointsText.text = player.stats.GetCurrentPoints().ToString();
         }
 
-        //TODO: buttons nur aktivieren, wenn Spieler agieren kann und Items vorhanden!
-
     }
 
     public void StartBattle(Enemy enemy)

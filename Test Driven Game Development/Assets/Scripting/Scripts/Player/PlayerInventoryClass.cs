@@ -52,6 +52,7 @@ public class PlayerInventoryClass
         if (index < items.Count && items[index] != null)
         {
             items[index].Use(playerAddition.GetPlayerStats());
+            playerAddition.GetPlayerStats().currentTurnTime = 0;
         }
 
         CheckItemsForRemoval();

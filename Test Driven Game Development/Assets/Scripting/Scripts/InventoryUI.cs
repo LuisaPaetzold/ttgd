@@ -36,6 +36,8 @@ public class InventoryUI : MonoBehaviour
             UpdateInventoryUI();
             firstFrame = false;
         }
+
+        UpdateSlotInteractability();
     }
 
     public void UpdateInventoryUI()
@@ -85,6 +87,35 @@ public class InventoryUI : MonoBehaviour
                             uses.text = "";
                         }
                     }
+                }
+            }
+            index++;
+        }
+    }
+
+    public void UpdateSlotInteractability()
+    {
+        int index = 0;
+        if (slots == null)
+        {
+            return;
+        }
+
+        foreach (Button slot in slots)
+        {
+            PlayerInventoryClass inventory = GameCtr.player.GetPlayerInventory();
+            if (slot != null
+                && inventory != null
+                && GameCtr != null)
+            {
+                if (GameCtr.player.stats.CanAct()
+                    && index < inventory.items.Count)
+                {
+                    slot.interactable = true;
+                }
+                else
+                {
+                    slot.interactable = false;
                 }
             }
             index++;

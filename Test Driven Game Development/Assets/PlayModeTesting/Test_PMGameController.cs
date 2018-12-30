@@ -114,7 +114,7 @@ public class Test_PMGameController
 
         Assert.IsFalse(attackBtnScript.IsInteractable(), "Attack Button was interactable before the player waited their turn time!");
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(player.stats.TurnTime);
 
         Assert.IsTrue(attackBtnScript.IsInteractable(), "Attack Button wasn't interactable after the player waited their turn time!");
 
@@ -138,7 +138,7 @@ public class Test_PMGameController
 
         Assert.IsFalse(chargeBtnScript.IsInteractable(), "Charge Button was interactable before the player waited their turn time!");
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(player.stats.TurnTime);
 
         Assert.IsTrue(chargeBtnScript.IsInteractable(), "Charge Button wasn't interactable after the player waited their turn time!");
 
@@ -159,7 +159,7 @@ public class Test_PMGameController
         yield return new WaitForEndOfFrame();
         gameCtr.StartBattle(enemy);
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(player.stats.TurnTime);
 
         Assert.IsTrue(chargeBtnScript.IsInteractable(), "Charge Button wasn't interactable after the player waited their turn time!");
 

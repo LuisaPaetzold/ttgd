@@ -158,12 +158,82 @@ public class Test_PMInventoryUI
         Assert.IsFalse(inventoryUI.gameObject.activeSelf, "Inventory UI was not enabled after battle!");
     }
 
+    [UnityTest]
+    public IEnumerator SlotsAreOnlyInteractableIfPlayerCanAct()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy(false);
+        InventoryUI inventoryUI = CreateInventoryUI();
+        GameController gameCtr = CreateGameController(player);
+
+        yield return new WaitForEndOfFrame();
+
+        inventoryUI.GameCtr = gameCtr;
+        Item item = ScriptableObject.CreateInstance<Item>();
+
+        yield return new WaitForEndOfFrame();
+
+        gameCtr.StartBattle(enemy);
+        player.inventory.CollectItem(item);
+
+        yield return new WaitForEndOfFrame();
+
+        Button slotButton = inventoryUI.transform.GetChild(0).gameObject.GetComponent<Button>();
+
+        Assert.IsFalse(slotButton.IsInteractable(), "Slot button was interactable before the player waited their turn time!");
+
+        yield return new WaitForSeconds(player.stats.TurnTime);
+
+        Assert.IsTrue(slotButton.IsInteractable(), "Slot button wasn't interactable after the player waited their turn time!");
+
+        player.inventory.UseItem(0);
+        yield return new WaitForEndOfFrame(); yield return new WaitForEndOfFrame();
+
+        Assert.IsFalse(slotButton.IsInteractable(), "Slot button wasn't reset to not interactable after the player attacked!");
+    }
+
+    [UnityTest]
+    public IEnumerator SlotsAreOnlyInteractableIfContainsItem()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy(false);
+        InventoryUI inventoryUI = CreateInventoryUI();
+        GameController gameCtr = CreateGameController(player);
+
+        yield return new WaitForEndOfFrame();
+
+        inventoryUI.GameCtr = gameCtr;
+        Item item = ScriptableObject.CreateInstance<Item>();
+
+        yield return new WaitForEndOfFrame();
+
+        gameCtr.StartBattle(enemy);
+
+        yield return new WaitForSeconds(player.stats.TurnTime);
+        yield return new WaitForEndOfFrame();
+
+        Button slotButton = inventoryUI.transform.GetChild(0).gameObject.GetComponent<Button>();
+
+        Assert.IsFalse(slotButton.IsInteractable(), "Slot button was interactable even though there was no item!");
+        
+        player.inventory.CollectItem(item);
+
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsTrue(slotButton.IsInteractable(), "Slot button wasn't interactable even though there was an item!");
+
+        player.inventory.RemoveItem(item);
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsFalse(slotButton.IsInteractable(), "Slot button wasn't reset to not interactable after the item was removed!");
+    }
+
+    
 
 
+    // --------------------- helper methods ----------------------------------------
 
-        // --------------------- helper methods ----------------------------------------
-
-        public Player CreatePlayer()
+    public Player CreatePlayer()
     {
         Player p = new GameObject().AddComponent<Player>();
         p.stats = new PlayerStatsClass();
