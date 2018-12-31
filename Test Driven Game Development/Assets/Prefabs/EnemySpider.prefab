@@ -4750,6 +4750,9 @@ MonoBehaviour:
   turnTimeBar: {fileID: 1138732323681406}
   autoAttack: 1
   AttackProbability: 0.85
+  DroppableItems:
+  - {fileID: 114896673726489168, guid: eeab78f729c52a44a8715bda804f14c3, type: 2}
+  - {fileID: 114896673726489168, guid: 539fdbee5aa5d4d4a96f40dcee879eec, type: 2}
   AttackParticle: {fileID: 100000, guid: f06e78284f831ae469c74624ab5d513b, type: 2}
   AttackParticleLength: 1
   ChargeParticle: {fileID: 100000, guid: 7b56cd9b663f23f429e131a54ec87db0, type: 2}

@@ -237,6 +237,41 @@ public class Test_PMEnemy
     }
 
     [UnityTest]
+    public IEnumerator Test_DropsItemAfterDying()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+        ItemDrop droppedItem = new GameObject("droppedItem").AddComponent<ItemDrop>();
+        enemy.DroppableItems = new System.Collections.Generic.List<ItemDrop>();
+        enemy.DroppableItems.Add(droppedItem);
+        enemy.autoAttack = false;
+
+        GameController gameCtr = CreateGameController(player);
+        enemy.GameCtr = gameCtr;
+        gameCtr.StartBattle(enemy);
+
+        yield return new WaitForEndOfFrame();
+
+        enemy.stats.ReceiveDamage(enemy.stats.GetMaxHealth());
+
+        yield return new WaitForEndOfFrame();
+
+        ItemDrop[] foundDrops = GameObject.FindObjectsOfType<ItemDrop>();
+        bool foundInstantiated = false;
+
+        foreach (ItemDrop drop in foundDrops)
+        {
+            if (drop.gameObject.name.Contains("(Clone)"))
+            {
+                foundInstantiated = true;
+            }
+        }
+
+        Assert.IsTrue(foundDrops.Length == 2, "No new item drop was spawned!");
+        Assert.IsTrue(foundInstantiated, "Enemy did not drop a correct item drop after dying!");
+    }
+
+    [UnityTest]
     public IEnumerator Test_EnemyStartsBattleWithTurnTimeAtZero()
     {
         Player player = CreatePlayer();

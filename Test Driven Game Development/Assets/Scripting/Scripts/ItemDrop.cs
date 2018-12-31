@@ -1,0 +1,77 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+
+public class ItemDrop : MonoBehaviour
+{
+    public Item droppedItem;
+    public float maxDisplayDistance = 2.5f;
+
+    private Canvas itemDisplay;
+    private string normalText;
+    private TextMeshProUGUI text;
+    public Player player;
+
+    void Start ()
+    {
+        if (player == null)
+        {
+            player = FindObjectOfType<Player>();
+        }
+        
+        itemDisplay = GetComponentInChildren<Canvas>();
+        if (itemDisplay != null)
+        {
+            text = itemDisplay.GetComponentInChildren<TextMeshProUGUI>();
+        }
+        
+        if (text != null)
+        {
+            normalText = text.text;
+        }
+    }
+
+	void Update ()
+    {
+		if (itemDisplay != null && player != null)
+        {
+            float dist = player.GetDistanceToPlayer(this.transform.position);
+            if (dist < maxDisplayDistance)
+            {
+                itemDisplay.gameObject.SetActive(true);
+            }
+            else
+            {
+                itemDisplay.gameObject.SetActive(false);
+            }
+
+            if (text != null)
+            {
+                if (player.inventory != null
+                    && player.inventory.items != null
+                    && !player.inventory.PlayerHasItem(droppedItem)
+                    && !player.inventory.CanCollectItem(droppedItem))
+                {
+                    text.text = "Inventory full!";
+                }
+                else
+                {
+                    text.text = normalText;
+                }
+            }
+                
+        }
+	}
+
+    public void PlayerCollectItem()
+    {
+        if (droppedItem != null)
+        {
+            player.inventory.CollectItem(droppedItem);
+        }
+        
+        GameObject.Destroy(this.gameObject);
+    }
+}
+

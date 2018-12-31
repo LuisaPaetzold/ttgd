@@ -53,7 +53,10 @@ public class Player : MonoBehaviour, IPlayer
 
         foreach(Item i in inventory.items)
         {
-            i.SetUpItem();
+            if (i != null)
+            {
+                i.SetUpItem();
+            }
         }
 
         if (healthBar != null)
@@ -127,6 +130,12 @@ public class Player : MonoBehaviour, IPlayer
         {
             GameCtr.StartBattle(enemy);
         }
+
+        ItemDrop itemDrop = other.gameObject.GetComponent<ItemDrop>();
+        if (itemDrop != null)
+        {
+            itemDrop.PlayerCollectItem();
+        }
     }
 
     public void OnStartBattle()
@@ -188,6 +197,11 @@ public class Player : MonoBehaviour, IPlayer
         return GameCtr;
     }
 
+    public float GetDistanceToPlayer(Vector3 pos)
+    {
+        return (this.transform.position - pos).magnitude;
+    }
+
     #endregion Implementation IPlayer
 }
 
@@ -197,4 +211,5 @@ public interface IPlayer
     PlayerStatsClass GetPlayerStats();
     PlayerInventoryClass GetPlayerInventory();
     IGameController GetGameController();
+    float GetDistanceToPlayer(Vector3 pos);
 }

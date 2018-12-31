@@ -408,6 +408,22 @@ public class Test_PMPlayer
         Assert.IsTrue(foundParticles.Length == 1, "Spawned particle system was not removed!");
     }
 
+    [UnityTest]
+    public IEnumerator Test_CanCollectItemDrop()
+    {
+        Player player = CreatePlayer();
+        ItemDrop drop = new GameObject("drop").AddComponent<ItemDrop>();
+        drop.droppedItem = ScriptableObject.CreateInstance<Item>();
+        Item tmpItem = drop.droppedItem;
+        yield return new WaitForEndOfFrame();
+
+        drop.PlayerCollectItem();
+
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsTrue(player.inventory.PlayerHasItem(tmpItem), "Player could not collect the dropped item!");
+    }
+
     // --------------------- helper methods ----------------------------------------
 
     public Player CreatePlayer(bool setUpComponentsInTest = true)

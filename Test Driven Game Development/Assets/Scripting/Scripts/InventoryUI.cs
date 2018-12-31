@@ -62,8 +62,15 @@ public class InventoryUI : MonoBehaviour
                         if (index < inventory.items.Count)
                         {
                             Item item = inventory.items[index];
-                            img.sprite = item.GetIcon();
-                            img.enabled = true;
+                            if (item != null)
+                            {
+                                img.sprite = item.GetIcon();
+                                img.enabled = true;
+                            }
+                            else
+                            {
+                                img.enabled = false;
+                            }
                         }
                         else
                         {
@@ -80,7 +87,14 @@ public class InventoryUI : MonoBehaviour
                         if (index < inventory.items.Count)
                         {
                             Item item = inventory.items[index];
-                            uses.text = item.GetUsesLeft().ToString();
+                            if (item != null)
+                            {
+                                uses.text = item.GetUsesLeft().ToString();
+                            }
+                            else
+                            {
+                                uses.text = "";
+                            }
                         }
                         else
                         {

@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
     [Header("Battle Behavior")]
     public bool autoAttack = true;
     public float AttackProbability = 0.7f;
+    public List<ItemDrop> DroppableItems;
 
     [Header("Particles")]
     public GameObject AttackParticle;
@@ -127,6 +128,15 @@ public class Enemy : MonoBehaviour
                 stats.UseChargeForDamageBoost();
                 GameCtr.HandleCharging(transform, ChargeParticle, ChargeParticleLength, new Vector3(0, 0.23f, 0));
             }
+        }
+    }
+
+    public void DropRandomItem()
+    {
+        if (DroppableItems != null && DroppableItems.Count > 0)
+        {
+            int rand = UnityEngine.Random.Range(0, DroppableItems.Count);
+            GameObject.Instantiate(DroppableItems[rand], this.transform.position, this.transform.rotation);
         }
     }
 }

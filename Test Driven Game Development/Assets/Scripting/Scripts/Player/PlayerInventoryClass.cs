@@ -68,16 +68,30 @@ public class PlayerInventoryClass
         return items.Contains(item);
     }
 
-    private bool CanCollectItem()
+    public bool CanCollectItem(Item item)
     {
-        return items.Count < MaxItemSlots;
+        return items.Count < MaxItemSlots || PlayerHasItem(item);
     }
 
     public void CollectItem(Item item)
     {
-        if (CanCollectItem())
+        if (CanCollectItem(item))
         {
-            items.Add(item);
+            if (PlayerHasItem(item))
+            {
+                foreach (Item i in items)
+                {
+                    if (i == item)
+                    {
+                        i.AddUses(item.MaxUses);
+                    }
+                }
+            }
+            else
+            {
+                items.Add(item);
+            }
+            
 
             if (playerAddition != null
                 && playerAddition.GetGameController() != null

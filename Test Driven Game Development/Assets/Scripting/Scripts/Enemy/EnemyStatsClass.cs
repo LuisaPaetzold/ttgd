@@ -35,6 +35,7 @@ public class EnemyStatsClass : FighterStatsClass
             {
                 Enemy enemy = GameCtr.GetCurrentEnemies()[0];
                 GameCtr.HandleDeath(enemy.transform, enemy.DeathParticle, enemy.DeathParticleLength, new Vector3(0, 0, 0));
+                enemy.DropRandomItem();
             }
             
         }

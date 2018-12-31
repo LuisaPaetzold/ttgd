@@ -71,6 +71,12 @@ public class Item : ScriptableObject
     {
         return usesLeft;
     }
+
+    public void AddUses(int u)
+    {
+        usesLeft += u;
+    }
+
     #endregion Uses
 }
 
