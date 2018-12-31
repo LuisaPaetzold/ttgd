@@ -219,7 +219,7 @@ public class GameController : MonoBehaviour, IGameController
 
     public void PlayerThrowBomb()
     {
-        currentEnemies[0].stats.ReceiveDamage(100); //TOD nicht hard coden!
+        currentEnemies[0].stats.ReceiveDamage(100); //TODO nicht hard coden!
         HandleLandedAttack(currentEnemies[0].transform, player.BombParticle, player.BombParticleLength);
     }
 

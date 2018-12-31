@@ -370,6 +370,43 @@ public class Test_PMPlayer
         Assert.IsTrue(foundParticles.Length == 1, "Spawned particle system was not removed!");
     }
 
+    [UnityTest]
+    public IEnumerator Test_SpawnsBombParticlesAfterBombExplosion()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+        ParticleSystem bombParticles = new GameObject("bombParticles").AddComponent<ParticleSystem>();
+        player.BombParticle = bombParticles.gameObject;
+        player.BombParticleLength = 0.01f;
+
+        GameController gameCtr = CreateGameController(player);
+        player.GameCtr = gameCtr;
+        gameCtr.StartBattle(enemy);
+
+        yield return new WaitForEndOfFrame();
+
+        gameCtr.PlayerThrowBomb();
+
+        yield return new WaitForSeconds(0.005f);
+
+        ParticleSystem[] foundParticles = GameObject.FindObjectsOfType<ParticleSystem>();
+        bool foundInstantiated = false;
+
+        foreach (ParticleSystem p in foundParticles)
+        {
+            if (p.gameObject.name.Contains("(Clone)"))
+            {
+                foundInstantiated = true;
+            }
+        }
+
+        Assert.IsTrue(foundParticles.Length == 2, "No new particle system was spawned!");
+        Assert.IsTrue(foundInstantiated, "Player did not spawn a correct particle system after landing a hit!");
+
+        yield return new WaitForSeconds(player.BombParticleLength);
+        foundParticles = GameObject.FindObjectsOfType<ParticleSystem>();
+        Assert.IsTrue(foundParticles.Length == 1, "Spawned particle system was not removed!");
+    }
 
     // --------------------- helper methods ----------------------------------------
 

@@ -31,8 +31,12 @@ public class EnemyStatsClass : FighterStatsClass
             {
                 player.ModifyPoints(PointsToGain);
             }
-            Enemy enemy = GameCtr.GetCurrentEnemies()[0];
-            GameCtr.HandleDeath(enemy.transform, enemy.DeathParticle, enemy.DeathParticleLength, new Vector3(0, 0, 0));
+            if (GameCtr.GetCurrentEnemies() != null)
+            {
+                Enemy enemy = GameCtr.GetCurrentEnemies()[0];
+                GameCtr.HandleDeath(enemy.transform, enemy.DeathParticle, enemy.DeathParticleLength, new Vector3(0, 0, 0));
+            }
+            
         }
     }
     #endregion Health

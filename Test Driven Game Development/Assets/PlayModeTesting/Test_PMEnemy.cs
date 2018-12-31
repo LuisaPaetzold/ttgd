@@ -325,10 +325,11 @@ public class Test_PMEnemy
     public IEnumerator Test_AttacksIfFullyCharged()
     {
         Player player = CreatePlayer();
+        player.stats.DodgePropability = 0;
         Enemy enemy = CreateEnemy();
         IUnityStaticService staticService = CreateUnityService(enemy.stats.TurnTime, 0, 0);
         enemy.staticService = staticService;
-        enemy.AttackProbability = 0;
+        enemy.AttackProbability = 1;
         enemy.stats.MaxAmountOfChargings = 1;
 
         GameController gameCtr = CreateGameController(player);
@@ -345,6 +346,30 @@ public class Test_PMEnemy
 
         Assert.AreNotEqual(player.stats.GetCurrentHealth(), oldHealth, "Enemy wasn't forced to attack after charging to max!");
     }
+
+    [UnityTest]
+    public IEnumerator Test_CannotDodgeBomb()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+        enemy.stats.DodgePropability = 1;
+        GameController gameCtr = CreateGameController(player);
+
+        yield return new WaitForEndOfFrame();
+
+        gameCtr.StartBattle(enemy);
+
+        yield return new WaitForEndOfFrame();
+
+        gameCtr.PlayerThrowBomb();
+
+        yield return new WaitForEndOfFrame();
+
+        int damagedHealth = enemy.stats.GetCurrentHealth();
+
+        Assert.Less(damagedHealth, enemy.stats.GetMaxHealth(), "Enemy was able to dodge a bomb!");
+    }
+
 
     // --------------------- helper methods ----------------------------------------
 

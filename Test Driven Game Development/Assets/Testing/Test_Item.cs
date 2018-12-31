@@ -2,6 +2,7 @@
 using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
+using NSubstitute;
 
 public class Test_Item
 {
@@ -76,6 +77,22 @@ public class Test_Item
         int healedHealth = stats.GetCurrentHealth();
 
         Assert.Greater(healedHealth, damagedHealth, "Using a healing item did not increase the players health!");
+    }
+
+    [Test]
+    public void Test_ItemCanDamageEnemies()
+    {
+        EnemyStatsClass stats = new EnemyStatsClass();
+        IGameController gameCtr = Substitute.For<IGameController>();
+        gameCtr.When(x => x.PlayerThrowBomb()).Do(x => stats.ReceiveDamage(10));
+
+        Item item = ScriptableObject.CreateInstance<Item>();
+        item.type = ItemType.DealDamage;
+        item.Use(stats, gameCtr);
+
+        int damagedHealth = stats.GetCurrentHealth();
+
+        Assert.Less(damagedHealth, stats.GetMaxHealth(), "Using a bomb item did not decrease the enemies health!");
     }
 
     #endregion Effects
