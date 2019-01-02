@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour, IGameController
     internal GameObject attackBtn;
     internal GameObject chargeBtn;
     internal GameObject fleeBtn;
+    internal GameObject redX;
     internal Button attackBtnScript;
     internal Button chargeBtnScript;
     internal Button fleeBtnScript;
@@ -34,6 +35,7 @@ public class GameController : MonoBehaviour, IGameController
         attackBtn = GameObject.Find("AttackBtn");
         chargeBtn = GameObject.Find("ChargeBtn");
         fleeBtn = GameObject.Find("FleeBtn");
+        redX = GameObject.Find("X");
         gameUI = GameObject.Find("GameUI");
         gameOverUI = GameObject.Find("GameOverUI");
         inventoryUI = GameObject.Find("InventoryUI");
@@ -135,6 +137,7 @@ public class GameController : MonoBehaviour, IGameController
             if (fleeBtnScript != null)
             {
                 if (currentEnemies != null 
+                    && currentEnemies.Count > 0
                     && currentEnemies[0] != null
                     && currentEnemies[0].playerCanFlee)
                 {
@@ -146,10 +149,20 @@ public class GameController : MonoBehaviour, IGameController
                     {
                         fleeBtnScript.interactable = false;
                     }
+
+                    if (redX != null && redX.activeSelf)
+                    {
+                        redX.SetActive(false);
+                    }
                 }
                 else
                 {
                     fleeBtnScript.interactable = false;
+
+                    if (redX != null && !redX.activeSelf)
+                    {
+                        redX.SetActive(true);
+                    }
                 }
             }
 

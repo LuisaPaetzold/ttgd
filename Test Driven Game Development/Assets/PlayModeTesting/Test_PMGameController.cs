@@ -253,6 +253,37 @@ public class Test_PMGameController
     }
 
     [UnityTest]
+    public IEnumerator Test_RedXOverFleeButtonIfFleeingNotAllowed()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy(false);
+        enemy.playerCanFlee = false;
+        GameObject fleeBtn = CreateMockObjectWithName("FleeBtn");
+        fleeBtn.AddComponent<Button>();
+        GameObject redX = CreateMockObjectWithName("X");
+        GameController gameCtr = CreateGameController(player);
+
+        yield return new WaitForEndOfFrame();
+
+        gameCtr.StartBattle(enemy);
+
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsTrue(redX.activeSelf, "Red X over flee Button was not active even though fleeing is not allowed!");
+
+        gameCtr.EndBattle();
+
+        yield return new WaitForEndOfFrame();
+
+        enemy.playerCanFlee = true;
+        gameCtr.StartBattle(enemy);
+
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsFalse(redX.activeSelf, "Red X over flee Button was not active even though fleeing is not allowed!");
+    }
+
+    [UnityTest]
     public IEnumerator Test_PlayerGetsTeleportedBackwardsOnZAxisFromEnemyPositionWhenBattleStarts()
     {
         Player player = CreatePlayer();
