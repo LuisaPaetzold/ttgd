@@ -253,9 +253,6 @@ public class Test_PMGameController
         float playerMovedZ = player.transform.position.z - enemyPos.z;
         float cameraMovedZ = cameraMock.transform.position.z - camPos.z;
 
-        Debug.Log("p: " + playerMovedZ);
-        Debug.Log("c: " + cameraMovedZ);
-
         Assert.AreEqual(camPos.x, cameraMock.transform.position.x, "Camera got moved on x axis when battle started!");
         Assert.AreEqual(camPos.y, cameraMock.transform.position.y, "Camera got moved on y axis when battle started!");
         Assert.AreNotEqual(camPos.z, cameraMock.transform.position.z, "Camera didn't get moved on z axis when battle started!");
