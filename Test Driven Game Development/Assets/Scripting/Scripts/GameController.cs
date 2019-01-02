@@ -155,10 +155,10 @@ public class GameController : MonoBehaviour, IGameController
     {
         isInBattle = true;
         currentEnemies.Add(enemy);
-        player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z - 2);
+        player.transform.position = new Vector3(enemy.transform.position.x, enemy.transform.position.y, enemy.transform.position.z - 4);
         if (gameCam != null)
         {
-            gameCam.transform.position = new Vector3(gameCam.transform.position.x, gameCam.transform.position.y, gameCam.transform.position.z - 1);
+            gameCam.transform.position = new Vector3(gameCam.transform.position.x, gameCam.transform.position.y, player.transform.position.z + 1.5f);
         }
         if (battleUI != null)
         {

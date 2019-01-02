@@ -209,26 +209,30 @@ public class Test_PMGameController
     }
 
     [UnityTest]
-    public IEnumerator Test_PlayerOnlyGetsTeleportedBackwardsOnZAxisWhenBattleStarts()
+    public IEnumerator Test_PlayerGetsTeleportedBackwardsOnZAxisFromEnemyPositionWhenBattleStarts()
     {
         Player player = CreatePlayer();
         Enemy enemy = CreateEnemy(false);
         GameController gameCtr = CreateGameController(player);
 
         Vector3 playerPos = new Vector3(2, 3, 4);
+        Vector3 enemyPos = new Vector3(1, 1, 1);
         player.transform.position = playerPos;
+        enemy.transform.position = enemyPos;
         yield return new WaitForEndOfFrame();
 
         gameCtr.StartBattle(enemy);
+
         yield return new WaitForEndOfFrame();
 
-        Assert.AreEqual(playerPos.x, player.transform.position.x, "Player got moved on x axis when battle started!");
-        Assert.AreEqual(playerPos.y, player.transform.position.y, "Player got moved on y axis when battle started!");
-        Assert.AreNotEqual(playerPos.z, player.transform.position.z, "Player didn't get moved on z axis when battle started!");
+        Assert.AreNotEqual(playerPos, player.transform.position, "Player didn't get teleported at all!");
+        Assert.AreEqual(enemy.transform.position.x, player.transform.position.x, "Player got moved wrong on x axis when battle started!");
+        Assert.AreEqual(enemy.transform.position.y, player.transform.position.y, "Player got moved wrong on y axis when battle started!");
+        Assert.AreNotEqual(enemy.transform.position.z, player.transform.position.z, "Player didn't get moved on z axis when battle started!");
     }
 
     [UnityTest]
-    public IEnumerator Test_CameraOnlyGetsTeleportedBackwardsHalfTheDistance()
+    public IEnumerator Test_CameraOnlyGetsTeleportedBackwardsPartOfTheDistance()
     {
         Player player = CreatePlayer();
         Enemy enemy = CreateEnemy(false);
@@ -236,20 +240,26 @@ public class Test_PMGameController
         GameController gameCtr = CreateGameController(player);
 
         Vector3 playerPos = new Vector3(2, 3, 4);
+        Vector3 enemyPos = new Vector3(1, 1, 1);
         player.transform.position = playerPos;
+        enemy.transform.position = enemyPos;
+
         Vector3 camPos = cameraMock.transform.position;
         yield return new WaitForEndOfFrame();
 
         gameCtr.StartBattle(enemy);
         yield return new WaitForEndOfFrame();
 
+        float playerMovedZ = player.transform.position.z - enemyPos.z;
         float cameraMovedZ = cameraMock.transform.position.z - camPos.z;
-        float playerMovedZ = player.transform.position.z - playerPos.z;
+
+        Debug.Log("p: " + playerMovedZ);
+        Debug.Log("c: " + cameraMovedZ);
 
         Assert.AreEqual(camPos.x, cameraMock.transform.position.x, "Camera got moved on x axis when battle started!");
         Assert.AreEqual(camPos.y, cameraMock.transform.position.y, "Camera got moved on y axis when battle started!");
         Assert.AreNotEqual(camPos.z, cameraMock.transform.position.z, "Camera didn't get moved on z axis when battle started!");
-        Assert.AreEqual(cameraMovedZ * 2, playerMovedZ, "Camera did not get moved half the distance the player was moved!");
+        Assert.Less(Mathf.Abs(cameraMovedZ), Mathf.Abs(playerMovedZ), "Camera did not get moved part of the distance the player was moved!");
     }
 
     [UnityTest]
