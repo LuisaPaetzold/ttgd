@@ -1,26 +1,32 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FighterStatsClass
 {
+    [Header ("Health")]
     public int MaxHealth = 100;
+    public int currentHealth;
+    public FighterState currentState;
+    public Color green;
+    public Color red;
     [Range(0, 1)]
     public float LastBreathThreshold = 0.1f;
+    [Header ("Battle")]
     public int AttackDamage = 10;
     public float ChargeDamageBoost = 1;
     public int MaxAmountOfChargings = 3;
+    public float oneTimeDamageBoost;
+    public Dictionary<string, float> lastingDamageBoosts;
     [Range(0, 1)]
     public float DodgePropability = 0.1f;
+    public GameObject dodged;
+    [Header ("Turn Time")]
     public float TurnTime = 3.0f;
     public float currentTurnTime = 0;
 
-    public int currentHealth;
 
-    public FighterState currentState;
-    public Dictionary<string, float> lastingDamageBoosts;
-    public float oneTimeDamageBoost;
 
-    public GameObject dodged;
 
     #region Setup
     public FighterStatsClass()
@@ -53,6 +59,19 @@ public class FighterStatsClass
         {
             float percentage = currentHealth * 1.0f / MaxHealth * 1.0f;
             healthBar.transform.localScale = new Vector3(percentage, healthBar.transform.localScale.y, healthBar.transform.localScale.z);
+
+            Image img = healthBar.GetComponent<Image>();
+            if (img != null)
+            {
+                if (currentState == FighterState.lastBreath)
+                {
+                    img.color = red;
+                }
+                else
+                {
+                    img.color = green;
+                }
+            }
         }
     }
 

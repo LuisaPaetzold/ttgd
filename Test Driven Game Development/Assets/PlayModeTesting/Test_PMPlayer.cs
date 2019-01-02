@@ -76,6 +76,42 @@ public class Test_PMPlayer
     }
 
     [UnityTest]
+    public IEnumerator Test_HealthBarColorChangesIfOnLastBreath()
+    {
+        Player player = CreatePlayer();
+        player.stats.red = new Color(1, 1, 1);
+        player.stats.green = new Color(5, 5, 5);
+        Enemy enemy = CreateEnemy();
+        Image healthBar = new GameObject().AddComponent<Image>();
+        GameObject healthBarParent = new GameObject();
+        healthBar.transform.SetParent(healthBarParent.transform);
+        player.healthBar = healthBar.gameObject;
+
+        int lastBreathDamage = Mathf.FloorToInt(player.stats.GetMaxHealth() - (player.stats.GetLastBreathThreshold() * player.stats.GetMaxHealth()));
+        const int heal = 10;
+
+        GameController gameCtr = CreateGameController(player);
+        yield return new WaitForEndOfFrame();
+
+        gameCtr.StartBattle(enemy);
+        yield return new WaitForEndOfFrame();
+
+        Assert.AreEqual(player.stats.green, healthBar.color, "Health bar was not set to green when player is not on last breath!");
+
+        player.stats.ReceiveDamage(lastBreathDamage);
+        yield return new WaitForEndOfFrame();
+
+        Assert.AreEqual(FighterState.lastBreath, player.stats.GetCurrentFighterState(), "Player didn't get to last breath after his health dropped below the threshold!");
+        Assert.AreEqual(player.stats.red, healthBar.color, "Health bar was not set to red when player dropped to last breath!");
+
+        player.stats.GetHealedBy(heal);
+        yield return new WaitForEndOfFrame();
+
+        Assert.AreEqual(FighterState.alive, player.stats.GetCurrentFighterState(), "Fighter didn't recover from last breath after his health exceeded the threshold!");
+        Assert.AreEqual(player.stats.green, healthBar.color, "Health bar was not set back to green when player was healed!");
+    }
+
+    [UnityTest]
     public IEnumerator Test_HealthBarIsOnlyEnabledDuringBattle()
     {
         Player player = CreatePlayer();
@@ -469,7 +505,6 @@ public class Test_PMPlayer
 
         Assert.Zero(player.stats.lastingDamageBoosts.Count, "Player still had lasting damage boosts after battle ended!");
     }
-
 
     // --------------------- helper methods ----------------------------------------
 

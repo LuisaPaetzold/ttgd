@@ -286,7 +286,6 @@ public class Test_FighterStats
         Assert.Less(firstBoostDamage, secondBoostDamage, "Second lasting damage boost didn't increase attack damage");
     }
 
-
     [Test]
     public void Test_FighterCanReceiveOnlyOneLastingDamageBoostFromSameSource()
     {

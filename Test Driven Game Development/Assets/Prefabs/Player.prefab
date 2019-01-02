@@ -289,7 +289,7 @@ GameObject:
   - component: {fileID: 222356288077628368}
   - component: {fileID: 114401699511879016}
   m_Layer: 0
-  m_Name: RedBar
+  m_Name: GreyBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1542,7 +1542,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1807535916868980}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.19, y: 2.07, z: 1.1}
+  m_LocalPosition: {x: 3.8, y: 2.07, z: 1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4396876046044916}
@@ -1843,7 +1843,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8396226, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.3882353, g: 0.3882353, b: 0.3882353, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2037,17 +2037,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats:
     MaxHealth: 200
+    currentHealth: 100
+    currentState: 0
+    green: {r: 0.05882353, g: 0.5372549, b: 0, a: 1}
+    red: {r: 0.8392157, g: 0, b: 0, a: 1}
     LastBreathThreshold: 0.15
     AttackDamage: 20
     ChargeDamageBoost: 1.5
     MaxAmountOfChargings: 3
+    oneTimeDamageBoost: 0
     DodgePropability: 0.25
+    dodged: {fileID: 1821901957689766}
     TurnTime: 3
     currentTurnTime: 0
-    currentHealth: 100
-    currentState: 0
-    oneTimeDamageBoost: 0
-    dodged: {fileID: 1821901957689766}
     currentPoints: 0
     playerSpeed: 2.5
   inventory:
@@ -2056,7 +2058,6 @@ MonoBehaviour:
     items:
     - {fileID: 11400000, guid: 3076ede8a1b89e742abb8d310b113581, type: 2}
     - {fileID: 11400000, guid: 0918fa50fe6f2f34bbc6e3d837ca540d, type: 2}
-    - {fileID: 11400000, guid: ab9899894c60acc45beac8c31e937336, type: 2}
   GameCtr: {fileID: 0}
   healthBar: {fileID: 1658482455450062}
   turnTimeBar: {fileID: 1678116041347848}

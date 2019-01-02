@@ -10905,11 +10905,6 @@ Prefab:
       propertyPath: GameCtr
       value: 
       objectReference: {fileID: 1854279068}
-    - target: {fileID: 114026336356762068, guid: b8572003ca8632f4eaf980230b3f3a2d,
-        type: 2}
-      propertyPath: playerCanFlee
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8572003ca8632f4eaf980230b3f3a2d, type: 2}
   m_IsPrefabAsset: 0
@@ -16250,11 +16245,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114877764231116416, guid: b05e3196ec239d04f915aec87ccf748d,
-        type: 2}
-      propertyPath: inventory.items.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4881286039335914, guid: b05e3196ec239d04f915aec87ccf748d, type: 2}
       propertyPath: m_LocalPosition.x
       value: 3.8
@@ -16286,11 +16276,6 @@ Prefab:
     - target: {fileID: 4881286039335914, guid: b05e3196ec239d04f915aec87ccf748d, type: 2}
       propertyPath: m_RootOrder
       value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 114877764231116416, guid: b05e3196ec239d04f915aec87ccf748d,
-        type: 2}
-      propertyPath: inventory.items.Array.data[2]
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b05e3196ec239d04f915aec87ccf748d, type: 2}
@@ -17261,11 +17246,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114026336356762068, guid: 73793e1d41f2fee488e6c3760bdcbc61,
-        type: 2}
-      propertyPath: DroppableItems.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4593674375580294, guid: 73793e1d41f2fee488e6c3760bdcbc61, type: 2}
       propertyPath: m_LocalPosition.x
       value: -4.1211643
@@ -17297,23 +17277,6 @@ Prefab:
     - target: {fileID: 4593674375580294, guid: 73793e1d41f2fee488e6c3760bdcbc61, type: 2}
       propertyPath: m_RootOrder
       value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 114026336356762068, guid: 73793e1d41f2fee488e6c3760bdcbc61,
-        type: 2}
-      propertyPath: DroppableItems.Array.data[0]
-      value: 
-      objectReference: {fileID: 114896673726489168, guid: 843d758b649730c409b6bcd0b41b96bf,
-        type: 2}
-    - target: {fileID: 114026336356762068, guid: 73793e1d41f2fee488e6c3760bdcbc61,
-        type: 2}
-      propertyPath: DroppableItems.Array.data[1]
-      value: 
-      objectReference: {fileID: 114896673726489168, guid: 843d758b649730c409b6bcd0b41b96bf,
-        type: 2}
-    - target: {fileID: 114026336356762068, guid: 73793e1d41f2fee488e6c3760bdcbc61,
-        type: 2}
-      propertyPath: playerFleeProbability
-      value: 0.515
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 73793e1d41f2fee488e6c3760bdcbc61, type: 2}
