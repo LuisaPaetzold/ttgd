@@ -14,8 +14,10 @@ public class GameController : MonoBehaviour, IGameController
     internal GameObject battleUI;
     internal GameObject attackBtn;
     internal GameObject chargeBtn;
+    internal GameObject fleeBtn;
     internal Button attackBtnScript;
     internal Button chargeBtnScript;
+    internal Button fleeBtnScript;
     internal TextMeshProUGUI chargeBtnText;
     internal GameObject gameUI;
     internal TextMeshProUGUI pointsText;
@@ -31,6 +33,7 @@ public class GameController : MonoBehaviour, IGameController
         battleUI = GameObject.Find("BattleUI");
         attackBtn = GameObject.Find("AttackBtn");
         chargeBtn = GameObject.Find("ChargeBtn");
+        fleeBtn = GameObject.Find("FleeBtn");
         gameUI = GameObject.Find("GameUI");
         gameOverUI = GameObject.Find("GameOverUI");
         inventoryUI = GameObject.Find("InventoryUI");
@@ -63,6 +66,15 @@ public class GameController : MonoBehaviour, IGameController
             }
             
         }
+        if (fleeBtn != null)
+        {
+            fleeBtnScript = fleeBtn.GetComponent<Button>();
+            if (fleeBtnScript != null)
+            {
+                fleeBtnScript.interactable = false;
+            }
+        }
+
         if (gameUI != null)
         {
             Transform textObj = gameUI.transform.Find("PointsText");
@@ -117,6 +129,27 @@ public class GameController : MonoBehaviour, IGameController
                 else if (!player.stats.CanAct() && attackBtnScript.IsInteractable())
                 {
                     attackBtnScript.interactable = false;
+                }
+            }
+
+            if (fleeBtnScript != null)
+            {
+                if (currentEnemies != null 
+                    && currentEnemies[0] != null
+                    && currentEnemies[0].playerCanFlee)
+                {
+                    if (player.stats.CanAct() && !fleeBtnScript.IsInteractable())
+                    {
+                        fleeBtnScript.interactable = true;
+                    }
+                    else if (!player.stats.CanAct() && fleeBtnScript.IsInteractable())
+                    {
+                        fleeBtnScript.interactable = false;
+                    }
+                }
+                else
+                {
+                    fleeBtnScript.interactable = false;
                 }
             }
 
@@ -206,6 +239,8 @@ public class GameController : MonoBehaviour, IGameController
                 e.OnEndBattle();
             }
         }
+
+        currentEnemies.Clear();
     }
 
     public void PlayerAttackEnemy()
@@ -221,6 +256,25 @@ public class GameController : MonoBehaviour, IGameController
     {
         currentEnemies[0].stats.ReceiveDamage(100); //TODO nicht hard coden!
         HandleLandedAttack(currentEnemies[0].transform, player.BombParticle, player.BombParticleLength);
+    }
+
+    public void PlayerTryFleeBattle()
+    {
+        if (!currentEnemies[0].playerCanFlee)
+        {
+            return;
+        }
+
+        float fleeRand = 1;
+        fleeRand = Random.value;
+        if (fleeRand < currentEnemies[0].playerFleeProbability)
+        {
+            EndBattle();
+        }
+        else
+        {
+            player.stats.currentTurnTime = 0;
+        }
     }
 
     public void PlayerAttackEnemyNoDodging()

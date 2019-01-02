@@ -16,8 +16,12 @@ public class Enemy : MonoBehaviour
 
     [Header("Battle Behavior")]
     public bool autoAttack = true;
+    [Range(0,1)]
     public float AttackProbability = 0.7f;
     public List<ItemDrop> DroppableItems;
+    public bool playerCanFlee = true;
+    [Range(0, 1)]
+    public float playerFleeProbability = 0.2f;
 
     [Header("Particles")]
     public GameObject AttackParticle;

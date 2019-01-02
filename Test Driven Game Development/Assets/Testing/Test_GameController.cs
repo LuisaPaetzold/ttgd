@@ -25,6 +25,24 @@ public class Test_GameController
         Assert.IsNotEmpty(gameCtr.currentEnemies, "Game controller doesn't have any reference to the enemies of the current battle!");
     }
 
+    [Test]
+    public void Test_GameControllerClearsCurrentEnemiesWhenBattleEnds()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+        enemy.playerCanFlee = true;
+        enemy.playerFleeProbability = 1;
+        GameController gameCtr = CreateGameController(player);
+
+        gameCtr.StartBattle(enemy);
+
+        Assert.IsNotEmpty(gameCtr.currentEnemies, "Game controller doesn't have any reference to the enemies of the current battle!");
+
+        gameCtr.PlayerTryFleeBattle();
+
+        Assert.IsEmpty(gameCtr.currentEnemies, "Game controller did not clear the enemies of the current battle!");
+    }
+
 
     // --------------------- helper methods ----------------------------------------
 

@@ -295,6 +295,30 @@ public class Test_PMPlayer
     }
 
     [UnityTest]
+    public IEnumerator Test_TurnTimeIsResetAfterTryingToFlee()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+        enemy.playerCanFlee = true;
+        enemy.playerFleeProbability = 0;
+        GameController GameCtr = CreateGameController(player);
+        IUnityStaticService staticService = CreateUnityService(player.stats.TurnTime, 0, 0);
+        player.staticService = staticService;
+
+        yield return new WaitForEndOfFrame();
+
+        GameCtr.StartBattle(enemy);
+
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsTrue(player.stats.CanAct(), "Player wasn't allowed to act in the first place!");
+
+        GameCtr.PlayerTryFleeBattle();
+
+        Assert.IsFalse(player.stats.CanAct(), "Player turn time did not reset after their attack!");
+    }
+
+    [UnityTest]
     public IEnumerator Test_SpawnsAttackParticlesAfterLandingAHit()
     {
         Player player = CreatePlayer();

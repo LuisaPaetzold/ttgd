@@ -145,7 +145,33 @@ public class Test_PMGameController
         player.stats.UseChargeForDamageBoost();
         yield return new WaitForEndOfFrame(); yield return new WaitForEndOfFrame();
 
-        Assert.IsFalse(chargeBtnScript.IsInteractable(), "Charge Button wasn't reset to not interactable after the player attacked!");
+        Assert.IsFalse(chargeBtnScript.IsInteractable(), "Charge Button wasn't reset to not interactable after the player charged!");
+    }
+
+    [UnityTest]
+    public IEnumerator Test_FleeButtonOnlyInteractableIfCanAct()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy(false);
+        enemy.playerCanFlee = true;
+        enemy.playerFleeProbability = 0;
+        Button fleeBtnScript = CreateMockObjectWithName("FleeBtn").AddComponent<Button>();
+
+        GameController gameCtr = CreateGameController(player);
+        yield return new WaitForEndOfFrame();
+        gameCtr.StartBattle(enemy);
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsFalse(fleeBtnScript.IsInteractable(), "Flee Button was interactable before the player waited their turn time!");
+
+        yield return new WaitForSeconds(player.stats.TurnTime);
+
+        Assert.IsTrue(fleeBtnScript.IsInteractable(), "Flee Button wasn't interactable after the player waited their turn time!");
+
+        gameCtr.PlayerTryFleeBattle();
+        yield return new WaitForEndOfFrame(); yield return new WaitForEndOfFrame();
+
+        Assert.IsFalse(fleeBtnScript.IsInteractable(), "Flee Button wasn't reset to not interactable after the player tried to flee!");
     }
 
     [UnityTest]
@@ -206,6 +232,24 @@ public class Test_PMGameController
         yield return new WaitForEndOfFrame(); yield return new WaitForEndOfFrame();
 
         Assert.IsTrue(chargeBtnText.text.Contains(player.stats.GetCurrentAmountOfChargings().ToString()), "Charge Button doesn't display current charge amount of 0 after attacking!");
+    }
+
+    [UnityTest]
+    public IEnumerator Test_FleeButtonNotInteractableIfFleeingNotAllowed()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy(false);
+        enemy.playerCanFlee = false;
+        Button fleeBtnScript = CreateMockObjectWithName("FleeBtn").AddComponent<Button>();
+        GameController gameCtr = CreateGameController(player);
+
+        yield return new WaitForEndOfFrame();
+
+        gameCtr.StartBattle(enemy);
+
+        yield return new WaitForSeconds(player.stats.TurnTime);
+
+        Assert.IsFalse(fleeBtnScript.IsInteractable(), "Flee Button was interactable even though fleeing is not allowed!");
     }
 
     [UnityTest]
@@ -276,6 +320,26 @@ public class Test_PMGameController
 
         Assert.IsFalse(gameCtr.IsInBattle(), "Battle did not end when player died!");
 
+    }
+
+    [UnityTest]
+    public IEnumerator Test_BattleEndsWhenPlayerFleesSuccessfully()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy(false);
+        enemy.playerCanFlee = true;
+        enemy.playerFleeProbability = 1;
+        GameController gameCtr = CreateGameController(player);
+
+        gameCtr.StartBattle(enemy);
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsTrue(gameCtr.IsInBattle(), "Battle didn't even start when it should have!");
+
+        gameCtr.PlayerTryFleeBattle();
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsFalse(gameCtr.IsInBattle(), "Battle did not end when player fled successfully!");
     }
 
     [UnityTest]
