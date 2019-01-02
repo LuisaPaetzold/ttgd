@@ -4,6 +4,7 @@ using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
 using TMPro;
+using NSubstitute;
 
 public class Test_PMInventoryUI
 {
@@ -228,7 +229,39 @@ public class Test_PMInventoryUI
         Assert.IsFalse(slotButton.IsInteractable(), "Slot button wasn't reset to not interactable after the item was removed!");
     }
 
-    
+    [UnityTest]
+    public IEnumerator AttackBoosterCannotBeUsedIfBoostAlreadyActive()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy(false);
+        InventoryUI inventoryUI = CreateInventoryUI();
+        GameController gameCtr = CreateGameController(player);
+        IUnityStaticService staticService = CreateUnityService(player.stats.TurnTime, 0, 0);
+        player.staticService = staticService;
+
+        yield return new WaitForEndOfFrame();
+
+        inventoryUI.GameCtr = gameCtr;
+        Item item = ScriptableObject.CreateInstance<Item>();
+        item.type = ItemType.AttackBoost;
+        item.AddUses(1);
+
+        yield return new WaitForEndOfFrame();
+
+        gameCtr.StartBattle(enemy);
+        player.inventory.CollectItem(item);
+        
+        yield return new WaitForEndOfFrame();
+
+        Button slotButton = inventoryUI.transform.GetChild(0).gameObject.GetComponent<Button>();
+        Assert.IsTrue(slotButton.IsInteractable(), "Slot button for boost item was not interactable even though there was no boost active!");
+
+        player.inventory.UseItem(0);
+        
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsFalse(slotButton.IsInteractable(), "Slot button for boost item was interactable even though there was already a boost active!");
+    }
 
 
     // --------------------- helper methods ----------------------------------------
@@ -277,5 +310,15 @@ public class Test_PMInventoryUI
     public Sprite CreateExampleSprite()
     {
         return Sprite.Create(new Texture2D(1, 1), new Rect(new Vector2(0, 0), new Vector2(1, 1)), new Vector2(1, 1));
+    }
+
+    IUnityStaticService CreateUnityService(float deltaTimeReturn, float horizontalReturn, float verticalReturn)
+    {
+        IUnityStaticService s = Substitute.For<IUnityStaticService>();
+        s.GetDeltaTime().Returns(deltaTimeReturn);
+        s.GetInputAxis("Horizontal").Returns(horizontalReturn);
+        s.GetInputAxis("Vertical").Returns(verticalReturn);
+
+        return s;
     }
 }

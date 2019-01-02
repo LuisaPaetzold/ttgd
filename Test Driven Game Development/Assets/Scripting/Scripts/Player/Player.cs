@@ -161,6 +161,11 @@ public class Player : MonoBehaviour, IPlayer
         {
             turnTimeBar.transform.parent.gameObject.SetActive(false);
         }
+        if (stats != null && stats.lastingDamageBoosts != null)
+        {
+            stats.lastingDamageBoosts.Clear();
+        }
+
     }
 
 

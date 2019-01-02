@@ -30,6 +30,11 @@ public class ItemDrop : MonoBehaviour
         {
             normalText = text.text;
         }
+
+        if (droppedItem != null)
+        {
+            droppedItem.SetUpItem();
+        }
     }
 
 	void Update ()

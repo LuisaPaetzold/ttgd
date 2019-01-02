@@ -44,6 +44,7 @@ public class Item : ScriptableObject
         switch (type)
         {
             case ItemType.AttackBoost:
+                user.AddLastingDamageBoost("Boost Item", 1.2f);
                 break;
             case ItemType.Healing:
                 user.GetHealedBy(40);

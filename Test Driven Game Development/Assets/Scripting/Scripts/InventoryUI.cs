@@ -126,6 +126,17 @@ public class InventoryUI : MonoBehaviour
                     && index < inventory.items.Count)
                 {
                     slot.interactable = true;
+
+                    Item item = inventory.items[index];
+                    if (item != null
+                        && item.type == ItemType.AttackBoost)
+                    {
+                        PlayerStatsClass stats = GameCtr.player.GetPlayerStats();
+                        if (stats != null && stats.lastingDamageBoosts.ContainsKey("Boost Item"))
+                        {
+                            slot.interactable = false;
+                        }
+                    }
                 }
                 else
                 {

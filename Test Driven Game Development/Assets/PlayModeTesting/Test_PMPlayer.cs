@@ -424,6 +424,29 @@ public class Test_PMPlayer
         Assert.IsTrue(player.inventory.PlayerHasItem(tmpItem), "Player could not collect the dropped item!");
     }
 
+    [UnityTest]
+    public IEnumerator Test_LastingAttackBoostAreRemovedWhenBattleEnds()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+        GameController gameCtr = CreateGameController(player);
+        yield return new WaitForEndOfFrame();
+
+        gameCtr.StartBattle(enemy);
+        player.stats.AddLastingDamageBoost("test", 1);
+
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsTrue(player.stats.lastingDamageBoosts.ContainsKey("test"), "Player did not add lasting damage boost in the first place!");
+
+        gameCtr.EndBattle();
+
+        yield return new WaitForEndOfFrame();
+
+        Assert.Zero(player.stats.lastingDamageBoosts.Count, "Player still had lasting damage boosts after battle ended!");
+    }
+
+
     // --------------------- helper methods ----------------------------------------
 
     public Player CreatePlayer(bool setUpComponentsInTest = true)
