@@ -83,8 +83,11 @@ public class ItemDrop : MonoBehaviour
         }
         else
         {
-            // this is a key, react to collecting it 
-            door.Open();
+            if (door != null)
+            {
+                // this is a key, react to collecting it 
+                door.Open();
+            }
         }
         
         GameObject.Destroy(this.gameObject);
