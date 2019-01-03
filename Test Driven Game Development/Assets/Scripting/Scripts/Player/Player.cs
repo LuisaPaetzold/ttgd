@@ -87,6 +87,16 @@ public class Player : MonoBehaviour, IPlayer
         {
             stats.ReceiveDamage(10);
         }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            if (GameCtr != null
+                && GameCtr.GetCurrentEnemies() != null
+                && GameCtr.GetCurrentEnemies()[0] != null
+                && GameCtr.GetCurrentEnemies()[0].stats != null)
+            {
+                GameCtr.GetCurrentEnemies()[0].stats.ReceiveDamage(GameCtr.GetCurrentEnemies()[0].stats.MaxHealth);
+            }
+        }
 
 
 
