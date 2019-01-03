@@ -75,6 +75,10 @@ public class ItemDrop : MonoBehaviour
     {
         if (droppedItem != null)
         {
+            if (droppedItem.GetUsesLeft() == 0)
+            {
+                droppedItem.SetUpItem();
+            }
             player.inventory.CollectItem(droppedItem);
         }
         else

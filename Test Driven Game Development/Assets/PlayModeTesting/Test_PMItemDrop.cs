@@ -119,7 +119,24 @@ public class Test_PMItemDrop
         Assert.IsFalse(player.inventory.PlayerHasItem(drop1.droppedItem), "Player was able to collect the second item even though there was no space!");
     }
 
+    [UnityTest]
+    public IEnumerator Test_ItemDropItemIsSetUpAnewWhenCollectedAndUsesDroppedToZero()
+    {
+        Player player = CreatePlayer();
+        ItemDrop drop = CreateItemDrop();
+        drop.droppedItem.AddUses(-drop.droppedItem.MaxUses);
 
+        Assert.Zero(drop.droppedItem.GetUsesLeft(), "Simulated using of item did not set uses to zero!");
+
+        player.inventory.CollectItem(drop.droppedItem);
+
+        yield return new WaitForEndOfFrame();
+
+        Item collectedItem = player.inventory.items[0];
+
+        Assert.IsNotNull(collectedItem, "Player did not collect the item successfully!");
+        Assert.AreEqual(collectedItem.MaxUses, collectedItem.GetUsesLeft(), "Player did not collect the item the first time!");
+    }
 
 
 
