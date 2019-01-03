@@ -171,7 +171,6 @@ public class Player : MonoBehaviour, IPlayer
         {
             stats.lastingDamageBoosts.Clear();
         }
-
     }
 
 

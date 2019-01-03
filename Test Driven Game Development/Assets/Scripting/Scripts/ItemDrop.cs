@@ -67,7 +67,6 @@ public class ItemDrop : MonoBehaviour
                     text.text = normalText;
                 }
             }
-                
         }
 	}
 
