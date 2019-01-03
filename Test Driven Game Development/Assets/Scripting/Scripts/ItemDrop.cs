@@ -12,6 +12,7 @@ public class ItemDrop : MonoBehaviour
     private string normalText;
     private TextMeshProUGUI text;
     public Player player;
+    internal DoorControl door;
 
     void Start ()
     {
@@ -55,6 +56,7 @@ public class ItemDrop : MonoBehaviour
             {
                 if (player.inventory != null
                     && player.inventory.items != null
+                    && droppedItem != null
                     && !player.inventory.PlayerHasItem(droppedItem)
                     && !player.inventory.CanCollectItem(droppedItem))
                 {
@@ -74,6 +76,11 @@ public class ItemDrop : MonoBehaviour
         if (droppedItem != null)
         {
             player.inventory.CollectItem(droppedItem);
+        }
+        else
+        {
+            // this is a key, react to collecting it 
+            door.Open();
         }
         
         GameObject.Destroy(this.gameObject);

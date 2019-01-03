@@ -87,10 +87,6 @@ public class Player : MonoBehaviour, IPlayer
         {
             stats.ReceiveDamage(10);
         }
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            inventory.UseItem(0);
-        }
 
 
 

@@ -7,6 +7,7 @@ using UnityEngine;
 public class EnemyStatsClass : FighterStatsClass
 {
     public int PointsToGain = 10;
+    internal DoorControl lockedDoor;
 
     private IGameController GameCtr;
 
@@ -35,9 +36,25 @@ public class EnemyStatsClass : FighterStatsClass
             {
                 Enemy enemy = GameCtr.GetCurrentEnemies()[0];
                 GameCtr.HandleDeath(enemy.transform, enemy.DeathParticle, enemy.DeathParticleLength, new Vector3(0, 0, 0));
-                enemy.DropRandomItem();
+                
+                if (lockedDoor != null)
+                {
+                    ItemDrop key = lockedDoor.OnEnemyDied();
+                    if (key != null)
+                    {
+                        ItemDrop droppedKey = GameObject.Instantiate(key, enemy.transform.position, enemy.transform.rotation);
+                        droppedKey.door = lockedDoor;
+                    }
+                    else
+                    {
+                        enemy.DropRandomItem();
+                    }
+                }
+                else
+                {
+                    enemy.DropRandomItem();
+                }
             }
-            
         }
     }
     #endregion Health
