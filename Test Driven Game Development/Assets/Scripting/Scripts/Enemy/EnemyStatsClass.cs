@@ -65,7 +65,7 @@ public class EnemyStatsClass : FighterStatsClass
     {
         if (GameCtr != null)
         {
-            GameCtr.ReactToDodge(dodged);
+            GameCtr.ReactToDodge(dodged, DodgeDuration);
         }
     }
 

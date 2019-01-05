@@ -64,7 +64,7 @@ public class PlayerStatsClass : FighterStatsClass
         IGameController gameCtr = playerAddition.GetGameController();
         if (gameCtr != null)
         {
-            gameCtr.ReactToDodge(dodged);
+            gameCtr.ReactToDodge(dodged, DodgeDuration);
         }
     }
 

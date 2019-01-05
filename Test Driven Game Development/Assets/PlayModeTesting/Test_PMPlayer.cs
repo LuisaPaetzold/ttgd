@@ -183,11 +183,11 @@ public class Test_PMPlayer
         Assert.IsFalse(dodgedSign.gameObject.activeSelf, "Player dodged sign was active in battle when the player didn't dodge!");
 
         enemy.stats.AttackOpponent(player.stats, true, true);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(player.stats.DodgeDuration / 2);
 
         Assert.IsTrue(dodgedSign.gameObject.activeSelf, "Player dodged sign wasn't active in battle when the player dodged!");
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(player.stats.DodgeDuration);
 
         Assert.IsFalse(dodgedSign.gameObject.activeSelf, "Player dodged sign wasn't deactivated!");
     }
@@ -514,6 +514,7 @@ public class Test_PMPlayer
         if (setUpComponentsInTest)
         {
             p.stats = new PlayerStatsClass();
+            p.stats.TurnTime = 0.1f;
             p.inventory = new PlayerInventoryClass();
         }
         return p;

@@ -486,6 +486,7 @@ public class Test_PMGameController
     {
         Player p = new GameObject().AddComponent<Player>();
         p.stats = new PlayerStatsClass();
+        p.stats.TurnTime = 0.1f;
         p.inventory = new PlayerInventoryClass();
         return p;
     }

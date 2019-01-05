@@ -7,11 +7,23 @@ using TMPro;
 
 public class Test_PMItemDrop
 {
+    [TearDown]
+    public void TearDown()
+    {
+        Time.timeScale = 1;
+        foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
+        {
+            GameObject.Destroy(o);
+        }
+    }
+
+
     [UnityTest]
     public IEnumerator Test_ItemDropGetsRemovedAfterBeingCollected()
     {
         Player player = CreatePlayer();
         ItemDrop drop = CreateItemDrop();
+        drop.player = player;
 
         yield return new WaitForEndOfFrame();
 

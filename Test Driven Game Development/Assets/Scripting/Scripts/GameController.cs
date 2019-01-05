@@ -381,12 +381,12 @@ public class GameController : MonoBehaviour, IGameController
         return isInBattle;
     }
 
-    public void ReactToDodge(GameObject dodged)
+    public void ReactToDodge(GameObject dodged, float duration)
     {
-        StartCoroutine("HandleDodge", dodged);
+        StartCoroutine(HandleDodge(dodged, duration));
     }
 
-    private IEnumerator HandleDodge(GameObject dodged)
+    private IEnumerator HandleDodge(GameObject dodged, float duration)
     {
         if (dodged != null)
         {
@@ -394,9 +394,9 @@ public class GameController : MonoBehaviour, IGameController
             if (dodgeImg != null)
             {
                 dodged.SetActive(true);
-                yield return new WaitForSeconds(0.5f);
-                dodgeImg.CrossFadeAlpha(0, 0.5f, true);
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(duration / 2);
+                dodgeImg.CrossFadeAlpha(0, duration / 2, true);
+                yield return new WaitForSeconds(duration / 2);
                 if (dodged != null)
                 {
                     // check for nullpointer again as fighter might have died in the meantime
@@ -461,7 +461,7 @@ public interface IGameController
     PlayerStatsClass GetPlayerStats();
     List<Enemy> GetCurrentEnemies();
     bool IsInBattle();
-    void ReactToDodge(GameObject dodged);
+    void ReactToDodge(GameObject dodged, float duration);
     void HandlePlayerDeath();
     bool TakesPartInCurrentBattle(EnemyStatsClass enemy);
     bool TakesPartInCurrentBattle(Enemy enemy);

@@ -102,6 +102,7 @@ public class Test_PMEnemy
         Image dodgedSign = new GameObject().AddComponent<Image>();
         enemy.stats.dodged = dodgedSign.gameObject;
         enemy.stats.DodgePropability = 1;
+        enemy.stats.DodgeDuration = 0.01f;
 
         GameController gameCtr = CreateGameController(player);
         yield return new WaitForEndOfFrame();
@@ -114,11 +115,11 @@ public class Test_PMEnemy
         Assert.IsFalse(dodgedSign.gameObject.activeSelf, "Enemy dodged sign was active in battle when the enemy didn't dodge!");
 
         player.stats.AttackOpponent(enemy.stats, true, true);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(enemy.stats.DodgeDuration / 2);
 
         Assert.IsTrue(dodgedSign.gameObject.activeSelf, "Enemy dodged sign wasn't active in battle when the enemy dodged!");
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(enemy.stats.DodgeDuration);
 
         Assert.IsFalse(dodgedSign.gameObject.activeSelf, "Enemy dodged sign wasn't deactivated!");
     }
@@ -299,8 +300,11 @@ public class Test_PMEnemy
         GameController gameCtr = CreateGameController(player);
         enemy.GameCtr = gameCtr;
         player.GameCtr = gameCtr;
+        yield return new WaitForEndOfFrame();
+
         gameCtr.StartBattle(enemy);
-        yield return new WaitForSeconds(0.1f);
+
+        yield return new WaitForEndOfFrame();
 
         Assert.IsTrue(enemy.stats.CanAct(), "Enemy wasn't able to attack after waiting their turn time!");
     }

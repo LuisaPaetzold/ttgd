@@ -23,11 +23,13 @@ public class Test_PMCamera
         GameController gameCtr = CreateGameController(player);
         cameraMock.gameCtr = gameCtr;
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
 
         float initialDistance = (player.transform.position - cameraMock.transform.position).magnitude;
         player.transform.position = new Vector3(5, 5, 5);
-        yield return new WaitForSeconds(1);
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
 
         float distanceAfterMove = (player.transform.position - cameraMock.transform.position).magnitude;
 
@@ -42,13 +44,13 @@ public class Test_PMCamera
         Enemy enemy = CreateEnemy();
         GameController gameCtr = CreateGameController(player);
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForEndOfFrame();
 
         float initialDistance = (player.transform.position - cameraMock.transform.position).magnitude;
         gameCtr.StartBattle(enemy);
 
         player.transform.position = new Vector3(5, 5, 5);
-        yield return new WaitForSeconds(1);
+        yield return new WaitForEndOfFrame();
 
         float distanceAfterMove = (player.transform.position - cameraMock.transform.position).magnitude;
 
@@ -63,12 +65,15 @@ public class Test_PMCamera
         Enemy enemy = CreateEnemy();
         GameController gameCtr = CreateGameController(player);
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
 
         float initialDistance = (player.transform.position - cameraMock.transform.position).magnitude;
         gameCtr.StartBattle(enemy);
         enemy.stats.ReceiveDamage(enemy.stats.GetCurrentHealth());
-        yield return new WaitForSeconds(1);
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
 
         float distanceAfterBattle = (player.transform.position - cameraMock.transform.position).magnitude;
 

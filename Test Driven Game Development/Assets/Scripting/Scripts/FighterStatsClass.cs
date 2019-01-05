@@ -21,6 +21,7 @@ public class FighterStatsClass
     [Range(0, 1)]
     public float DodgePropability = 0.1f;
     public GameObject dodged;
+    public float DodgeDuration = 1;
     [Header ("Turn Time")]
     public float TurnTime = 3.0f;
     public float currentTurnTime = 0;
