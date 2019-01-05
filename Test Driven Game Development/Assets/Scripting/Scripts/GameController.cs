@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour, IGameController
     public Player player;
     private PlayerStatsClass playerStats;
     public List<Enemy> currentEnemies = new List<Enemy>();
+
     internal bool isInBattle = false;
 
     internal GameObject battleUI;
@@ -23,6 +24,8 @@ public class GameController : MonoBehaviour, IGameController
     internal GameObject gameUI;
     internal TextMeshProUGUI pointsText;
     internal GameObject gameOverUI;
+    internal GameObject blackScreenUI;
+    internal Image black;
     internal CameraFollow gameCam;
     internal GameObject inventoryUI;
 
@@ -38,6 +41,7 @@ public class GameController : MonoBehaviour, IGameController
         redX = GameObject.Find("X");
         gameUI = GameObject.Find("GameUI");
         gameOverUI = GameObject.Find("GameOverUI");
+        blackScreenUI = GameObject.Find("BlackScreenUI");
         inventoryUI = GameObject.Find("InventoryUI");
         if (battleUI != null)
         {
@@ -92,6 +96,19 @@ public class GameController : MonoBehaviour, IGameController
         if (gameOverUI != null)
         {
             gameOverUI.SetActive(false);
+        }
+        if (blackScreenUI != null)
+        {
+            Transform blackImg = blackScreenUI.transform.GetChild(0);
+            if (blackImg != null)
+            {
+                black = blackImg.GetComponent<Image>();
+                if (black != null)
+                {
+                    black.gameObject.SetActive(true);
+                    black.CrossFadeAlpha(0, 0, true);
+                }
+            }
         }
         if (inventoryUI != null)
         {
@@ -303,6 +320,23 @@ public class GameController : MonoBehaviour, IGameController
     {
         playerStats.UseChargeForDamageBoost();
         HandleCharging(player.transform, player.ChargeParticle, player.ChargeParticleLength);
+    }
+
+    public IEnumerator PlayerTeleport(TeleportToPosition teleport)
+    {
+        teleport.isInUse = true;
+        if (black != null)
+        {
+            black.CrossFadeAlpha(1, teleport.TeleportTime / 2, true);
+        }
+        yield return new WaitForSeconds(teleport.TeleportTime / 2);
+        player.transform.position = teleport.TeleportTo.transform.position;
+
+        if (black != null)
+        {
+            black.CrossFadeAlpha(0, teleport.TeleportTime / 2, true);
+        }
+        teleport.isInUse = false;
     }
 
 

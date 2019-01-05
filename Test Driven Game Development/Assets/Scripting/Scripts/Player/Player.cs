@@ -142,6 +142,12 @@ public class Player : MonoBehaviour, IPlayer
         {
             itemDrop.PlayerCollectItem();
         }
+
+        TeleportToPosition teleport = other.gameObject.GetComponent<TeleportToPosition>();
+        if (teleport != null)
+        {
+            teleport.PlayerTeleport();
+        }
     }
 
     public void OnStartBattle()

@@ -408,6 +408,78 @@ public class Test_PMGameController
         Assert.Zero(Time.timeScale, "Time scale wasn't set to 0 when the game ended!");
     }
 
+    [UnityTest]
+    public IEnumerator Test_TeleporterMovesPlayerToTeleportPosition()
+    {
+        Player player = CreatePlayer();
+        GameController gameCtr = CreateGameController(player);
+        TeleportToPosition teleport = CreateTeleporter(new Vector3(1, 1, 1));
+        teleport.GameCtr = gameCtr;
+
+        Vector3 playerPos = new Vector3(2, 3, 4);
+        player.transform.position = playerPos;
+
+        yield return new WaitForEndOfFrame();
+
+        teleport.PlayerTeleport();
+
+        yield return new WaitForSeconds(teleport.TeleportTime);
+
+        Assert.AreNotEqual(playerPos, player.transform.position, "Player didn't get teleported at all!");
+        Assert.AreEqual(teleport.TeleportTo.transform.position, player.transform.position, "Player did not get teleported to teleport position!");
+    }
+
+    [UnityTest]
+    public IEnumerator Test_TeleporterIsBlockedWhileTeleportInProgress()
+    {
+        Player player = CreatePlayer();
+        GameController gameCtr = CreateGameController(player);
+        TeleportToPosition teleport = CreateTeleporter(new Vector3(1, 1, 1));
+        teleport.GameCtr = gameCtr;
+
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsTrue(teleport.CanTeleport(), "Teleporter was blocked before any teleporting started!");
+
+        teleport.PlayerTeleport();
+
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsFalse(teleport.CanTeleport(), "Teleporter was not blocked after teleporting started!");
+
+        yield return new WaitForSeconds(teleport.TeleportTime);
+
+        Assert.IsTrue(teleport.CanTeleport(), "Teleporter was still blocked after teleporting finished!");
+    }
+
+    [UnityTest]
+    public IEnumerator Test_TeleporterTriggersBlackScreen()
+    {
+        Canvas blackScreenUI = new GameObject("BlackScreenUI").AddComponent<Canvas>();
+        Image black = new GameObject("Black").AddComponent<Image>();
+        black.gameObject.transform.SetParent(blackScreenUI.transform);
+
+        Player player = CreatePlayer();
+        GameController gameCtr = CreateGameController(player);
+        TeleportToPosition teleport = CreateTeleporter(new Vector3(1, 1, 1));
+        teleport.GameCtr = gameCtr;
+
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsTrue(black.gameObject.activeSelf, "Black screen image was not activated on game start!");
+        Assert.Zero(black.canvasRenderer.GetAlpha(), "Black screen was not set transparent on game start!");
+
+        teleport.PlayerTeleport();
+
+        yield return new WaitForSeconds(teleport.TeleportTime / 2);
+
+        Assert.NotZero(black.canvasRenderer.GetAlpha(), "Black screen was not set visible during teleportation!");
+
+        yield return new WaitForSeconds(teleport.TeleportTime / 2);
+
+        Assert.Zero(black.canvasRenderer.GetAlpha(), "Black screen was not set transparent after teleportation finished!");
+    }
+
     // --------------------- helper methods ----------------------------------------
 
     public Player CreatePlayer()
@@ -431,6 +503,15 @@ public class Test_PMGameController
         GameController g = new GameObject().AddComponent<GameController>();
         g.player = p;
         return g;
+    }
+
+    public TeleportToPosition CreateTeleporter(Vector3 teleportPos)
+    {
+        TeleportToPosition t = new GameObject().AddComponent<TeleportToPosition>();
+        t.TeleportTo = new GameObject();
+        t.TeleportTo.transform.position = teleportPos;
+        t.TeleportTime = 0.2f;
+        return t;
     }
 
     public GameObject CreateMockObjectWithName(string name)
