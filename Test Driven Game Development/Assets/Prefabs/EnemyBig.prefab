@@ -3068,11 +3068,12 @@ MonoBehaviour:
     red: {r: 0.8392157, g: 0, b: 0, a: 1}
     LastBreathThreshold: 0.1
     AttackDamage: 15
-    ChargeDamageBoost: 1
+    ChargeDamageBoost: 1.5
     MaxAmountOfChargings: 3
     oneTimeDamageBoost: 0
     DodgePropability: 0.15
     dodged: {fileID: 1945855093230052}
+    DodgeDuration: 1
     TurnTime: 6
     currentTurnTime: 0
     PointsToGain: 10

@@ -68,6 +68,16 @@ public class PlayerStatsClass : FighterStatsClass
         }
     }
 
+    public override void UpdateTurnTime(float passedTime)
+    {
+        base.UpdateTurnTime(passedTime);
+
+        if (currentTurnTime < TurnTime)
+        {
+            currentTurnTime += currentPoints * 0.0001f ;
+        }
+    }
+
     #endregion Attack
 
     #region Health

@@ -245,6 +245,37 @@ public class Test_PMPlayer
     }
 
     [UnityTest]
+    public IEnumerator Test_TurnTimeUpdateIsIncreasedByPoints()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy();
+
+        GameController gameCtr = CreateGameController(player);
+        enemy.GameCtr = gameCtr;
+        player.GameCtr = gameCtr;
+
+        yield return new WaitForEndOfFrame();
+
+        gameCtr.StartBattle(enemy);
+
+        yield return new WaitForEndOfFrame();
+        float turnTimeIncrease = player.stats.currentTurnTime;
+        Assert.NotZero(turnTimeIncrease, "Player turn time was not updated inside battle!");
+
+        gameCtr.EndBattle();
+        yield return new WaitForEndOfFrame();
+
+        player.stats.ModifyPoints(10);
+        gameCtr.StartBattle(enemy);
+
+        yield return new WaitForEndOfFrame();
+        float higherTurnTimeIncrease = player.stats.currentTurnTime;
+        Assert.NotZero(higherTurnTimeIncrease, "Player turn time was not updated inside battle!");
+        Assert.AreNotEqual(higherTurnTimeIncrease, turnTimeIncrease, "Player turn time was not increased any different with more points!");
+        Assert.Greater(higherTurnTimeIncrease, turnTimeIncrease, "Player turn time was not increased faster with more points!");
+    }
+
+    [UnityTest]
     public IEnumerator Test_TurnTimeIsResetAfterAttack()
     {
         Player player = CreatePlayer();

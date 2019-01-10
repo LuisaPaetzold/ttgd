@@ -183,7 +183,7 @@ public class FighterStatsClass
         return (currentTurnTime >= TurnTime);
     }
 
-    public void UpdateTurnTime(float passedTime)
+    public virtual void UpdateTurnTime(float passedTime)
     {
         if (currentTurnTime < TurnTime)
         {
