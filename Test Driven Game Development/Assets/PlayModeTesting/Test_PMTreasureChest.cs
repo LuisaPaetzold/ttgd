@@ -7,6 +7,17 @@ using NSubstitute;
 
 public class Test_PMTreasureChest
 {
+    [TearDown]
+    public void TearDown()
+    {
+        Time.timeScale = 1;
+        foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
+        {
+            GameObject.Destroy(o);
+        }
+    }
+
+
     [UnityTest]
     public IEnumerator Test_ChestOpensIfPlayerCloseEnough()
     {

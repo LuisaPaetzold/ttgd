@@ -61,7 +61,6 @@ public class TreasureChest : MonoBehaviour
                     }
 
                     isOpen = true;
-                    Debug.Log("Chest opened!");
                 }
             }
             else

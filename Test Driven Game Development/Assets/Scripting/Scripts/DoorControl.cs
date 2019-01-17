@@ -50,8 +50,6 @@ public class DoorControl : MonoBehaviour
 
     public void Open()
     {
-        Debug.Log("OPEN");
-
         this.transform.localPosition = positionOpen;
         this.transform.rotation = new Quaternion();
     }

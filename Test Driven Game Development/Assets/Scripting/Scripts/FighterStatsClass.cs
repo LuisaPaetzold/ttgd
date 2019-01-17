@@ -225,7 +225,6 @@ public class FighterStatsClass
                 else
                 {
                     opponent.ShowDodge();
-                    Debug.Log("Dodged!");
                     return false;
                 }
             }

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.Rendering;
-//using UnityEngine.PostProcessing;
+using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.PostProcessing;
 
 public class GameController : MonoBehaviour, IGameController
 {
