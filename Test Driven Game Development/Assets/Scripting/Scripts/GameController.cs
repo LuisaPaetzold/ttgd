@@ -379,11 +379,13 @@ public class GameController : MonoBehaviour, IGameController
         teleport.isInUse = false;
     }
 
-    public IEnumerator EndGame(float endDuration, Light treasureChestLight)
+    public void InvokeGameEnd(float endDuration, Light treasureChestLight)
     {
-        // to test: game ends with this function
-        // player can no longer move after this
-        // white screen + text fades ín
+        StartCoroutine(EndGame(endDuration, treasureChestLight));
+    }
+
+    private IEnumerator EndGame(float endDuration, Light treasureChestLight)
+    {
         gameEnded = true;
 
         if (white != null

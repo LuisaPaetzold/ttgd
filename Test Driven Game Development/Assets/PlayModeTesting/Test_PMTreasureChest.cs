@@ -102,6 +102,28 @@ public class Test_PMTreasureChest
         Assert.AreEqual(chest.maxLightIntensity, chest.flareLight.intensity, "Flare light intensity was increased beyond max intensity!");
     }
 
+    [UnityTest]
+    public IEnumerator Test_InvokesGameEndAfterLightIncreasedToMax()
+    {
+        Player player = CreatePlayer();
+        TreasureChest chest = CreateChest();
+        GameController gameCtr = CreateGameController(player);
+        chest.gameCtr = gameCtr;
+
+        yield return new WaitForEndOfFrame();
+
+        chest.flareLight.intensity = chest.maxLightIntensity;
+
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsTrue(gameCtr.gameEnded, "Game end was not invoked after light increased to max!");
+    }
+
+
+
+
+
 
     // --------------------- helper methods ----------------------------------------
 
@@ -139,5 +161,12 @@ public class Test_PMTreasureChest
         s.GetInputAxis("Vertical").Returns(verticalReturn);
 
         return s;
+    }
+
+    public GameController CreateGameController(Player p)
+    {
+        GameController g = new GameObject().AddComponent<GameController>();
+        g.player = p;
+        return g;
     }
 }

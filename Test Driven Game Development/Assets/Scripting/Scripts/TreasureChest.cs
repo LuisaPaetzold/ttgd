@@ -78,7 +78,7 @@ public class TreasureChest : MonoBehaviour
                         if (gameCtr != null
                             && !gameCtr.gameEnded)
                         {
-                            StartCoroutine(gameCtr.EndGame(2, flareLight));
+                            gameCtr.InvokeGameEnd(2, flareLight);
                         }
                     }
                 }

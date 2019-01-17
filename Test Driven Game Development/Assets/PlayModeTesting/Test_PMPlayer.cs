@@ -63,6 +63,23 @@ public class Test_PMPlayer
     }
 
     [UnityTest]
+    public IEnumerator Test_PlayerCannotMoveWhenGameIsOver()
+    {
+        Player player = CreatePlayer();
+        player.gameObject.AddComponent<CharacterController>();
+        player.stats.playerSpeed = 1.0f;
+        IUnityStaticService staticService = CreateUnityService(1, 1, 1);
+        player.staticService = staticService;
+
+        GameController gameCtr = CreateGameController(player);
+        gameCtr.gameEnded = true;
+
+        yield return new WaitForFixedUpdate();
+
+        Assert.AreEqual(new Vector3(0,0,0), player.transform.position, "Player moved even though game was already over!");
+    }
+
+    [UnityTest]
     public IEnumerator Test_PlayerIsAffectedByGravity()
     {
         Player player = CreatePlayer();

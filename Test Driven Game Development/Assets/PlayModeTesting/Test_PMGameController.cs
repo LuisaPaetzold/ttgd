@@ -480,6 +480,95 @@ public class Test_PMGameController
         Assert.Zero(black.canvasRenderer.GetAlpha(), "Black screen was not set transparent after teleportation finished!");
     }
 
+    [UnityTest]
+    public IEnumerator Test_GameEndScreenFadesInWhenGameEnds()
+    {
+        Canvas gameEndUI = new GameObject("GameEndUI").AddComponent<Canvas>();
+        Image white = new GameObject("White").AddComponent<Image>();
+        white.transform.SetParent(gameEndUI.transform);
+        TextMeshProUGUI endText = new GameObject("EndText").AddComponent<TextMeshProUGUI>();
+
+        Canvas blackScreenUI = new GameObject("BlackScreenUI").AddComponent<Canvas>();
+        Image black = new GameObject("Black").AddComponent<Image>();
+        black.gameObject.transform.SetParent(blackScreenUI.transform);
+
+        endText.transform.SetParent(white.transform);
+        float endDuration = 0.001f;
+
+        Player player = CreatePlayer();
+        GameController gameCtr = CreateGameController(player);
+
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsTrue(gameEndUI.gameObject.activeSelf, "White screen UI was not activated on game start!");
+        Assert.IsTrue(white.gameObject.activeSelf, "White screen image was not activated on game start!");
+        Assert.IsTrue(endText.gameObject.activeSelf, "End text was not activated on game start!");
+
+        Assert.Zero(white.canvasRenderer.GetAlpha(), "White screen was not set transparent on game start!");
+        Assert.Zero(endText.canvasRenderer.GetAlpha(), "End text was not set transparent on game start!");
+
+
+        gameCtr.InvokeGameEnd(endDuration, null);
+
+        yield return new WaitForSeconds(endDuration);
+
+        Assert.AreEqual(white.canvasRenderer.GetAlpha(), 1, "White screen did not fade in!");
+        Assert.AreEqual(endText.canvasRenderer.GetAlpha(), 1, "End text did not fade in!");
+
+        yield return new WaitForSeconds(endDuration * 2.5f);
+
+        Assert.Zero(white.canvasRenderer.GetAlpha(), "White screen did not fade back out again!");
+
+        yield return new WaitForSeconds(endDuration * 1.5f);
+
+        Assert.AreEqual(black.canvasRenderer.GetAlpha(), 1, "Black screen did not fade in!");
+
+        yield return new WaitForSeconds(endDuration);
+
+        Assert.Zero(endText.canvasRenderer.GetAlpha(), "End text did not fade out in the end!");
+    }
+
+    [UnityTest]
+    public IEnumerator Test_SwapsNormalForBrokenRoomWhenGameEnds()
+    {
+        float endDuration = 0.001f;
+        Player player = CreatePlayer();
+        GameController gameCtr = CreateGameController(player);
+        GameObject normalRoom = new GameObject("NormalRoom");
+        GameObject brokenRoom = new GameObject("BrokenRoom");
+        gameCtr.NormalRoom = normalRoom;
+        gameCtr.BrokenRoom = brokenRoom;
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsTrue(normalRoom.activeSelf, "Normal room was not active on game start!");
+        Assert.IsFalse(brokenRoom.activeSelf, "Broken room was active on game start!");
+
+        gameCtr.InvokeGameEnd(endDuration, null);
+
+        yield return new WaitForSeconds(endDuration * 3);
+
+        Assert.IsFalse(normalRoom.activeSelf, "Normal room was not deactivated on game end!");
+        Assert.IsTrue(brokenRoom.activeSelf, "Broken room not actived on game end!");
+    }
+
+    [UnityTest]
+    public IEnumerator Test_ResetsFlareLightIntensityWhenGameEnds()
+    {
+        float endDuration = 0.001f;
+        Player player = CreatePlayer();
+        GameController gameCtr = CreateGameController(player);
+        Light flareLight = new GameObject("FlareLight").AddComponent<Light>();
+        flareLight.intensity = 20
+            ;
+        yield return new WaitForEndOfFrame();
+
+        gameCtr.InvokeGameEnd(endDuration, flareLight);
+
+        yield return new WaitForSeconds(endDuration * 3);
+
+        Assert.Zero(flareLight.intensity, "Flare light intensity was not reset on game end!");
+    }
+
     // --------------------- helper methods ----------------------------------------
 
     public Player CreatePlayer()
