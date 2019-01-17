@@ -112,6 +112,12 @@ public class Player : MonoBehaviour, IPlayer
 
     public void FixedUpdate()
     {
+        if (GameCtr != null
+            && GameCtr.gameEnded)
+        {
+            return;
+        }
+
         #region Movement
         float horizontal = staticService.GetInputAxis("Horizontal");
         float vertical = (-1) * staticService.GetInputAxis("Vertical");

@@ -5,6 +5,7 @@ using UnityEngine;
 public class TreasureChest : MonoBehaviour
 {
     public Player player;
+    public GameController gameCtr;
     public float openDistance = 3;
     public float maxLightIntensity = 30;
     public float lightIncreaseSpeed = 3.5f;
@@ -20,6 +21,12 @@ public class TreasureChest : MonoBehaviour
         {
             player = FindObjectOfType<Player>();
         }
+
+        if (gameCtr == null)
+        {
+            gameCtr = FindObjectOfType<GameController>();
+        }
+
         animator = GetComponent<Animator>();
 
         flareLight = GetComponentInChildren<Light>();
@@ -59,11 +66,21 @@ public class TreasureChest : MonoBehaviour
             }
             else
             {
-                if (flareLight != null
-                    && flareLight.intensity <= maxLightIntensity)
+                if (flareLight != null)
                 {
-                    flareLight.intensity += staticService.GetDeltaTime() * lightIncreaseSpeed;
-                    flareLight.intensity = Mathf.Min(maxLightIntensity, flareLight.intensity);
+                    if (flareLight.intensity < maxLightIntensity)
+                    {
+                        flareLight.intensity += staticService.GetDeltaTime() * lightIncreaseSpeed;
+                        flareLight.intensity = Mathf.Min(maxLightIntensity, flareLight.intensity);
+                    }
+                    else
+                    {
+                        if (gameCtr != null
+                            && !gameCtr.gameEnded)
+                        {
+                            StartCoroutine(gameCtr.EndGame(2, flareLight));
+                        }
+                    }
                 }
             }
         }

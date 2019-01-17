@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Rendering;
+//using UnityEngine.PostProcessing;
 
 public class GameController : MonoBehaviour, IGameController
 {
     public Player player;
     private PlayerStatsClass playerStats;
     public List<Enemy> currentEnemies = new List<Enemy>();
+
+    public bool gameEnded;
+
+    public GameObject NormalRoom;
+    public GameObject BrokenRoom;
+    //public PostProcessingProfile desasterProfile;
 
     internal bool isInBattle = false;
 
@@ -26,6 +34,9 @@ public class GameController : MonoBehaviour, IGameController
     internal GameObject gameOverUI;
     internal GameObject blackScreenUI;
     internal Image black;
+    internal GameObject gameEndUI;
+    internal Image white;
+    internal TextMeshProUGUI endText;
     internal CameraFollow gameCam;
     internal GameObject inventoryUI;
 
@@ -42,6 +53,7 @@ public class GameController : MonoBehaviour, IGameController
         gameUI = GameObject.Find("GameUI");
         gameOverUI = GameObject.Find("GameOverUI");
         blackScreenUI = GameObject.Find("BlackScreenUI");
+        gameEndUI = GameObject.Find("GameEndUI");
         inventoryUI = GameObject.Find("InventoryUI");
         if (battleUI != null)
         {
@@ -110,6 +122,25 @@ public class GameController : MonoBehaviour, IGameController
                 }
             }
         }
+        if (gameEndUI != null)
+        {
+            Transform whiteImg = gameEndUI.transform.GetChild(0);
+            if (whiteImg != null)
+            {
+                white = whiteImg.GetComponent<Image>();
+                if (white != null)
+                {
+                    white.gameObject.SetActive(true);
+                    white.CrossFadeAlpha(0, 0, true);
+                    endText = white.GetComponentInChildren<TextMeshProUGUI>();
+                    if (endText != null)
+                    {
+                        endText.gameObject.SetActive(true);
+                        endText.CrossFadeAlpha(0, 0, true);
+                    }
+                }
+            }
+        }
         if (inventoryUI != null)
         {
             inventoryUI.SetActive(false);
@@ -119,7 +150,16 @@ public class GameController : MonoBehaviour, IGameController
         {
             gameCam = FindObjectOfType<CameraFollow>();
         }
-	}
+
+        if (NormalRoom != null)
+        {
+            NormalRoom.SetActive(true);
+        }
+        if (BrokenRoom != null)
+        {
+            BrokenRoom.SetActive(false);
+        }
+    }
 	
 	void Update ()
     {
@@ -337,6 +377,53 @@ public class GameController : MonoBehaviour, IGameController
             black.CrossFadeAlpha(0, teleport.TeleportTime / 2, true);
         }
         teleport.isInUse = false;
+    }
+
+    public IEnumerator EndGame(float endDuration, Light treasureChestLight)
+    {
+        // to test: game ends with this function
+        // player can no longer move after this
+        // white screen + text fades ín
+        gameEnded = true;
+
+        if (white != null
+            && endText != null)
+        {
+            white.CrossFadeAlpha(1, endDuration, true);
+            endText.CrossFadeAlpha(1, endDuration, true);
+        }
+
+        yield return new WaitForSeconds(endDuration * 2);
+
+        if (NormalRoom != null
+            && BrokenRoom != null)
+        {
+            NormalRoom.SetActive(false);
+            BrokenRoom.SetActive(true);
+        }
+        if (treasureChestLight != null)
+        {
+            treasureChestLight.intensity = 0;
+        }
+
+        if (white != null)
+        {
+            white.CrossFadeAlpha(0, endDuration / 2, true);
+        }
+
+        yield return new WaitForSeconds(endDuration / 2);
+
+        if (black != null)
+        {
+            black.CrossFadeAlpha(1, endDuration, true);
+        }
+
+        yield return new WaitForSeconds(endDuration / 2);
+
+        if (endText != null)
+        {
+            endText.CrossFadeAlpha(0, endDuration / 2, true);
+        }
     }
 
 
