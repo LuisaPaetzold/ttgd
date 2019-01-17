@@ -4,6 +4,7 @@ using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
 using NSubstitute;
+using UnityEditor.Animations;
 
 public class Test_PMPlayer
 {
@@ -537,9 +538,27 @@ public class Test_PMPlayer
         Assert.Zero(player.stats.lastingDamageBoosts.Count, "Player still had lasting damage boosts after battle ended!");
     }
 
+    [UnityTest]
+    public IEnumerator Test_PlayerHasLoopingIdleAnimation()
+    {
+        Player player = CreatePlayer(true, true);
+        
+        yield return new WaitForEndOfFrame();
+
+        Animator animator = player.GetComponent<Animator>();
+        Assert.IsNotNull(animator, "There was no animator added to the player!");
+        Assert.IsNotNull(animator.runtimeAnimatorController, "There was no animator controller added to the player's animator!");
+
+        Assert.IsTrue(animator.GetCurrentAnimatorStateInfo(0).IsName("Battle Idle"), "Current animation did not have a matching name!");
+        Assert.IsTrue(animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle"), "Current animation did not have a matching tag!");
+
+        Assert.IsTrue(animator.GetCurrentAnimatorStateInfo(0).loop, "Idle animation was not looping!");
+        Assert.AreEqual(1, animator.GetCurrentAnimatorStateInfo(0).speed, "Idle animation speed was not 1!");
+    }
+
     // --------------------- helper methods ----------------------------------------
 
-    public Player CreatePlayer(bool setUpComponentsInTest = true)
+    public Player CreatePlayer(bool setUpComponentsInTest = true, bool addAnimator = false)
     {
         Player p = new GameObject().AddComponent<Player>();
         if (setUpComponentsInTest)
@@ -547,6 +566,12 @@ public class Test_PMPlayer
             p.stats = new PlayerStatsClass();
             p.stats.TurnTime = 0.1f;
             p.inventory = new PlayerInventoryClass();
+        }
+
+        if (addAnimator)
+        {
+            Animator anim = p.gameObject.AddComponent<Animator>();
+            anim.runtimeAnimatorController = UnityEditor.AssetDatabase.LoadAssetAtPath<AnimatorController>("Assets/AssetStore/Meshtint Free Knight/Controllers/Meshtint Free Knight.controller");
         }
         return p;
     }

@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using NUnit.Framework;
 using System.Collections;
 using NSubstitute;
+using UnityEditor.Animations;
 
 public class Test_PMEnemy
 {
@@ -409,6 +410,30 @@ public class Test_PMEnemy
         Assert.Less(damagedHealth, enemy.stats.GetMaxHealth(), "Enemy was able to dodge a bomb!");
     }
 
+    [UnityTest]
+    public IEnumerator Test_EnemyHasLoopingIdleAnimation()
+    {
+        Enemy enemy = CreateEnemy(true, true);
+
+        yield return new WaitForEndOfFrame();
+
+        Animator animator = enemy.GetComponent<Animator>();
+        Assert.IsNotNull(animator, "There was no animator added to the enemy!");
+        Assert.IsNotNull(animator.runtimeAnimatorController, "There was no animator controller added to the enemy's animator!");
+
+        Assert.IsTrue(animator.GetCurrentAnimatorStateInfo(0).IsName("idle"), "Current animation did not have a matching name!");
+        Assert.IsTrue(animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle"), "Current animation did not have a matching tag!");
+
+        Assert.IsTrue(animator.GetCurrentAnimatorStateInfo(0).loop, "Idle animation was not looping!");
+        Assert.AreEqual(1.5f, animator.GetCurrentAnimatorStateInfo(0).speed, "Idle animation speed was not 1.5f!");
+    }
+
+
+
+
+
+
+
 
     // --------------------- helper methods ----------------------------------------
 
@@ -420,12 +445,17 @@ public class Test_PMEnemy
         return p;
     }
 
-    public Enemy CreateEnemy(bool setUpComponentsInTest = true)
+    public Enemy CreateEnemy(bool setUpComponentsInTest = true, bool addAnimator = false)
     {
         Enemy e = new GameObject().AddComponent<Enemy>();
         if (setUpComponentsInTest)
         {
             e.stats = new EnemyStatsClass();
+        }
+        if (addAnimator)
+        {
+            Animator anim = e.gameObject.AddComponent<Animator>();
+            anim.runtimeAnimatorController = UnityEditor.AssetDatabase.LoadAssetAtPath<AnimatorController>("Assets/AssetStore/TAZO_3D_C/BOSS/Bull/Bull.controller");
         }
         return e;
     }
