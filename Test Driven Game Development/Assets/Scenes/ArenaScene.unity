@@ -6538,6 +6538,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   openDistance: 3
+  maxLightIntensity: 30
+  lightIncreaseSpeed: 3.5
+  isOpen: 0
+  animator: {fileID: 0}
 --- !u!1001 &359016877
 Prefab:
   m_ObjectHideFlags: 0

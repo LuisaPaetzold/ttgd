@@ -3,6 +3,7 @@ using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
 using UnityEditor.Animations;
+using NSubstitute;
 
 public class Test_PMTreasureChest
 {
@@ -74,10 +75,37 @@ public class Test_PMTreasureChest
         Assert.AreEqual(1, chest.animator.GetCurrentAnimatorStateInfo(0).speed, "Open animation speed was not 1!");
     }
 
+    [UnityTest]
+    public IEnumerator Test_LightIncreasesIfChestOpened()
+    {
+        Player player = CreatePlayer();
+        TreasureChest chest = CreateChest();
+        IUnityStaticService staticService = CreateUnityService(0.1f, 0, 0);
+        chest.player = player;
+        chest.staticService = staticService;
+        player.transform.position = new Vector3(chest.openDistance, 0, 0);
 
-        // --------------------- helper methods ----------------------------------------
+        yield return new WaitForEndOfFrame();
 
-        public Player CreatePlayer(bool setUpComponentsInTest = true)
+        Assert.Zero(chest.flareLight.intensity, "Flare light intensity was not 0 on start!");
+
+        chest.isOpen = true;
+
+        yield return new WaitForEndOfFrame();
+
+        Assert.NotZero(chest.flareLight.intensity, "Flare light intensity was not increased!");
+
+        chest.flareLight.intensity = chest.maxLightIntensity;
+
+        yield return new WaitForEndOfFrame();
+
+        Assert.AreEqual(chest.maxLightIntensity, chest.flareLight.intensity, "Flare light intensity was increased beyond max intensity!");
+    }
+
+
+    // --------------------- helper methods ----------------------------------------
+
+    public Player CreatePlayer(bool setUpComponentsInTest = true)
     {
         Player p = new GameObject().AddComponent<Player>();
         if (setUpComponentsInTest)
@@ -91,6 +119,8 @@ public class Test_PMTreasureChest
     public TreasureChest CreateChest(bool addAnimator = false)
     {
         TreasureChest t = new GameObject().AddComponent<TreasureChest>();
+        Light flareLight = new GameObject().AddComponent<Light>();
+        flareLight.transform.SetParent(t.transform);
 
         if (addAnimator)
         {
@@ -99,5 +129,15 @@ public class Test_PMTreasureChest
         }
 
         return t;
+    }
+
+    IUnityStaticService CreateUnityService(float deltaTimeReturn, float horizontalReturn, float verticalReturn)
+    {
+        IUnityStaticService s = Substitute.For<IUnityStaticService>();
+        s.GetDeltaTime().Returns(deltaTimeReturn);
+        s.GetInputAxis("Horizontal").Returns(horizontalReturn);
+        s.GetInputAxis("Vertical").Returns(verticalReturn);
+
+        return s;
     }
 }
