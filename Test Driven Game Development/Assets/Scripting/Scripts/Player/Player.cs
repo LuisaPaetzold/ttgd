@@ -113,7 +113,7 @@ public class Player : MonoBehaviour, IPlayer
     public void FixedUpdate()
     {
         if (GameCtr != null
-            && GameCtr.gameEnded)
+            && (GameCtr.gameEnded || GameCtr.introPlaying))
         {
             return;
         }

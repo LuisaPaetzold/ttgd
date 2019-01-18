@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour, IGameController
     private PlayerStatsClass playerStats;
     public List<Enemy> currentEnemies = new List<Enemy>();
 
+    public bool introPlaying = true;
     public bool gameEnded;
 
     public GameObject NormalRoom;
@@ -19,6 +20,8 @@ public class GameController : MonoBehaviour, IGameController
     //public PostProcessingProfile desasterProfile;
 
     internal bool isInBattle = false;
+
+    public float introFadeDuration = 1;
 
     internal GameObject battleUI;
     internal GameObject attackBtn;
@@ -32,6 +35,9 @@ public class GameController : MonoBehaviour, IGameController
     internal GameObject gameUI;
     internal TextMeshProUGUI pointsText;
     internal GameObject gameOverUI;
+    internal GameObject introUI;
+    internal Image introBg;
+    internal TextMeshProUGUI introText;
     internal GameObject blackScreenUI;
     internal Image black;
     internal GameObject gameEndUI;
@@ -52,6 +58,7 @@ public class GameController : MonoBehaviour, IGameController
         redX = GameObject.Find("X");
         gameUI = GameObject.Find("GameUI");
         gameOverUI = GameObject.Find("GameOverUI");
+        introUI = GameObject.Find("IntroUI");
         blackScreenUI = GameObject.Find("BlackScreenUI");
         gameEndUI = GameObject.Find("GameEndUI");
         inventoryUI = GameObject.Find("InventoryUI");
@@ -118,7 +125,27 @@ public class GameController : MonoBehaviour, IGameController
                 if (black != null)
                 {
                     black.gameObject.SetActive(true);
-                    black.CrossFadeAlpha(0, 0, true);
+                    black.CrossFadeAlpha(0, introFadeDuration, true);
+                }
+            }
+        }
+        if (introUI != null)
+        {
+            Transform bg = introUI.transform.GetChild(0);
+            if (bg != null)
+            {
+                introBg = bg.GetComponent<Image>();
+                if (introBg != null)
+                {
+                    introBg.gameObject.SetActive(true);
+                    introBg.CrossFadeAlpha(1, introFadeDuration, true);
+                    
+                    introText = introBg.GetComponentInChildren<TextMeshProUGUI>();
+                    if (introText != null)
+                    {
+                        introText.gameObject.SetActive(true);
+                        introText.CrossFadeAlpha(1, introFadeDuration, true);
+                    }
                 }
             }
         }
@@ -377,6 +404,16 @@ public class GameController : MonoBehaviour, IGameController
             black.CrossFadeAlpha(0, teleport.TeleportTime / 2, true);
         }
         teleport.isInUse = false;
+    }
+
+    public void EndIntro()
+    {
+        if (introBg != null
+            && introText != null)
+        {
+            introBg.CrossFadeAlpha(0, introFadeDuration, true);
+            introText.CrossFadeAlpha(0, introFadeDuration, true);
+        }
     }
 
     public void InvokeGameEnd(float endDuration, Light treasureChestLight)

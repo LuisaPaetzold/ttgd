@@ -80,6 +80,30 @@ public class Test_PMPlayer
     }
 
     [UnityTest]
+    public IEnumerator Test_PlayerCannotMoveUntilIntroIsOver()
+    {
+        Player player = CreatePlayer();
+        player.gameObject.AddComponent<CharacterController>();
+        GameController gameCtr = CreateGameController(player);
+
+        IUnityStaticService staticService = CreateUnityService(1, 1, 1);
+        player.staticService = staticService;
+
+        gameCtr.introPlaying = true;
+        
+        yield return new WaitForFixedUpdate();
+
+        Assert.AreEqual(new Vector3(0, 0, 0), player.transform.position, "Player moved even though intro wasn't over!");
+
+        gameCtr.introPlaying = false;
+
+        yield return new WaitForFixedUpdate();
+
+        Assert.AreNotEqual(player.transform.position, new Vector3(0, 0, 0), "Player wasn't able to move even though intro was over!");
+
+    }
+
+    [UnityTest]
     public IEnumerator Test_PlayerIsAffectedByGravity()
     {
         Player player = CreatePlayer();

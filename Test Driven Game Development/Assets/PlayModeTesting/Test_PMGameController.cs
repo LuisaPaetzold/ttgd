@@ -461,13 +461,13 @@ public class Test_PMGameController
 
         Player player = CreatePlayer();
         GameController gameCtr = CreateGameController(player);
+        gameCtr.introFadeDuration = 0;
         TeleportToPosition teleport = CreateTeleporter(new Vector3(1, 1, 1));
         teleport.GameCtr = gameCtr;
 
         yield return new WaitForEndOfFrame();
 
         Assert.IsTrue(black.gameObject.activeSelf, "Black screen image was not activated on game start!");
-        Assert.Zero(black.canvasRenderer.GetAlpha(), "Black screen was not set transparent on game start!");
 
         teleport.PlayerTeleport();
 
@@ -478,6 +478,51 @@ public class Test_PMGameController
         yield return new WaitForSeconds(teleport.TeleportTime / 2);
 
         Assert.Zero(black.canvasRenderer.GetAlpha(), "Black screen was not set transparent after teleportation finished!");
+    }
+
+    [UnityTest]
+    public IEnumerator Test_BlackScreenFadesOutOnGameStart()
+    {
+        Canvas blackScreenUI = new GameObject("BlackScreenUI").AddComponent<Canvas>();
+        Image black = new GameObject("Black").AddComponent<Image>();
+        black.gameObject.transform.SetParent(blackScreenUI.transform);
+
+        Player player = CreatePlayer();
+        GameController gameCtr = CreateGameController(player);
+        gameCtr.introFadeDuration = 0.001f;
+
+        Assert.NotZero(black.canvasRenderer.GetAlpha(), "Black screen did not start non-transparent!");
+
+        yield return new WaitForSeconds(gameCtr.introFadeDuration);
+
+        Assert.Zero(black.canvasRenderer.GetAlpha(), "Black screen did not fade out after game start!");
+
+    }
+
+    [UnityTest]
+    public IEnumerator Test_IntroTextVisibleOnGameStart()
+    {
+        Canvas introUI = new GameObject("IntroUI").AddComponent<Canvas>();
+        Image bg = new GameObject("introBG").AddComponent<Image>();
+        bg.gameObject.transform.SetParent(introUI.transform);
+        TextMeshProUGUI text = new GameObject("introText").AddComponent<TextMeshProUGUI>();
+        text.gameObject.transform.SetParent(bg.transform);
+
+        Player player = CreatePlayer();
+        GameController gameCtr = CreateGameController(player);
+        gameCtr.introFadeDuration = 0.001f;
+
+        yield return new WaitForSeconds(gameCtr.introFadeDuration);
+
+        Assert.NotZero(bg.canvasRenderer.GetAlpha(), "Intro background did not fade in!");
+        Assert.NotZero(text.canvasRenderer.GetAlpha(), "Intro text did not fade in!");
+
+        gameCtr.EndIntro();
+
+        yield return new WaitForSeconds(gameCtr.introFadeDuration);
+
+        Assert.Zero(bg.canvasRenderer.GetAlpha(), "Intro background did not fade out after intro!");
+        Assert.Zero(text.canvasRenderer.GetAlpha(), "Intro text did not fade out after intro!");
     }
 
     [UnityTest]
