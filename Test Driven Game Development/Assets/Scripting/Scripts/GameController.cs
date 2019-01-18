@@ -12,6 +12,9 @@ public class GameController : MonoBehaviour, IGameController
     private PlayerStatsClass playerStats;
     public List<Enemy> currentEnemies = new List<Enemy>();
 
+    public MusicControl musicControl;
+    bool playerEnteredBasement;
+
     public bool introPlaying = true;
     public bool gameEnded;
 
@@ -52,6 +55,8 @@ public class GameController : MonoBehaviour, IGameController
         player = FindObjectOfType<Player>();
         playerStats = player.stats;
 
+        musicControl = FindObjectOfType<MusicControl>();
+
         battleUI = GameObject.Find("BattleUI");
         attackBtn = GameObject.Find("AttackBtn");
         chargeBtn = GameObject.Find("ChargeBtn");
@@ -63,6 +68,7 @@ public class GameController : MonoBehaviour, IGameController
         blackScreenUI = GameObject.Find("BlackScreenUI");
         gameEndUI = GameObject.Find("GameEndUI");
         inventoryUI = GameObject.Find("InventoryUI");
+
         if (battleUI != null)
         {
             battleUI.SetActive(false);
@@ -316,6 +322,11 @@ public class GameController : MonoBehaviour, IGameController
             }
         }
 
+        if (musicControl != null)
+        {
+            musicControl.StartBattle();
+        }
+
         player.OnStartBattle();
         foreach (Enemy e in currentEnemies)
         {
@@ -338,6 +349,11 @@ public class GameController : MonoBehaviour, IGameController
             {
                 inventoryScript.UpdateInventoryUI();
             }
+        }
+
+        if (musicControl != null)
+        {
+            musicControl.EndBattle();
         }
 
         player.OnEndBattle();
@@ -416,6 +432,19 @@ public class GameController : MonoBehaviour, IGameController
             black.CrossFadeAlpha(0, teleport.TeleportTime / 2, true);
         }
         teleport.isInUse = false;
+
+        playerEnteredBasement = !playerEnteredBasement;
+        if (musicControl != null)
+        {
+            if (playerEnteredBasement)
+            {
+                musicControl.EnterBasement();
+            }
+            else
+            {
+                musicControl.LeaveBasement();
+            }
+        }
     }
 
     public void EndIntro()
@@ -474,6 +503,21 @@ public class GameController : MonoBehaviour, IGameController
         if (endText != null)
         {
             endText.CrossFadeAlpha(0, endDuration / 2, true);
+        }
+
+        if (musicControl != null)
+        {
+            float startVolume = musicControl.source.volume;
+
+            while (musicControl.source.volume > 0)
+            {
+                musicControl.source.volume -= startVolume * Time.deltaTime / endDuration / 2;
+
+                yield return null;
+            }
+
+            musicControl.source.Stop();
+            musicControl.source.volume = startVolume;
         }
     }
 
