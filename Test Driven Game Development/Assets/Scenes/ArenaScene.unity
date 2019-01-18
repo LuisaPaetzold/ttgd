@@ -2042,7 +2042,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -2.4, y: -7}
-  m_SizeDelta: {x: 117, y: 103.9}
+  m_SizeDelta: {x: 931.3, y: 913.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &60831092
 MonoBehaviour:
@@ -4768,6 +4768,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   gameCtr: {fileID: 0}
+  animFinished: 0
 --- !u!1 &162277661
 GameObject:
   m_ObjectHideFlags: 0
@@ -40967,7 +40968,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 269.82, y: 909.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1817592533
 MonoBehaviour:

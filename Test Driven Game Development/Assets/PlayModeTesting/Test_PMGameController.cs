@@ -469,6 +469,8 @@ public class Test_PMGameController
 
         Assert.IsTrue(black.gameObject.activeSelf, "Black screen image was not activated on game start!");
 
+        yield return new WaitForSeconds(0.001f);
+
         teleport.PlayerTeleport();
 
         yield return new WaitForSeconds(teleport.TeleportTime / 2);

@@ -20,6 +20,7 @@ public class GameController : MonoBehaviour, IGameController
     //public PostProcessingProfile desasterProfile;
 
     internal bool isInBattle = false;
+    bool firstFrame = true;
 
     public float introFadeDuration = 1;
 
@@ -125,7 +126,7 @@ public class GameController : MonoBehaviour, IGameController
                 if (black != null)
                 {
                     black.gameObject.SetActive(true);
-                    black.CrossFadeAlpha(0, introFadeDuration, true);
+                    //black.CrossFadeAlpha(0, introFadeDuration, true);
                 }
             }
         }
@@ -190,7 +191,18 @@ public class GameController : MonoBehaviour, IGameController
 	
 	void Update ()
     {
-		if (isInBattle)
+        if (firstFrame)
+        {
+            firstFrame = false;
+            if (black != null)
+            {
+                black.CrossFadeAlpha(0, introFadeDuration * 7, true);
+            }
+        }
+
+
+
+        if (isInBattle)
         {
             for(int i = currentEnemies.Count - 1; i >= 0; i--)
             {
