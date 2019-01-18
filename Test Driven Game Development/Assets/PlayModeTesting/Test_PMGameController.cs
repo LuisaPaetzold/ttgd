@@ -560,13 +560,16 @@ public class Test_PMGameController
         yield return new WaitForSeconds(endDuration);
 
         Assert.AreEqual(white.canvasRenderer.GetAlpha(), 1, "White screen did not fade in!");
+
+        yield return new WaitForSeconds(endDuration);
+
         Assert.AreEqual(endText.canvasRenderer.GetAlpha(), 1, "End text did not fade in!");
 
         yield return new WaitForSeconds(endDuration * 2.5f);
 
         Assert.Zero(white.canvasRenderer.GetAlpha(), "White screen did not fade back out again!");
 
-        yield return new WaitForSeconds(endDuration * 1.5f);
+        yield return new WaitForSeconds(endDuration * 2.5f);
 
         Assert.AreEqual(black.canvasRenderer.GetAlpha(), 1, "Black screen did not fade in!");
 

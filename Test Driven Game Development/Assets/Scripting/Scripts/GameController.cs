@@ -470,6 +470,9 @@ public class GameController : MonoBehaviour, IGameController
             && endText != null)
         {
             white.CrossFadeAlpha(1, endDuration, true);
+
+            yield return new WaitForSeconds(endDuration);
+
             endText.CrossFadeAlpha(1, endDuration, true);
         }
 
@@ -491,7 +494,7 @@ public class GameController : MonoBehaviour, IGameController
             white.CrossFadeAlpha(0, endDuration / 2, true);
         }
 
-        yield return new WaitForSeconds(endDuration / 2);
+        yield return new WaitForSeconds(endDuration);
 
         if (black != null)
         {
