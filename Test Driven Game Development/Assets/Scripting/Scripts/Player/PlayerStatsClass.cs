@@ -65,6 +65,12 @@ public class PlayerStatsClass : FighterStatsClass
         if (gameCtr != null)
         {
             gameCtr.ReactToDodge(dodged, DodgeDuration);
+
+            SoundEffectControl sfx = gameCtr.GetSFXControl();
+            if (sfx != null)
+            {
+                sfx.PlayerDodged();
+            }
         }
     }
 

@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour, IGameController
 
     public MusicControl musicControl;
     bool playerEnteredBasement;
+    public SoundEffectControl sfxControl;
 
     public bool introPlaying = true;
     public bool gameEnded;
@@ -56,6 +57,7 @@ public class GameController : MonoBehaviour, IGameController
         playerStats = player.stats;
 
         musicControl = FindObjectOfType<MusicControl>();
+        sfxControl = FindObjectOfType<SoundEffectControl>();
 
         battleUI = GameObject.Find("BattleUI");
         attackBtn = GameObject.Find("AttackBtn");
@@ -374,6 +376,10 @@ public class GameController : MonoBehaviour, IGameController
         if (attackLanded)
         {
             HandleLandedAttack(currentEnemies[0].transform, player.AttackParticle, player.AttackParticleLength);
+            if (sfxControl != null)
+            {
+                sfxControl.PlayerHit();
+            }
         }
     }
 
@@ -381,6 +387,11 @@ public class GameController : MonoBehaviour, IGameController
     {
         currentEnemies[0].stats.ReceiveDamage(100); //TODO nicht hard coden!
         HandleLandedAttack(currentEnemies[0].transform, player.BombParticle, player.BombParticleLength);
+
+        if (sfxControl != null)
+        {
+            sfxControl.Bomb();
+        }
     }
 
     public void PlayerTryFleeBattle()
@@ -395,10 +406,20 @@ public class GameController : MonoBehaviour, IGameController
         if (fleeRand < currentEnemies[0].playerFleeProbability)
         {
             EndBattle();
+
+            if (sfxControl != null)
+            {
+                sfxControl.Flee();
+            }
         }
         else
         {
             player.stats.currentTurnTime = 0;
+
+            if (sfxControl != null)
+            {
+                sfxControl.FailFlee();
+            }
         }
     }
 
@@ -415,6 +436,11 @@ public class GameController : MonoBehaviour, IGameController
     {
         playerStats.UseChargeForDamageBoost();
         HandleCharging(player.transform, player.ChargeParticle, player.ChargeParticleLength);
+
+        if (sfxControl != null)
+        {
+            sfxControl.PlayerCharge();
+        }
     }
 
     public IEnumerator PlayerTeleport(TeleportToPosition teleport)
@@ -423,6 +449,10 @@ public class GameController : MonoBehaviour, IGameController
         if (black != null)
         {
             black.CrossFadeAlpha(1, teleport.TeleportTime / 2, true);
+        }
+        if (sfxControl != null)
+        {
+            sfxControl.Teleport();
         }
         yield return new WaitForSeconds(teleport.TeleportTime / 2);
         player.transform.position = teleport.TeleportTo.transform.position;
@@ -465,6 +495,11 @@ public class GameController : MonoBehaviour, IGameController
     private IEnumerator EndGame(float endDuration, Light treasureChestLight)
     {
         gameEnded = true;
+
+        if (sfxControl != null)
+        {
+            sfxControl.Desaster();
+        }
 
         if (white != null
             && endText != null)
@@ -628,6 +663,11 @@ public class GameController : MonoBehaviour, IGameController
         return inventoryUI.GetComponent<InventoryUI>();
     }
 
+    public SoundEffectControl GetSFXControl()
+    {
+        return sfxControl;
+    }
+
     #endregion Implementation IGameController
 }
 
@@ -647,4 +687,5 @@ public interface IGameController
     void HandleCharging(Transform charger, GameObject particles, float particleTime, Vector3 addHeight = new Vector3());
     void HandleDeath(Transform deadFighter, GameObject particles, float particleTime, Vector3 addHeight = new Vector3());
     InventoryUI GetInventoryUI();
+    SoundEffectControl GetSFXControl();
 }

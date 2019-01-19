@@ -45,9 +45,26 @@ public class Item : ScriptableObject
         {
             case ItemType.AttackBoost:
                 user.AddLastingDamageBoost("Boost Item", 1.2f);
+                if (gameCtr != null)
+                {
+                    SoundEffectControl sfx = gameCtr.GetSFXControl();
+                    if (sfx != null)
+                    {
+                        sfx.Boost();
+                    }
+                }
                 break;
             case ItemType.Healing:
                 user.GetHealedBy(40);
+
+                if (gameCtr != null)
+                {
+                    SoundEffectControl sfx = gameCtr.GetSFXControl();
+                    if (sfx != null)
+                    {
+                        sfx.Heal();
+                    }
+                }
                 break;
             case ItemType.DealDamage:
                 if (gameCtr != null)

@@ -79,6 +79,14 @@ public class ItemDrop : MonoBehaviour
                 droppedItem.SetUpItem();
             }
             player.inventory.CollectItem(droppedItem);
+            if (player.GameCtr != null)
+            {
+                SoundEffectControl sfx = player.GameCtr.GetSFXControl();
+                if (sfx != null)
+                {
+                    sfx.ItemPickUp();
+                }
+            }
         }
         else
         {
@@ -86,6 +94,15 @@ public class ItemDrop : MonoBehaviour
             {
                 // this is a key, react to collecting it 
                 door.Open();
+
+                if (player.GameCtr != null)
+                {
+                    SoundEffectControl sfx = player.GameCtr.GetSFXControl();
+                    if (sfx != null)
+                    {
+                        sfx.KeyPickUp();
+                    }
+                }
             }
         }
         

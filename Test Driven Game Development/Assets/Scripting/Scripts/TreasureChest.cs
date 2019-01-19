@@ -60,6 +60,15 @@ public class TreasureChest : MonoBehaviour
                         animator.SetTrigger("OpenChest");
                     }
 
+                    if (gameCtr != null)
+                    {
+                        SoundEffectControl sfx = gameCtr.GetSFXControl();
+                        if (sfx != null)
+                        {
+                            sfx.ChestOpen();
+                        }
+                    }
+
                     isOpen = true;
                 }
             }

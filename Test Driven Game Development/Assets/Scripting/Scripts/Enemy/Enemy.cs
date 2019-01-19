@@ -123,6 +123,11 @@ public class Enemy : MonoBehaviour
             if (attackLanded)
             {
                 GameCtr.HandleLandedAttack(GameCtr.player.transform, AttackParticle, AttackParticleLength);
+
+                if (GameCtr.sfxControl != null)
+                {
+                    GameCtr.sfxControl.EnemyHit();
+                }
             }
         }
         else
@@ -131,6 +136,11 @@ public class Enemy : MonoBehaviour
             {
                 stats.UseChargeForDamageBoost();
                 GameCtr.HandleCharging(transform, ChargeParticle, ChargeParticleLength, new Vector3(0, 0.23f, 0));
+
+                if (GameCtr.sfxControl != null)
+                {
+                    GameCtr.sfxControl.EnemyCharge();
+                }
             }
         }
     }

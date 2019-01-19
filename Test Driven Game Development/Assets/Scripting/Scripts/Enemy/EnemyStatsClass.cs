@@ -36,7 +36,12 @@ public class EnemyStatsClass : FighterStatsClass
             {
                 Enemy enemy = GameCtr.GetCurrentEnemies()[0];
                 GameCtr.HandleDeath(enemy.transform, enemy.DeathParticle, enemy.DeathParticleLength, new Vector3(0, 0, 0));
-                
+                SoundEffectControl sfx = GameCtr.GetSFXControl();
+                if (sfx != null)
+                {
+                    sfx.EnemyDeath();
+                }
+
                 if (lockedDoor != null)
                 {
                     ItemDrop key = lockedDoor.OnEnemyDied();
@@ -66,6 +71,12 @@ public class EnemyStatsClass : FighterStatsClass
         if (GameCtr != null)
         {
             GameCtr.ReactToDodge(dodged, DodgeDuration);
+
+            SoundEffectControl sfx = GameCtr.GetSFXControl();
+            if (sfx != null)
+            {
+                sfx.EnemyDodged();
+            }
         }
     }
 
