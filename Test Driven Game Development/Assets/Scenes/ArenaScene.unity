@@ -11574,7 +11574,7 @@ MonoBehaviour:
   itemPickUp: {fileID: 8300000, guid: a09f8ec0e460ca34b903e6d44f0e2c41, type: 3}
   keyPickUp: {fileID: 8300000, guid: b1083235111eb3547b5f294f419ac07b, type: 3}
   chestOpen: {fileID: 8300000, guid: a14e42bcdf5d7cf4cb084b97aaed3f87, type: 3}
-  desaster: {fileID: 8300000, guid: 0a35cbd171b10784bb4624fb3a00481d, type: 3}
+  desaster: {fileID: 8300000, guid: 433c234e5e07a1642bec0726b306bfed, type: 3}
   flee: {fileID: 8300000, guid: 9b9b25ff5d4002242a5bafaaa839206a, type: 3}
   failFlee: {fileID: 8300000, guid: f344cf3dad503ed499cad5dfbc200c86, type: 3}
   teleport: {fileID: 8300000, guid: 83f7e2604b7f498449d6772fa62ed247, type: 3}
