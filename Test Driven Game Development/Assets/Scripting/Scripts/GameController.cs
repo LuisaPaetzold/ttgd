@@ -510,17 +510,7 @@ public class GameController : MonoBehaviour, IGameController
 
         if (musicControl != null)
         {
-            float startVolume = musicControl.source.volume;
-
-            while (musicControl.source.volume > 0)
-            {
-                musicControl.source.volume -= startVolume * Time.deltaTime / endDuration / 2;
-
-                yield return null;
-            }
-
-            musicControl.source.Stop();
-            musicControl.source.volume = startVolume;
+            musicControl.InvokeGameEnd();
         }
     }
 

@@ -43544,8 +43544,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 1c0e999d4149bb14c8985f6df9ad91bd, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 1
+  m_PlayOnAwake: 0
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -43640,9 +43640,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7913301a1a33e14790af29ebc9f1233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  source: {fileID: 0}
   normalBgMusic: {fileID: 8300000, guid: 1c0e999d4149bb14c8985f6df9ad91bd, type: 3}
   battleMusic: {fileID: 8300000, guid: a15340dd2988c2c45b4f86379e58e465, type: 3}
   suspenseBgMusic: {fileID: 8300000, guid: 55e151e858a471b4f9e200d5a222999c, type: 3}
+  IntroFadeDuration: 3
+  OutroFadeDuration: 3
 --- !u!1 &1926646149
 GameObject:
   m_ObjectHideFlags: 0
