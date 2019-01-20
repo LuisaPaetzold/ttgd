@@ -26,89 +26,105 @@ public class SoundEffectControl : MonoBehaviour
 
 
 
-
     public void PlayerHit()
     {
-        playerSource.PlayOneShot(playerHit);
+        playerSource.clip = playerHit;
+        playerSource.Play();
     }
 
     public void EnemyHit()
     {
-        enemySource.PlayOneShot(enemyHit);
+        enemySource.clip = enemyHit;
+        enemySource.Play();
     }
 
     public void PlayerCharge()
     {
-        playerSource.PlayOneShot(playerCharge);
+        playerSource.clip = playerCharge;
+        playerSource.Play();
     }
 
     public void EnemyCharge()
     {
-        enemySource.PlayOneShot(enemyCharge);
+        enemySource.clip = enemyCharge;
+        enemySource.Play();
     }
 
     public void PlayerDodged()
     {
-        playerSource.PlayOneShot(dodged);
+        playerSource.clip = dodged;
+        playerSource.Play();
     }
 
     public void EnemyDodged()
     {
-        enemySource.PlayOneShot(dodged);
+        enemySource.clip = dodged;
+        enemySource.Play();
     }
 
     public void Bomb()
     {
-        playerSource.PlayOneShot(bomb);
+        playerSource.clip = bomb;
+        playerSource.Play();
     }
 
     public void Heal()
     {
-        playerSource.PlayOneShot(heal);
+        playerSource.clip = heal;
+        playerSource.Play();
     }
 
     public void Boost()
     {
-        playerSource.PlayOneShot(boost);
+        playerSource.clip = boost;
+        playerSource.Play();
     }
 
     public void EnemyDeath()
     {
-        enemySource.PlayOneShot(enemyDeath);
+        enemySource.clip = enemyDeath;
+        enemySource.Play();
     }
 
     public void ItemPickUp()
     {
-        playerSource.PlayOneShot(itemPickUp);
+        playerSource.clip = itemPickUp;
+        playerSource.Play();
     }
 
     public void KeyPickUp()
     {
-        playerSource.PlayOneShot(keyPickUp);
+        playerSource.clip = keyPickUp;
+        playerSource.Play();
     }
 
     public void ChestOpen()
     {
-        playerSource.PlayOneShot(chestOpen);
+        playerSource.clip = chestOpen;
+        playerSource.Play();
     }
 
     public void Desaster()
     {
-        playerSource.PlayOneShot(desaster);
+        playerSource.clip = desaster;
+        playerSource.Play();
     }
 
     public void Flee()
     {
-        playerSource.PlayOneShot(flee);
+        playerSource.clip = flee;
+        playerSource.Play();
     }
 
     public void FailFlee()
     {
-        playerSource.PlayOneShot(failFlee);
+        playerSource.clip = failFlee;
+        playerSource.Play();
     }
 
     public void Teleport()
     {
-        playerSource.PlayOneShot(teleport);
+        playerSource.clip = teleport;
+        playerSource.Play();
     }
 }

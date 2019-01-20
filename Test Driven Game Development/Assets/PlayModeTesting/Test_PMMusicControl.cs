@@ -110,6 +110,10 @@ public class Test_PMMusicControl
         MusicControl m = new GameObject().AddComponent<MusicControl>();
         m.gameObject.AddComponent<AudioSource>();
 
+        m.normalBgMusic = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Sounds/Music/bensound-acousticbreeze.mp3");
+        m.battleMusic = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Sounds/Music/bensound-epic.mp3");
+        m.suspenseBgMusic = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Sounds/Music/bensound-instinct.mp3");
+
         return m;
     }
 

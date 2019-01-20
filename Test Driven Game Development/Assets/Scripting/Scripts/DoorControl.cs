@@ -31,7 +31,10 @@ public class DoorControl : MonoBehaviour
             }
         }
 
-        keyDrop.door = this;
+        if (keyDrop != null)
+        {
+            keyDrop.door = this;
+        }
 	}
 	
 

@@ -12,7 +12,7 @@ public class ItemDrop : MonoBehaviour
     private string normalText;
     private TextMeshProUGUI text;
     public Player player;
-    internal DoorControl door;
+    public DoorControl door;
 
     void Start ()
     {
@@ -78,7 +78,11 @@ public class ItemDrop : MonoBehaviour
             {
                 droppedItem.SetUpItem();
             }
-            player.inventory.CollectItem(droppedItem);
+            if (player.inventory != null)
+            {
+                player.inventory.CollectItem(droppedItem);
+            }
+            
             if (player.GameCtr != null)
             {
                 SoundEffectControl sfx = player.GameCtr.GetSFXControl();

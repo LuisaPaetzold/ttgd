@@ -429,6 +429,11 @@ public class GameController : MonoBehaviour, IGameController
         if (attackLanded)
         {
             HandleLandedAttack(currentEnemies[0].transform, player.AttackParticle, player.AttackParticleLength);
+
+            if (sfxControl != null)
+            {
+                sfxControl.PlayerHit();
+            }
         }
     }
 
@@ -660,7 +665,11 @@ public class GameController : MonoBehaviour, IGameController
 
     public InventoryUI GetInventoryUI()
     {
-        return inventoryUI.GetComponent<InventoryUI>();
+        if (inventoryUI != null)
+        {
+            return inventoryUI.GetComponent<InventoryUI>();
+        }
+        return null;
     }
 
     public SoundEffectControl GetSFXControl()
