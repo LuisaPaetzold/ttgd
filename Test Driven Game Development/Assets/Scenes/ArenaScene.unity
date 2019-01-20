@@ -11579,6 +11579,7 @@ MonoBehaviour:
   failFlee: {fileID: 8300000, guid: f344cf3dad503ed499cad5dfbc200c86, type: 3}
   teleport: {fileID: 8300000, guid: 83f7e2604b7f498449d6772fa62ed247, type: 3}
   dodged: {fileID: 8300000, guid: c69efbdadb432484195fd3903f41162c, type: 3}
+  gameOver: {fileID: 8300000, guid: d8baaee50b447d045b72d726d6bbc48d, type: 3}
 --- !u!1001 &509686259
 Prefab:
   m_ObjectHideFlags: 0

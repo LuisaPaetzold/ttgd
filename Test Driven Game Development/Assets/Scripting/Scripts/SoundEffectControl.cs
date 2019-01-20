@@ -23,6 +23,7 @@ public class SoundEffectControl : MonoBehaviour
     public AudioClip failFlee;
     public AudioClip teleport;
     public AudioClip dodged;
+    public AudioClip gameOver;
 
 
 
@@ -125,6 +126,12 @@ public class SoundEffectControl : MonoBehaviour
     public void Teleport()
     {
         playerSource.clip = teleport;
+        playerSource.Play();
+    }
+
+    public void GameOver()
+    {
+        playerSource.clip = gameOver;
         playerSource.Play();
     }
 }

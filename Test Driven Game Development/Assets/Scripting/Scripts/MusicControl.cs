@@ -129,4 +129,9 @@ public class MusicControl : MonoBehaviour
     {
         StartCoroutine(EndGame());
     }
+
+    public void GameOver()
+    {
+        source.Stop();
+    }
 }

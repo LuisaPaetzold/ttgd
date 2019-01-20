@@ -627,8 +627,19 @@ public class GameController : MonoBehaviour, IGameController
         {
             gameOverUI.SetActive(true);
         }
-        Time.timeScale = 0;
+
         EndBattle();
+
+        if (sfxControl != null)
+        {
+            sfxControl.GameOver();
+        }
+        if (musicControl != null)
+        {
+            musicControl.GameOver();
+        }
+
+        Time.timeScale = 0;
     }
 
     public IEnumerator SpawnParticlesAtPosition(Vector3 pos, GameObject particles, float particleTime, Vector3 addHeight = new Vector3())

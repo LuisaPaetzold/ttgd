@@ -12,6 +12,20 @@ public class Test_PMSoundEffectControl
     // muss Sounds aus assets laden
     // sounds hörbar beim testen
 
+    [TearDown]
+    public void TearDown()
+    {
+        Time.timeScale = 1;
+        foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
+        {
+            GameObject.Destroy(o);
+        }
+    }
+
+
+
+
+
     [UnityTest]
     public IEnumerator Test_SoundWhenPlayerAttacks()
     {
@@ -393,6 +407,29 @@ public class Test_PMSoundEffectControl
         Assert.AreEqual(sfx.dodged, sfx.enemySource.clip, "Enemy audio source did not play the right track!");
     }
 
+    [UnityTest]
+    public IEnumerator Test_SoundWhenGameOver()
+    {
+        SoundEffectControl sfx = CreateSFXControl(EffectToTest.gameOver);
+        Player player = CreatePlayer();
+        GameController gameCtr = CreateGameController(player);
+        Enemy enemy = CreateEnemy(false);
+        gameCtr.sfxControl = sfx;
+
+        yield return new WaitForEndOfFrame();
+
+        gameCtr.StartBattle(enemy);
+
+        yield return new WaitForEndOfFrame();
+
+        player.stats.ReceiveDamage(player.stats.MaxHealth);
+
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsTrue(sfx.playerSource.isPlaying, "Player audio source did not play anything!");
+        Assert.AreEqual(sfx.gameOver, sfx.playerSource.clip, "Player audio source did not play the right track!");
+    }
+
 
 
 
@@ -402,7 +439,7 @@ public class Test_PMSoundEffectControl
 
     public enum EffectToTest
     {
-        playerHit, enemyHit, playerCharge, enemyCharge, bomb, heal, boost, enemyDeath, itemPickUp, keyPickUp, chestOpen, desaster, flee, failFlee, teleport, dodged
+        playerHit, enemyHit, playerCharge, enemyCharge, bomb, heal, boost, enemyDeath, itemPickUp, keyPickUp, chestOpen, desaster, flee, failFlee, teleport, dodged, gameOver
     };
 
 
@@ -462,6 +499,9 @@ public class Test_PMSoundEffectControl
                 break;
             case EffectToTest.dodged:
                 s.dodged = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Sounds/Effects/Dodge/74690__benboncan__swoosh-3.wav");
+                break;
+            case EffectToTest.gameOver:
+                s.gameOver = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Sounds/Effects/GameOver/133283__leszek-szary__game-over.wav");
                 break;
         }
 

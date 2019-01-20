@@ -6,6 +6,19 @@ using NSubstitute;
 
 public class Test_PMMusicControl
 {
+    [TearDown]
+    public void TearDown()
+    {
+        Time.timeScale = 1;
+        foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
+        {
+            GameObject.Destroy(o);
+        }
+    }
+
+
+
+
 
     [UnityTest]
     public IEnumerator Test_GameStartsWithLoopingNormalMusic()
@@ -14,6 +27,7 @@ public class Test_PMMusicControl
 
         yield return new WaitForEndOfFrame();
 
+        Assert.IsTrue(mc.source.isPlaying, "Music did not play when game started!");
         Assert.AreEqual(mc.normalBgMusic, mc.source.clip, "Game did not start with normal background music!");
         Assert.IsTrue(mc.source.loop, "Music wasn't looping!");
     }
@@ -46,7 +60,8 @@ public class Test_PMMusicControl
         gameCtr.StartBattle(enemy);
 
         yield return new WaitForEndOfFrame();
-        
+
+        Assert.IsTrue(mc.source.isPlaying, "Music did not play when battle started!");
         Assert.AreEqual(mc.battleMusic, mc.source.clip, "Battle did not start with battle background music!");
         Assert.AreEqual(mc.battleMusicVolume, mc.source.volume, "Music did not have the right volume in battle!");
         Assert.IsTrue(mc.source.loop, "Battle music wasn't looping!");
@@ -55,6 +70,7 @@ public class Test_PMMusicControl
 
         yield return new WaitForEndOfFrame();
 
+        Assert.IsTrue(mc.source.isPlaying, "Music did not play when returning from battle!");
         Assert.AreEqual(mc.normalBgMusic, mc.source.clip, "Did not return to normal background music after battle ended!");
         Assert.AreEqual(mc.normalMusicVolume, mc.source.volume, "Music did not have the right volume after ending the battle!");
         Assert.IsTrue(mc.source.loop, "Normal music wasn't looping!");
@@ -75,6 +91,7 @@ public class Test_PMMusicControl
 
         yield return new WaitForEndOfFrame();
 
+        Assert.IsTrue(mc.source.isPlaying, "Music did not play in teleport location!");
         Assert.AreEqual(mc.suspenseBgMusic, mc.source.clip, "Teleporting down did not start suspense background music!");
         Assert.AreEqual(mc.suspenseMusicVolume, mc.source.volume, "Music did not have the right volume after teleporting down!");
         Assert.IsTrue(mc.source.loop, "Suspense music wasn't looping!");
@@ -83,6 +100,7 @@ public class Test_PMMusicControl
 
         yield return new WaitForEndOfFrame();
 
+        Assert.IsTrue(mc.source.isPlaying, "Music did not play after teleporting back up!");
         Assert.AreEqual(mc.normalBgMusic, mc.source.clip, "Did not return to normal background music after teleporting back up!");
         Assert.AreEqual(mc.normalMusicVolume, mc.source.volume, "Music did not have the right volume after teleporting back up!");
         Assert.IsTrue(mc.source.loop, "Normal music wasn't looping!");
@@ -101,6 +119,30 @@ public class Test_PMMusicControl
 
         Assert.AreEqual(0, mc.source.volume, 0.00001f, "Music did not have the right volume!");
     }
+
+    [UnityTest]
+    public IEnumerator Test_MusicStopsOnGameOver()
+    {
+        MusicControl mc = CreateMusicControl();
+        Player player = CreatePlayer();
+        GameController gameCtr = CreateGameController(player);
+        Enemy enemy = CreateEnemy(false);
+
+        yield return new WaitForEndOfFrame();
+
+        gameCtr.StartBattle(enemy);
+
+        yield return new WaitForEndOfFrame();
+
+        player.stats.ReceiveDamage(player.stats.MaxHealth);
+
+        yield return new WaitForEndOfFrame();
+
+        Assert.IsFalse(mc.source.isPlaying, "Music did not stop after game over!");
+    }
+
+
+
 
 
     // --------------------- helper methods ----------------------------------------
