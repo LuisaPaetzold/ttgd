@@ -246,6 +246,11 @@ public class GameController : MonoBehaviour, IGameController
                 {
                     attackBtnScript.interactable = false;
                 }
+
+                if (attackBtnText != null)
+                {
+                    attackBtnText.text = "Attack x" + (player.stats.GetCurrentAttackDamage(false) / player.stats.GetDefaultAttackDamage());
+                }
             }
 
             if (fleeBtnScript != null)
@@ -285,11 +290,6 @@ public class GameController : MonoBehaviour, IGameController
                 if (chargeBtnText != null)
                 {
                     chargeBtnText.text = "Charge (x" + player.stats.GetCurrentAmountOfChargings() + ")";
-                }
-
-                if (attackBtnText != null)
-                {
-                    attackBtnText.text = "Attack x" + (player.stats.GetCurrentAttackDamage(false) / player.stats.GetDefaultAttackDamage());
                 }
 
                 if (!chargeBtnScript.IsInteractable())

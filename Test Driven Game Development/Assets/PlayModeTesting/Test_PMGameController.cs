@@ -125,6 +125,39 @@ public class Test_PMGameController
     }
 
     [UnityTest]
+    public IEnumerator Test_AttackButtonDisplaysCurrentAttackBoost()
+    {
+        Player player = CreatePlayer();
+        Enemy enemy = CreateEnemy(false);
+        Button attackBtnScript = CreateMockObjectWithName("AttackBtn").AddComponent<Button>();
+        TextMeshProUGUI attackBtnText = new GameObject().AddComponent<TextMeshProUGUI>();
+        attackBtnText.transform.SetParent(attackBtnScript.transform);
+
+        GameController gameCtr = CreateGameController(player);
+        yield return new WaitForEndOfFrame();
+        gameCtr.StartBattle(enemy);
+
+        yield return new WaitForEndOfFrame(); yield return new WaitForEndOfFrame();
+
+        float boost = player.stats.GetCurrentAttackDamage(false) / player.stats.GetDefaultAttackDamage();
+        Assert.IsTrue(attackBtnText.text.Contains(boost.ToString()), "Attack Button doesn't display current attack boost!");
+
+        for (int i = 0; i < player.stats.GetMaxAmountOfChargings(); i++)
+        {
+            player.stats.UseChargeForDamageBoost(true);
+            boost = player.stats.GetCurrentAttackDamage(false) / player.stats.GetDefaultAttackDamage();
+            yield return new WaitForEndOfFrame(); yield return new WaitForEndOfFrame();
+            Assert.IsTrue(attackBtnText.text.Contains(boost.ToString()), "Attack Button doesn't display current attack boost!");
+        }
+
+        player.stats.AttackOpponent(enemy.stats, false, true);
+        yield return new WaitForEndOfFrame(); yield return new WaitForEndOfFrame();
+        boost = player.stats.GetCurrentAttackDamage(false) / player.stats.GetDefaultAttackDamage();
+        Assert.IsTrue(attackBtnText.text.Contains(boost.ToString()), "Attack Button doesn't display current attack boost!");
+    }
+
+
+    [UnityTest]
     public IEnumerator Test_ChargeButtonOnlyInteractableIfCanAct()
     {
         Player player = CreatePlayer();
