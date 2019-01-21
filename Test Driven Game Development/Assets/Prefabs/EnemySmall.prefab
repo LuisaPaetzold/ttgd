@@ -8843,7 +8843,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1643007670952730}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.1211643, y: 0, z: 3.38}
+  m_LocalPosition: {x: 3.61, y: 0, z: 35.52}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4892005542153888}
@@ -11149,8 +11149,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.5556402, y: 0.8946738, z: 1.5154252}
-  m_Center: {x: 0.09306002, y: 0.4473369, z: -0.29159093}
+  m_Size: {x: 2.1468582, y: 0.8946738, z: 2.1228518}
+  m_Center: {x: 0.056806564, y: 0.4473369, z: -0.38510776}
 --- !u!95 &95044493896582030
 Animator:
   serializedVersion: 3
@@ -11228,7 +11228,7 @@ MonoBehaviour:
     ChargeDamageBoost: 1.25
     MaxAmountOfChargings: 3
     oneTimeDamageBoost: 0
-    DodgePropability: 0.4
+    DodgePropability: 0.2
     dodged: {fileID: 1051222489137650}
     DodgeDuration: 1
     TurnTime: 2

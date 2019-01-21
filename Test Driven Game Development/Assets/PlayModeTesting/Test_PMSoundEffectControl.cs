@@ -7,10 +7,6 @@ using TMPro;
 
 public class Test_PMSoundEffectControl
 {
-    // Testing PlayOneShot not possible!
-    // deswegen auch mehrere audio sources für enemy, player, wel Play() immer nur einen clip gleichzeitig kann
-    // muss Sounds aus assets laden
-    // sounds hörbar beim testen
 
     [TearDown]
     public void TearDown()
