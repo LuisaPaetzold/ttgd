@@ -10,6 +10,7 @@ public class Item : ScriptableObject
     public int MaxUses = 3;
     private int usesLeft;
 
+
     #region Setup
     public Item()
     {
@@ -55,7 +56,7 @@ public class Item : ScriptableObject
                 }
                 break;
             case ItemType.Healing:
-                user.GetHealedBy(40);
+                user.GetHealedBy(80);
 
                 if (gameCtr != null)
                 {

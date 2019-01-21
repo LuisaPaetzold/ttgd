@@ -455,7 +455,7 @@ public class Test_PMSoundEffectControl
                 s.enemyHit = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Sounds/Effects/EnemyHits/219002__yap-audio-production__weaponswipe01.mp3");
                 break;
             case EffectToTest.playerCharge:
-                s.playerCharge = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Sounds/Effects/PlayerCharge/234805__richerlandtv__magic4.mp3");
+                s.playerCharge = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Sounds/Effects/PlayerCharge/241809__suntemple__magic-sfx-for-games.mp3");
                 break;
             case EffectToTest.enemyCharge:
                 s.enemyCharge = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Sounds/Effects/EnemyCharge/349468_vr_magic (mp3cut.net).mp3");
@@ -482,7 +482,7 @@ public class Test_PMSoundEffectControl
                 s.chestOpen = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Sounds/Effects/ChestOpen/246253__frankyboomer__magic-harp.wav");
                 break;
             case EffectToTest.desaster:
-                s.desaster = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Sounds/Effects/End/445194__juliusmabe__demon-laugh-2.wav");
+                s.desaster = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Sounds/Effects/End/155633__gabemiller74__evil-laugh.wav");
                 break;
             case EffectToTest.flee:
                 s.flee = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Sounds/Effects/Flee/19245__deathpie__shuffle.wav");

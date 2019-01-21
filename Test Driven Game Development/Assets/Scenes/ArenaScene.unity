@@ -508,14 +508,14 @@ RectTransform:
   m_GameObject: {fileID: 17330633}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1.225, z: 1}
   m_Children: []
   m_Father: {fileID: 568764251}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.099998474, y: -0.34999943}
+  m_AnchoredPosition: {x: -1.7000008, y: 0.79999924}
   m_SizeDelta: {x: -0.19999999, y: -0.6999986}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &17330635
@@ -537,7 +537,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: Attack
+  m_text: Attack 1x
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f8d766bfbfb73704390daf3dcbd86334, type: 2}
   m_sharedMaterial: {fileID: 21250967397492168, guid: f8d766bfbfb73704390daf3dcbd86334,
@@ -565,8 +565,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 25
-  m_fontSizeBase: 25
+  m_fontSize: 18.4
+  m_fontSizeBase: 18.4
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -603,13 +603,13 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 1.748053, y: 26.153872, z: 0.47507685, w: 26.496832}
+  m_margin: {x: 1.748053, y: 35.851875, z: 0.47507685, w: 35.618706}
   m_textInfo:
     textComponent: {fileID: 17330635}
-    characterCount: 6
+    characterCount: 9
     spriteCount: 0
-    spaceCount: 0
-    wordCount: 1
+    spaceCount: 1
+    wordCount: 2
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -10267,7 +10267,7 @@ MonoBehaviour:
   enemySource: {fileID: 509347171}
   playerHit: {fileID: 8300000, guid: 112aea8c9d6c0e544892149364945f83, type: 3}
   enemyHit: {fileID: 8300000, guid: eafe7c260579971448308356a61f6c1c, type: 3}
-  playerCharge: {fileID: 8300000, guid: 18f6943e6464192449a1ac5aeea6d6b6, type: 3}
+  playerCharge: {fileID: 8300000, guid: 2b906b0f2ac665841b8ad048db88fd82, type: 3}
   enemyCharge: {fileID: 8300000, guid: 1b9280d1a3d72a846859293b4301b4ac, type: 3}
   bomb: {fileID: 8300000, guid: 854925ef7cf75c841aeae879f5f6b267, type: 3}
   heal: {fileID: 8300000, guid: 42f6fb500e2ba724fa15d4b6139b001c, type: 3}
@@ -10276,7 +10276,7 @@ MonoBehaviour:
   itemPickUp: {fileID: 8300000, guid: a09f8ec0e460ca34b903e6d44f0e2c41, type: 3}
   keyPickUp: {fileID: 8300000, guid: b1083235111eb3547b5f294f419ac07b, type: 3}
   chestOpen: {fileID: 8300000, guid: a14e42bcdf5d7cf4cb084b97aaed3f87, type: 3}
-  desaster: {fileID: 8300000, guid: 433c234e5e07a1642bec0726b306bfed, type: 3}
+  desaster: {fileID: 8300000, guid: 547a7ea5e021de741b204f0f468e0def, type: 3}
   flee: {fileID: 8300000, guid: 9b9b25ff5d4002242a5bafaaa839206a, type: 3}
   failFlee: {fileID: 8300000, guid: f344cf3dad503ed499cad5dfbc200c86, type: 3}
   teleport: {fileID: 8300000, guid: 83f7e2604b7f498449d6772fa62ed247, type: 3}
@@ -12384,7 +12384,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 80, y: 50}
-  m_SizeDelta: {x: 79.72, y: 30}
+  m_SizeDelta: {x: 100, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &568764252
 MonoBehaviour:
@@ -32574,8 +32574,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 200, y: 50}
-  m_SizeDelta: {x: 79.72, y: 30}
+  m_AnchoredPosition: {x: 219.1, y: 50}
+  m_SizeDelta: {x: 100, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1506676300
 MonoBehaviour:
@@ -38725,6 +38725,7 @@ MonoBehaviour:
   musicControl: {fileID: 0}
   sfxControl: {fileID: 0}
   introPlaying: 1
+  outroPlaying: 0
   gameEnded: 0
   NormalRoom: {fileID: 457510004}
   BrokenRoom: {fileID: 1883178343}
@@ -41661,7 +41662,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -1.1461196, y: 28.203043, z: 0.5429149, w: 28.999697}
+  m_margin: {x: -1.1461196, y: 33.615883, z: 0.5429149, w: 32.258045}
   m_textInfo:
     textComponent: {fileID: 1990642751}
     characterCount: 11

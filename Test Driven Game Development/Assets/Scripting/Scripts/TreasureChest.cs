@@ -70,6 +70,10 @@ public class TreasureChest : MonoBehaviour
                     }
 
                     isOpen = true;
+                    if (gameCtr != null)
+                    {
+                        gameCtr.outroPlaying = true;
+                    }
                 }
             }
             else

@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour, IGameController
     public SoundEffectControl sfxControl;
 
     public bool introPlaying = true;
+    public bool outroPlaying;
     public bool gameEnded;
 
     public GameObject NormalRoom;
@@ -36,6 +37,7 @@ public class GameController : MonoBehaviour, IGameController
     internal Button attackBtnScript;
     internal Button chargeBtnScript;
     internal Button fleeBtnScript;
+    internal TextMeshProUGUI attackBtnText;
     internal TextMeshProUGUI chargeBtnText;
     internal GameObject gameUI;
     internal TextMeshProUGUI pointsText;
@@ -81,6 +83,14 @@ public class GameController : MonoBehaviour, IGameController
             if (attackBtnScript != null)
             {
                 attackBtnScript.interactable = false;
+                if (attackBtnScript.transform.childCount > 0)
+                {
+                    Transform textObject = attackBtnScript.transform.GetChild(0);
+                    if (textObject != null)
+                    {
+                        attackBtnText = textObject.GetComponent<TextMeshProUGUI>();
+                    }
+                }
             }
         }
         if (chargeBtn != null)
@@ -274,9 +284,14 @@ public class GameController : MonoBehaviour, IGameController
             {
                 if (chargeBtnText != null)
                 {
-                    chargeBtnText.text = "Charge (" + player.stats.GetCurrentAmountOfChargings() + "x)";
+                    chargeBtnText.text = "Charge (x" + player.stats.GetCurrentAmountOfChargings() + ")";
                 }
-                
+
+                if (attackBtnText != null)
+                {
+                    attackBtnText.text = "Attack x" + (player.stats.GetCurrentAttackDamage(false) / player.stats.GetDefaultAttackDamage());
+                }
+
                 if (!chargeBtnScript.IsInteractable())
                 {
                     if (player.stats.CanAct() && player.stats.GetCurrentAmountOfChargings() < player.stats.GetMaxAmountOfChargings())
