@@ -307,7 +307,7 @@ public class Test_PMPlayer
         gameCtr.EndBattle();
         yield return new WaitForEndOfFrame();
 
-        player.stats.ModifyPoints(10);
+        player.stats.ModifyPoints(500);
         gameCtr.StartBattle(enemy);
 
         yield return new WaitForEndOfFrame();
