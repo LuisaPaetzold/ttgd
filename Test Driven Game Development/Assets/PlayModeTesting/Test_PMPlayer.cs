@@ -597,6 +597,46 @@ public class Test_PMPlayer
         Assert.AreEqual(1, animator.GetCurrentAnimatorStateInfo(0).speed, "Idle animation speed was not 1!");
     }
 
+    [UnityTest]
+    public IEnumerator Test_PlayerRotatesInLookDirection()
+    {
+        Player player = CreatePlayer();
+        player.gameObject.AddComponent<CharacterController>();
+        player.stats.playerSpeed = 1.0f;
+
+        yield return new WaitForEndOfFrame();
+
+        IUnityStaticService staticService = CreateUnityService(1, 1, 1);
+        player.staticService = staticService;
+
+        yield return new WaitForFixedUpdate();
+
+        Assert.AreEqual(-0.1f, player.transform.rotation.y, 0.02f, "Player did not rotate in view direction on y axis!");
+    }
+
+    [UnityTest]
+    public IEnumerator Test_PlayerRotatesTowardsEnemyInBattle()
+    {
+        Player player = CreatePlayer();
+        player.gameObject.AddComponent<CharacterController>();
+        player.stats.playerSpeed = 1.0f;
+
+        yield return new WaitForEndOfFrame();
+
+        IUnityStaticService staticService = CreateUnityService(1, 1, 1);
+        player.staticService = staticService;
+
+        yield return new WaitForFixedUpdate();
+
+        Assert.AreEqual(-0.1f, player.transform.rotation.y, 0.02f, "Player did not rotate in view direction on y axis!");
+
+        yield return new WaitForEndOfFrame();
+
+        player.OnStartBattle();
+
+        Assert.Zero(player.transform.rotation.y, "Player did not rotate towards enemy in battle!");
+    }
+
     // --------------------- helper methods ----------------------------------------
 
     public Player CreatePlayer(bool setUpComponentsInTest = true, bool addAnimator = false)

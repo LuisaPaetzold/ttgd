@@ -124,7 +124,14 @@ public class Player : MonoBehaviour, IPlayer
 
         if (charContr != null)
         {
-            charContr.Move(stats.CalcMovement(horizontal, vertical, staticService.GetDeltaTime()));
+            Vector3 movement = stats.CalcMovement(horizontal, vertical, staticService.GetDeltaTime());
+
+            charContr.Move(movement);
+
+            if (movement != Vector3.zero)
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement.normalized), 0.3f);
+            }
 
             if (!charContr.isGrounded)
             {
@@ -167,6 +174,8 @@ public class Player : MonoBehaviour, IPlayer
             turnTimeBar.transform.parent.gameObject.SetActive(true);
         }
         stats.currentTurnTime = 0;
+
+        transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.x, 0, transform.rotation.z));
     }
 
     public void OnEndBattle()
