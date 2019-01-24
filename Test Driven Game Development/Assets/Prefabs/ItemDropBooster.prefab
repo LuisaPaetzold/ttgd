@@ -165,8 +165,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1600099174141092}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.455265, y: 0.00000011920929, z: 6.545639}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4.1, y: -0.49999988, z: 18.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4357116783478632}
@@ -362,6 +362,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   droppedItem: {fileID: 11400000, guid: ab9899894c60acc45beac8c31e937336, type: 2}
   maxDisplayDistance: 2
+  player: {fileID: 0}
+  door: {fileID: 0}
 --- !u!114 &114996231143066550
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -388,7 +390,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.7
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!198 &198591364992244752
 ParticleSystem:
@@ -14024,8 +14026,8 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1756584285311390}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.012606}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 224513612249864130}
   - {fileID: 224341254503214182}
