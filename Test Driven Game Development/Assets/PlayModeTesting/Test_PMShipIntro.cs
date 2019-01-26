@@ -15,20 +15,6 @@ public class Test_PMShipIntro
         }
     }
 
-
-    [UnityTest]
-    public IEnumerator Test_ShipAnimationIsPlayingOnGameStart()
-    {
-        ShipIntro ship = CreateShip(true);
-        Animation anim = ship.GetComponent<Animation>();
-
-        yield return new WaitForSeconds(0.1f);
-
-        Assert.IsNotNull(anim.clip, "There was no animation clip!");
-        Assert.IsTrue(anim.isPlaying, "Ship animation is not playing anything!");
-        Assert.AreNotEqual(ship.transform.position, new Vector3(0,0,0), "Ship did not move on game start!");
-    }
-
     [UnityTest]
     public IEnumerator Test_ShipSignalizesGameControllerWhenIntroEnded()
     {
