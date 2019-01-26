@@ -30,6 +30,7 @@ public class Player : MonoBehaviour, IPlayer
 
     void Start ()
     {
+        //hdflkjnsdfn
         if (GameCtr == null)
         {
             GameCtr = FindObjectOfType<GameController>();
