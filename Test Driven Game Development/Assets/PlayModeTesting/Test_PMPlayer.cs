@@ -40,12 +40,17 @@ public class Test_PMPlayer
         Player player = CreatePlayer();
         player.gameObject.AddComponent<CharacterController>();
         player.stats.playerSpeed = 1.0f;
+
         IUnityStaticService staticService = CreateUnityService(1, 1, 0);
         player.staticService = staticService;
 
+        float expectedPos = player.transform.position.z + player.stats.playerSpeed;
+        float tolerance = 0.01f;
+
         yield return new WaitForFixedUpdate();
-        
-        Assert.AreEqual(1, player.transform.position.z, 0.1f, "Player didn't move on z axis after horizontal input!");
+
+        Assert.AreEqual(expectedPos, player.transform.position.z, tolerance, 
+            "Player didn't move on z axis after horizontal input!");
     }
 
     [UnityTest]
@@ -54,12 +59,16 @@ public class Test_PMPlayer
         Player player = CreatePlayer();
         player.gameObject.AddComponent<CharacterController>();
         player.stats.playerSpeed = 1.0f;
+
         IUnityStaticService staticService = CreateUnityService(1, 0, 1);
         player.staticService = staticService;
 
+        float expectedPos = player.transform.position.x - player.stats.playerSpeed;
+        float tolerance = 0.01f;
+
         yield return new WaitForFixedUpdate();
         
-        Assert.AreEqual(-1, player.transform.position.x, 0.1f, "Player didn't move on x axis after vertical input!");
+        Assert.AreEqual(expectedPos, player.transform.position.x, tolerance, "Player didn't move on x axis after vertical input!");
     }
 
     [UnityTest]
@@ -264,7 +273,8 @@ public class Test_PMPlayer
         gameCtr.StartBattle(enemy);
         yield return new WaitForEndOfFrame();
 
-        Assert.IsTrue(player.stats.CanAct(), "Player wasn't able to attack after waiting their turn time!");
+        Assert.IsTrue(player.stats.CanAct(), 
+            "Player wasn't able to attack after waiting their turn time!");
     }
 
     [UnityTest]
@@ -671,7 +681,8 @@ public class Test_PMPlayer
         return g;
     }
 
-    IUnityStaticService CreateUnityService(float deltaTimeReturn, float horizontalReturn, float verticalReturn)
+    IUnityStaticService CreateUnityService(float deltaTimeReturn, 
+        float horizontalReturn, float verticalReturn)
     {
         IUnityStaticService s = Substitute.For<IUnityStaticService>();
         s.GetDeltaTime().Returns(deltaTimeReturn);

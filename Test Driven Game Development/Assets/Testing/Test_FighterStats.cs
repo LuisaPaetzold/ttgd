@@ -355,7 +355,8 @@ public class Test_FighterStats
         stats1.AttackOpponent(stats2, false, true);
         int damagedHealth = stats2.GetCurrentHealth();
 
-        Assert.Less(damagedHealth, fullHealth, "Fighter wasn't able to attack another fighter and damage them!");
+        Assert.Less(damagedHealth, fullHealth, 
+            "Fighter wasn't able to attack another fighter and damage them!");
     }
 
     [Test]

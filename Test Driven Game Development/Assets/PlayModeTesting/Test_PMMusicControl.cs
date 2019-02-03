@@ -27,8 +27,10 @@ public class Test_PMMusicControl
 
         yield return new WaitForEndOfFrame();
 
-        Assert.IsTrue(mc.source.isPlaying, "Music did not play when game started!");
-        Assert.AreEqual(mc.normalBgMusic, mc.source.clip, "Game did not start with normal background music!");
+        Assert.IsTrue(mc.source.isPlaying, 
+            "Music did not play when game started!");
+        Assert.AreEqual(mc.normalBgMusic, mc.source.clip, 
+            "Game did not start with normal background music!");
         Assert.IsTrue(mc.source.loop, "Music wasn't looping!");
     }
 
@@ -40,11 +42,13 @@ public class Test_PMMusicControl
 
         yield return new WaitForEndOfFrame();
 
-        Assert.AreEqual(mc.normalMusicVolume / 2, mc.source.volume, "Music did not have the right volume!");
+        Assert.AreEqual(mc.normalMusicVolume / 2, mc.source.volume, 
+            "Music did not have the right volume!");
 
         yield return new WaitForEndOfFrame();
 
-        Assert.AreEqual(mc.normalMusicVolume, mc.source.volume, "Music did not have the right volume!");
+        Assert.AreEqual(mc.normalMusicVolume, mc.source.volume, 
+            "Music did not have the right volume!");
     }
 
     [UnityTest]
