@@ -40,10 +40,10 @@ public class DoorControl : MonoBehaviour
 
 	void Update ()
     {
-        if (Input.GetKeyDown(KeyCode.O))
+        /*if (Input.GetKeyDown(KeyCode.O))
         {
             Open();
-        }
+        }*/
     }
 
     public List<Enemy> GetEnemies()

@@ -83,7 +83,7 @@ public class Player : MonoBehaviour, IPlayer
     void Update ()
     {
 		// TMP
-        if (Input.GetKeyDown(KeyCode.R))
+        /*if (Input.GetKeyDown(KeyCode.R))
         {
             stats.ReceiveDamage(10);
         }
@@ -96,7 +96,7 @@ public class Player : MonoBehaviour, IPlayer
             {
                 GameCtr.GetCurrentEnemies()[0].stats.ReceiveDamage(GameCtr.GetCurrentEnemies()[0].stats.MaxHealth);
             }
-        }
+        }*/
 
 
 
